@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Collection Booking</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 400px; background: #fff; margin: auto; padding: 20px; border-radius: 10px; }
+        input, select, textarea, button { width: 100%; margin-bottom: 10px; padding: 10px; }
+        button { background: #0077b6; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>বুকিং ফৰ্ম</h2>
+        <form id="form">
+            <input type="text" id="name" placeholder="নাম" required>
+            <input type="number" id="age" placeholder="বয়স" required>
+            <select id="sex"><option>Male</option><option>Female</option></select>
+            <input type="tel" id="phone" placeholder="ফোন নম্বৰ" required>
+            <select id="testName"><option>CBC</option><option>Lipid Profile</option></select>
+            <textarea id="address" placeholder="ঠিকনা"></textarea>
+            <input type="date" id="date">
+            <button type="submit" id="btn">বুক কৰক</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = { 
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                sex: document.getElementById('sex').value,
+                phone: document.getElementById('phone').value,
+                testName: document.getElementById('testName').value,
+                address: document.getElementById('address').value,
+                date: document.getElementById('date').value
+            };
+            await fetch('/api/book-test', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
+            alert('বুকিং সফল!');
+        });
+    </script>
+</body>
+</html>
