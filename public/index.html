@@ -18,517 +18,95 @@
             --whatsapp-green: #25d366;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-white);
-            padding-bottom: 90px;
-        }
-
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            padding: 16px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-main); color: var(--text-white); padding-bottom: 90px; }
+        .container { max-width: 480px; margin: 0 auto; padding: 16px; }
 
         /* Top Bar */
-        .top-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .brand-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .brand-logo {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #0284c7, #06b6d4);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: #fff;
-        }
-        .brand-text h4 {
-            font-size: 13px;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        .brand-text p {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-        .bell-btn {
-            width: 36px;
-            height: 36px;
-            background: var(--card-bg);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            border: 1px solid var(--card-border);
-        }
+        .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .brand-info { display: flex; align-items: center; gap: 10px; }
+        .brand-logo { width: 40px; height: 40px; background: linear-gradient(135deg, #0284c7, #06b6d4); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; }
+        .brand-text h4 { font-size: 13px; font-weight: 700; }
+        .brand-text p { font-size: 11px; color: var(--text-muted); }
+        .bell-btn { width: 36px; height: 36px; background: var(--card-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); border: 1px solid var(--card-border); }
 
         /* Hero */
-        .badge-tag {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--cyan-primary);
-            letter-spacing: 0.8px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
-        .hero-title {
-            font-size: 28px;
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 6px;
-        }
-        .hero-title span {
-            color: var(--cyan-primary);
-        }
-        .hero-sub {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.4;
-            margin-bottom: 16px;
-        }
+        .badge-tag { font-size: 11px; font-weight: 700; color: var(--cyan-primary); letter-spacing: 0.8px; margin-bottom: 6px; text-transform: uppercase; }
+        .hero-title { font-size: 28px; font-weight: 800; line-height: 1.15; margin-bottom: 6px; }
+        .hero-title span { color: var(--cyan-primary); }
+        .hero-sub { font-size: 13px; color: var(--text-muted); line-height: 1.4; margin-bottom: 16px; }
 
         /* Search */
-        .search-box {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-        .search-box input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #fff;
-            font-size: 14px;
-            width: 100%;
-        }
-        .search-box input::placeholder {
-            color: var(--text-muted);
-        }
-        .search-box .key-badge {
-            background: #143e52;
-            color: var(--cyan-primary);
-            font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 6px;
-            font-weight: 700;
-        }
+        .search-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; margin-bottom: 18px; position: sticky; top: 10px; z-index: 10; }
+        .search-box input { background: transparent; border: none; outline: none; color: #fff; font-size: 14px; width: 100%; }
+        .search-box input::placeholder { color: var(--text-muted); }
+        .search-box .key-badge { background: #143e52; color: var(--cyan-primary); font-size: 11px; padding: 2px 6px; border-radius: 6px; font-weight: 700; }
 
         /* Banner Card */
-        .banner-card {
-            background: linear-gradient(135deg, #05668d 0%, #028090 100%);
-            border-radius: 18px;
-            padding: 22px;
-            margin-bottom: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-        .banner-tag {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .banner-card h2 {
-            font-size: 20px;
-            font-weight: 800;
-            line-height: 1.25;
-            margin-bottom: 6px;
-        }
-        .banner-card p {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-bottom: 16px;
-        }
-        .btn-banner {
-            background: #fff;
-            color: #061e29;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-        }
+        .banner-card { background: linear-gradient(135deg, #05668d 0%, #028090 100%); border-radius: 18px; padding: 22px; margin-bottom: 24px; }
+        .banner-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .banner-card h2 { font-size: 20px; font-weight: 800; line-height: 1.25; margin-bottom: 6px; }
+        .banner-card p { font-size: 12px; opacity: 0.9; margin-bottom: 16px; }
+        .btn-banner { background: #fff; color: #061e29; border: none; padding: 10px 18px; border-radius: 20px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 
-        /* Section Headings */
-        .section-head {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-        .section-head h3 {
-            font-size: 17px;
-            font-weight: 700;
-        }
-        .section-head p {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        .section-head a {
-            color: var(--cyan-primary);
-            font-size: 12px;
-            text-decoration: none;
-            font-weight: 600;
-        }
+        /* Sections */
+        .section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 12px; }
+        .section-head h3 { font-size: 17px; font-weight: 700; }
+        .section-head p { font-size: 12px; color: var(--text-muted); }
 
-        /* Test Cards (Popular Grid) */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .item-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 14px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .item-icon {
-            width: 32px;
-            height: 32px;
-            background: #143e52;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--cyan-primary);
-            margin-bottom: 10px;
-        }
-        .item-card h4 {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .item-card p {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
-        .price-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .price-row .price {
-            font-size: 15px;
-            font-weight: 800;
-        }
-        .arrow-btn {
-            width: 28px;
-            height: 28px;
-            background: #143e52;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--cyan-primary);
-            font-size: 11px;
-        }
+        /* Grid */
+        .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        .item-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 14px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
+        .item-icon { width: 32px; height: 32px; background: #143e52; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--cyan-primary); margin-bottom: 10px; }
+        .item-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+        .item-card p { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.3; }
+        .price-row { display: flex; align-items: center; justify-content: space-between; }
+        .price-row .price { font-size: 15px; font-weight: 800; }
+        .arrow-btn { width: 28px; height: 28px; background: #143e52; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--cyan-primary); font-size: 11px; }
 
-        /* Packages (Light Cards) */
-        .pkg-card {
-            background: #dff2f7;
-            color: #061e29;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            cursor: pointer;
-        }
-        .pkg-card.light-green {
-            background: #e1f5ec;
-        }
-        .pkg-card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .pkg-badge {
-            width: 32px;
-            height: 32px;
-            background: rgba(0,0,0,0.06);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #086375;
-        }
-        .pkg-card h4 {
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-        .pkg-card p {
-            font-size: 12px;
-            color: #4a6b74;
-            margin-bottom: 12px;
-        }
-        .pkg-price {
-            font-size: 16px;
-            font-weight: 800;
-        }
-        .pkg-price span {
-            font-size: 11px;
-            font-weight: 500;
-        }
+        /* Bundles */
+        .pkg-card { background: #dff2f7; color: #061e29; border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; }
+        .pkg-card.light-green { background: #e1f5ec; }
+        .pkg-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .pkg-badge { width: 32px; height: 32px; background: rgba(0,0,0,0.06); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #086375; }
+        .pkg-card h4 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+        .pkg-card p { font-size: 12px; color: #4a6b74; margin-bottom: 12px; }
+        .pkg-price { font-size: 16px; font-weight: 800; }
 
-        /* Test List */
-        .list-item {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-        .list-item-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .list-item-text h4 {
-            font-size: 13px;
-            font-weight: 700;
-        }
-        .list-item-text p {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-        .list-item-right {
-            text-align: right;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .list-item-right .price {
-            font-size: 14px;
-            font-weight: 700;
-        }
-        .add-circle {
-            color: var(--cyan-primary);
-            font-size: 18px;
-        }
+        /* Full Tests List */
+        .list-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; cursor: pointer; transition: transform 0.1s ease; }
+        .list-item:active { transform: scale(0.98); }
+        .list-item-left { display: flex; align-items: center; gap: 12px; }
+        .list-item-text h4 { font-size: 13px; font-weight: 700; color: #fff; }
+        .list-item-text p { font-size: 11px; color: var(--text-muted); }
+        .list-item-right { text-align: right; display: flex; align-items: center; gap: 10px; }
+        .list-item-right .price { font-size: 14px; font-weight: 700; color: var(--cyan-primary); }
+        .add-circle { color: var(--cyan-primary); font-size: 18px; }
 
-        /* Trust Box */
-        .trust-box {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 16px;
-            margin: 20px 0;
-        }
-        .trust-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--card-border);
-        }
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-        .trust-item i {
-            color: #38d39f;
-        }
+        /* Trust & Help */
+        .trust-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; margin: 20px 0; }
+        .trust-title { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--card-border); }
+        .trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+        .trust-item i { color: #38d39f; }
 
-        /* Call Box */
-        .help-box {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 24px;
-        }
-        .help-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .call-btn {
-            background: #143e52;
-            color: var(--cyan-primary);
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
+        .help-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; margin-bottom: 24px; }
+        .help-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+        .call-btn { background: #143e52; color: var(--cyan-primary); text-decoration: none; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 700; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
-        /* Floating WhatsApp Button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--whatsapp-green);
-            color: #fff;
-            padding: 10px 18px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 100;
-        }
+        /* Floating WhatsApp */
+        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: var(--whatsapp-green); color: #fff; padding: 10px 18px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100; }
 
-        /* Modal Overlay Booking Page */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-main);
-            z-index: 200;
-            overflow-y: auto;
-            padding: 16px;
-        }
-        .modal-inner {
-            max-width: 480px;
-            margin: 0 auto;
-        }
-        .modal-nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        .btn-back {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: #fff;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .booking-summary-box {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .form-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            display: block;
-        }
-        .dark-input {
-            width: 100%;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 12px 14px;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            margin-bottom: 14px;
-        }
-        .dark-input:focus {
-            border-color: var(--cyan-primary);
-        }
-        .row-inputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .slot-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 10px;
-            color: #fff;
-            font-size: 12px;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 8px;
-        }
-        .slot-btn.active {
-            border-color: #38d39f;
-            background: rgba(56, 211, 159, 0.1);
-        }
-        .btn-confirm {
-            background: var(--cyan-gradient);
-            color: #fff;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+        /* Modal Overlay */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-main); z-index: 200; overflow-y: auto; padding: 16px; }
+        .modal-inner { max-width: 480px; margin: 0 auto; }
+        .modal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .btn-back { background: var(--card-bg); border: 1px solid var(--card-border); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .booking-summary-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; display: block; }
+        .dark-input { width: 100%; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px 14px; color: #fff; font-size: 14px; outline: none; margin-bottom: 14px; }
+        .dark-input:focus { border-color: var(--cyan-primary); }
+        .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .btn-confirm { background: var(--cyan-gradient); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     </style>
 </head>
 <body>
@@ -539,8 +117,8 @@
         <div class="brand-info">
             <div class="brand-logo"><i class="fa-solid fa-droplet"></i></div>
             <div class="brand-text">
-                <h4>Mouchumi Lab Test Blood Collect...</h4>
-                <p>Golaghat · At-home collection</p>
+                <h4>Mouchumi Lab Test Blood Collection...</h4>
+                <p>Golaghat · At-home collection[span_1](start_span)[span_1](end_span)</p>
             </div>
         </div>
         <div class="bell-btn"><i class="fa-regular fa-bell"></i></div>
@@ -551,19 +129,19 @@
     <h1 class="hero-title">The care you need,<br><span>right at home.</span></h1>
     <p class="hero-sub">Safe, gentle sample collection from certified labs, whenever it suits you.</p>
 
-    <!-- Search -->
+    <!-- Live Search Box -->
     <div class="search-box">
         <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
-        <input type="text" id="testSearch" placeholder="Search for a test or package">
-        <span class="key-badge">⌘ K</span>
+        <input type="text" id="testSearch" placeholder="Search from 156 tests or packages...">
+        <span class="key-badge">156 Tests</span>
     </div>
 
     <!-- Banner -->
     <div class="banner-card">
         <div class="banner-tag"><i class="fa-solid fa-house"></i> Home Collection</div>
-        <h2>Reliable at-home<br>sample collection<br>in Golaghat.</h2>
+        <h2>Reliable at-home<br>sample collection<br>in Golaghat.[span_2](start_span)[span_2](end_span)</h2>
         <p>Safe, gentle collection from a trusted local team.</p>
-        <button class="btn-banner" onclick="openBooking('Complete Blood Count (CBC)', '₹400')">
+        <button class="btn-banner" onclick="openBooking('CBC', '₹400')">
             Book a test <i class="fa-solid fa-arrow-right"></i>
         </button>
     </div>
@@ -574,36 +152,35 @@
             <h3>Popular tests</h3>
             <p>Most booked this week</p>
         </div>
-        <a href="#allTests">View all</a>
     </div>
 
     <div class="cards-grid">
-        <div class="item-card" onclick="openBooking('Complete Blood Count (CBC)', '₹400')">
+        <div class="item-card" onclick="openBooking('CBC', '₹400')">
             <div>
                 <div class="item-icon"><i class="fa-solid fa-droplet"></i></div>
-                <h4>Complete Blood Count</h4>
-                <p>Checks your overall health and detects a wide range of...</p>
+                <h4>CBC[span_3](start_span)[span_3](end_span)</h4>
+                <p>Complete Blood Count, overall health check.</p>
             </div>
             <div class="price-row">
-                <span class="price">₹400</span>
+                <span class="price">₹400[span_4](start_span)[span_4](end_span)</span>
                 <div class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></div>
             </div>
         </div>
 
-        <div class="item-card" onclick="openBooking('Diabetes Panel', '₹2,500')">
+        <div class="item-card" onclick="openBooking('DIABETIC PROFILE', '₹2,500')">
             <div>
                 <div class="item-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <h4>Diabetes Panel</h4>
-                <p>Track blood sugar with fasting and long-term markers.</p>
+                <h4>DIABETIC PROFILE[span_5](start_span)[span_5](end_span)</h4>
+                <p>Track blood sugar and long-term markers.</p>
             </div>
             <div class="price-row">
-                <span class="price">₹2,500</span>
+                <span class="price">₹2,500[span_6](start_span)[span_6](end_span)</span>
                 <div class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></div>
             </div>
         </div>
     </div>
 
-    <!-- Care Bundled -->
+    <!-- Care Bundles -->
     <div class="section-head">
         <div>
             <h3>Care, bundled</h3>
@@ -611,90 +188,36 @@
         </div>
     </div>
 
-    <div class="pkg-card" onclick="openBooking('Essential Health Check', '₹999')">
+    <div class="pkg-card" onclick="openBooking('FERTILITY PROFILE', '₹1,500')">
         <div class="pkg-card-top">
             <div class="pkg-badge"><i class="fa-solid fa-shield-halved"></i></div>
             <i class="fa-solid fa-arrow-up-right-from-square"></i>
         </div>
-        <h4>Essential Health Check</h4>
-        <p>28 parameters for a reassuring everyday health snapshot.</p>
-        <div class="pkg-price">₹999 <span>onwards</span></div>
+        <h4>FERTILITY PROFILE[span_7](start_span)[span_7](end_span)</h4>
+        <p>Comprehensive hormone and fertility assessment.</p>
+        <div class="pkg-price">₹1,500[span_8](start_span)[span_8](end_span) <span>onwards</span></div>
     </div>
 
-    <div class="pkg-card light-green" onclick="openBooking('Complete Wellness Check', '₹1,899')">
+    <div class="pkg-card light-green" onclick="openBooking('ANTENATAL CHECK UP (ANC)', '₹2,900')">
         <div class="pkg-card-top">
             <div class="pkg-badge" style="color:#0f5132;"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
             <i class="fa-solid fa-arrow-up-right-from-square"></i>
         </div>
-        <h4>Complete Wellness Check</h4>
-        <p>68 parameters covering heart, kidney, thyroid and more.</p>
-        <div class="pkg-price">₹1,899 <span>onwards</span></div>
+        <h4>ANTENATAL CHECK UP (ANC)[span_9](start_span)[span_9](end_span)</h4>
+        <p>Essential health panels for prenatal care.</p>
+        <div class="pkg-price">₹2,900[span_10](start_span)[span_10](end_span) <span>onwards</span></div>
     </div>
 
     <!-- All Tests List -->
-    <div class="section-head" id="allTests" style="margin-top: 24px;">
+    <div class="section-head" style="margin-top: 24px;">
         <div>
-            <h3>All tests & prices</h3>
-            <p>Available for home collection</p>
+            <h3>All tests & prices (156)[span_11](start_span)[span_11](end_span)</h3>
+            <p>Tap + to book instant collection</p>
         </div>
     </div>
 
     <div id="testsContainer">
-        <div class="list-item" onclick="openBooking('ABO, Rh GROUPING', '₹100')">
-            <div class="list-item-left">
-                <div class="item-icon"><i class="fa-solid fa-flask"></i></div>
-                <div class="list-item-text">
-                    <h4>ABO, Rh GROUPING</h4>
-                    <p>Home collection available</p>
-                </div>
-            </div>
-            <div class="list-item-right">
-                <span class="price">₹100</span>
-                <i class="fa-solid fa-circle-plus add-circle"></i>
-            </div>
-        </div>
-
-        <div class="list-item" onclick="openBooking('Absolute Eosinophil Count', '₹150')">
-            <div class="list-item-left">
-                <div class="item-icon"><i class="fa-solid fa-flask"></i></div>
-                <div class="list-item-text">
-                    <h4>Absolute Eosinophil Count</h4>
-                    <p>Home collection available</p>
-                </div>
-            </div>
-            <div class="list-item-right">
-                <span class="price">₹150</span>
-                <i class="fa-solid fa-circle-plus add-circle"></i>
-            </div>
-        </div>
-
-        <div class="list-item" onclick="openBooking('Allergy Profile', '₹1,200')">
-            <div class="list-item-left">
-                <div class="item-icon"><i class="fa-solid fa-flask"></i></div>
-                <div class="list-item-text">
-                    <h4>Allergy Profile</h4>
-                    <p>Home collection available</p>
-                </div>
-            </div>
-            <div class="list-item-right">
-                <span class="price">₹1,200</span>
-                <i class="fa-solid fa-circle-plus add-circle"></i>
-            </div>
-        </div>
-
-        <div class="list-item" onclick="openBooking('Amh Test', '₹2,300')">
-            <div class="list-item-left">
-                <div class="item-icon"><i class="fa-solid fa-flask"></i></div>
-                <div class="list-item-text">
-                    <h4>Amh Test</h4>
-                    <p>Home collection available</p>
-                </div>
-            </div>
-            <div class="list-item-right">
-                <span class="price">₹2,300</span>
-                <i class="fa-solid fa-circle-plus add-circle"></i>
-            </div>
-        </div>
+        <!-- Javascript will render all 156 items dynamically -->
     </div>
 
     <!-- Trust Box -->
@@ -711,10 +234,10 @@
         <div class="trust-item"><i class="fa-solid fa-circle-check"></i> Safe collection</div>
     </div>
 
-    <!-- Help / Contact Box -->
+    <!-- Help Box -->
     <div class="help-box">
         <h4 style="font-size:13px;">Need help booking?</h4>
-        <p style="font-size:11px; color:var(--text-muted);">Call our Golaghat collection team</p>
+        <p style="font-size:11px; color:var(--text-muted);">Call our Golaghat collection team[span_12](start_span)[span_12](end_span)</p>
         <div class="help-btns">
             <a href="tel:6000219209" class="call-btn"><i class="fa-solid fa-phone"></i> 6000219209</a>
             <a href="tel:6900862973" class="call-btn"><i class="fa-solid fa-phone"></i> 6900862973</a>
@@ -727,7 +250,7 @@
     <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> Chat
 </a>
 
-<!-- Booking Modal (Full Replit Schedule View) -->
+<!-- Booking Schedule Modal -->
 <div class="modal" id="bookingModal">
     <div class="modal-inner">
         <div class="modal-nav">
@@ -738,16 +261,15 @@
 
         <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 12px;">Schedule a home visit</h2>
 
-        <!-- Selected Test Badge -->
         <div class="booking-summary-box">
             <div style="display:flex; align-items:center; gap:10px;">
                 <div class="item-icon" style="margin:0;"><i class="fa-solid fa-droplet"></i></div>
                 <div>
                     <span style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">YOU'RE BOOKING</span>
-                    <h4 id="selectedTestName" style="font-size:14px; font-weight:700;">Complete Blood Count</h4>
+                    <h4 id="selectedTestName" style="font-size:14px; font-weight:700;">CBC[span_13](start_span)[span_13](end_span)</h4>
                 </div>
             </div>
-            <span id="selectedTestPrice" style="font-size:16px; font-weight:800;">₹400</span>
+            <span id="selectedTestPrice" style="font-size:16px; font-weight:800;">₹400[span_14](start_span)[span_14](end_span)</span>
         </div>
 
         <form id="scheduleForm">
@@ -757,7 +279,7 @@
             <label class="form-label">Full name</label>
             <input type="text" id="patientName" class="dark-input" placeholder="e.g. Aanya Sharma" required>
 
-            <!-- Age & Sex Inputs -->
+            <!-- Age & Sex -->
             <div class="row-inputs">
                 <div>
                     <label class="form-label">Age (বয়স)*</label>
@@ -791,7 +313,201 @@
 </div>
 
 <script>
-    let currentTest = "Complete Blood Count (CBC)";
+    // All 156 tests extracted from Price List PDF
+    const allTests = [
+        { name: "ABO, Rh GROUPING", price: "₹100" },
+        { name: "ABSOLUTE EOSINOPHIL COUNT", price: "₹150" },
+        { name: "ABSOLUTE LYMPHOCYTE COUNT", price: "₹150" },
+        { name: "ABSOLUTE MONOCYTE COUNT", price: "₹150" },
+        { name: "ABSOLUTE NEUTROPHIL COUNT", price: "₹150" },
+        { name: "ADA - TBM", price: "₹750" },
+        { name: "Albumin", price: "₹100" },
+        { name: "Allergy Profile", price: "₹1,200" },
+        { name: "AMH", price: "₹2,300" },
+        { name: "AMMONIA", price: "₹1,000" },
+        { name: "ANTENATAL CHECK UP (ANC)", price: "₹2,900" },
+        { name: "ANTI CCP", price: "₹1,600" },
+        { name: "ANTI TPO", price: "₹2,000" },
+        { name: "ANTINUCLEAR ANTI BODY (ANA)", price: "₹1,000" },
+        { name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: "₹4,000" },
+        { name: "APTT", price: "₹500" },
+        { name: "ASO titre (By Immunoturbidity)", price: "₹500" },
+        { name: "BAND CELL", price: "₹150" },
+        { name: "Beta HCG, Serum", price: "₹900" },
+        { name: "BIOPSY- Small Tissue", price: "₹800" },
+        { name: "BIOPSY- Medium Tissue", price: "₹1,000" },
+        { name: "BIOPSY- Large Tissue", price: "₹1,200" },
+        { name: "BIOPSY- Extra Large Tissue", price: "₹2,000" },
+        { name: "BLEEDING TIME / CLOTTING TIME (BT / CT)", price: "₹50" },
+        { name: "BLOOD UREA", price: "₹200" },
+        { name: "BUN", price: "₹150" },
+        { name: "CPK MB", price: "₹1,350" },
+        { name: "CRP (TITRE) immunoturbidity", price: "₹450" },
+        { name: "CA 125", price: "₹1,600" },
+        { name: "CBC", price: "₹400" },
+        { name: "CHOLESTEROL TOTAL", price: "₹200" },
+        { name: "COAGULATION PROFILE", price: "₹1,200" },
+        { name: "CSF ANALYSIS", price: "₹550" },
+        { name: "DENGUE, Serology Test", price: "₹900" },
+        { name: "DIABETIC PROFILE", price: "₹2,500" },
+        { name: "Differential Leucocyte Count (D.L.C)", price: "₹150" },
+        { name: "DIRECT COOMBS TEST", price: "₹250" },
+        { name: "DIRECT/INDIRECT BILIRUBIN", price: "₹150" },
+        { name: "eGFR", price: "₹500" },
+        { name: "ELECTROLYTE 3 (THREE) PARAMETERS", price: "₹600" },
+        { name: "ESR", price: "₹100" },
+        { name: "FASTING PLASMA GLUCOSE (FBS)", price: "₹50" },
+        { name: "FERRITIN", price: "₹1,000" },
+        { name: "FERTILITY PROFILE", price: "₹1,500" },
+        { name: "FERTILITY PROFILE (MALE)", price: "₹2,400" },
+        { name: "FSH", price: "₹650" },
+        { name: "FT3", price: "₹600" },
+        { name: "FT4", price: "₹600" },
+        { name: "FUNGAL SMEAR", price: "₹250" },
+        { name: "G6PD", price: "₹600" },
+        { name: "GAMMA G. T. (GGT)", price: "₹400" },
+        { name: "GCT WITH 75 GM GLUCOSE", price: "₹150" },
+        { name: "GLUCOSE TOLERENCE TEST", price: "₹400" },
+        { name: "GRAM STAIN", price: "₹150" },
+        { name: "H D L CHOLESTEROL", price: "₹350" },
+        { name: "HAEMOGLOBIN (Hb)", price: "₹100" },
+        { name: "Hb TYPING", price: "₹1,400" },
+        { name: "HbA1C", price: "₹600" },
+        { name: "HEPATITIS A / HAV (SCREENING)", price: "₹600" },
+        { name: "HEPATITIS B SURFACE AG (HBsAg)", price: "₹400" },
+        { name: "HEPATITIS C (SCREENING)", price: "₹400" },
+        { name: "HEPATITIS E (SCREENING)", price: "₹600" },
+        { name: "HEPATITIS PANEL", price: "₹3,500" },
+        { name: "HIV (I &II) SCREENING", price: "₹350" },
+        { name: "IMMATURE CELL", price: "₹150" },
+        { name: "INDIRECT COOMBS TEST", price: "₹1,100" },
+        { name: "IRON", price: "₹500" },
+        { name: "IRON & TIBC", price: "₹750" },
+        { name: "IRON & UIBC", price: "₹750" },
+        { name: "IRON PROFILE", price: "₹1,500" },
+        { name: "KFT (WITH 3 PARA ELECTROLYTE)", price: "₹1,100" },
+        { name: "KOH TEST FOR SKIN & NAILS", price: "₹300" },
+        { name: "LDH", price: "₹650" },
+        { name: "Leptospira (IgM/IgG)", price: "₹600" },
+        { name: "LH", price: "₹650" },
+        { name: "LIPASE", price: "₹500" },
+        { name: "LIPID PROFILE", price: "₹800" },
+        { name: "LIVER FUNCTION TEST", price: "₹800" },
+        { name: "M.P. By Slide Method / PBF FOR MP", price: "₹250" },
+        { name: "MALARIA PF/PV CARD RAPID TEST", price: "₹250" },
+        { name: "MALIGNANT CELL", price: "₹550" },
+        { name: "MICROALBUMIN, Spot Urine", price: "₹600" },
+        { name: "NT PRO BNP", price: "₹1,750" },
+        { name: "PBS FOR CELL MORPHOLOGY", price: "₹250" },
+        { name: "PLATELET COUNT", price: "₹100" },
+        { name: "PLEURAL FLUID ANALYSIS: PHYSICAL, CHEMICAL AND MICROSCOPIC", price: "₹850" },
+        { name: "PLEURAL FLUID ANALYSIS: CYTOLOGICAL", price: "₹500" },
+        { name: "PLEURAL FLUID ANALYSIS: ADA", price: "₹650" },
+        { name: "PLEURAL FLUID ANALYSIS: LH", price: "₹400" },
+        { name: "POST PRANDIAL PLASMA GLUCOSE (PPBS)", price: "₹50" },
+        { name: "PROLACTIN", price: "₹900" },
+        { name: "PROTHROMBIN TIME (PT INR)", price: "₹400" },
+        { name: "PSA", price: "₹1,050" },
+        { name: "QUANTI FERON", price: "₹1,800" },
+        { name: "QUANTITATIVE HBsAg", price: "₹600" },
+        { name: "QUANTITATIVE HCV", price: "₹600" },
+        { name: "QUANTITATIVE HIV", price: "₹600" },
+        { name: "R.A FACTOR", price: "₹250" },
+        { name: "RANDOM PLASMA GLUCOSE (RBS)", price: "₹100" },
+        { name: "RETICULOCYTE COUNT", price: "₹300" },
+        { name: "Rh ANTIBODY TITRE", price: "₹650" },
+        { name: "ROUTINE EXAM.OF BLOOD", price: "₹300" },
+        { name: "Scrub typhus (IgM/IgG)", price: "₹500" },
+        { name: "SGOT / AST", price: "₹150" },
+        { name: "SGPT / ALT", price: "₹150" },
+        { name: "SEMEN ANALYSIS", price: "₹500" },
+        { name: "Sepsis Screen", price: "₹800" },
+        { name: "SERUM ALK. PHOSPHATASE", price: "₹200" },
+        { name: "SERUM AMYLASE", price: "₹450" },
+        { name: "SERUM BILIRUBIN, TOTAL", price: "₹150" },
+        { name: "SERUM CALCIUM", price: "₹250" },
+        { name: "SERUM C-PEPTIDE", price: "₹1,000" },
+        { name: "SERUM CHLORIDE", price: "₹250" },
+        { name: "SERUM CREATININE", price: "₹150" },
+        { name: "SERUM IgE", price: "₹900" },
+        { name: "SERUM MAGNESIUM", price: "₹500" },
+        { name: "SERUM PHOSPHATE", price: "₹350" },
+        { name: "SERUM PHOSPHORUS", price: "₹500" },
+        { name: "SERUM POTASSIUM (K)", price: "₹250" },
+        { name: "SERUM SODIUM (Na)", price: "₹250" },
+        { name: "SPUTUM AFB (Z.N. STAIN)", price: "₹250" },
+        { name: "Sputum AFB Culture", price: "₹1,100" },
+        { name: "STOOL for Culture and Sensitivity", price: "₹600" },
+        { name: "STOOL FOR OCCULT BLOOD", price: "₹150" },
+        { name: "STOOL R E", price: "₹150" },
+        { name: "T3", price: "₹400" },
+        { name: "T4", price: "₹400" },
+        { name: "TESTOSTEORNE-FREE", price: "₹2,600" },
+        { name: "TESTOSTERONE - TOTAL", price: "₹900" },
+        { name: "THYROID PROFILE, TOTAL", price: "₹700" },
+        { name: "TORCH PANEL (10 PROFILE)", price: "₹3,000" },
+        { name: "TOTAL PROTEIN & FRACTION", price: "₹300" },
+        { name: "TOTAL R B C COUNT", price: "₹100" },
+        { name: "TOTAL W B C COUNT (T C)", price: "₹100" },
+        { name: "TOXO TEST (IgM & IgG)", price: "₹1,500" },
+        { name: "TRIGLYCERIDE", price: "₹250" },
+        { name: "TROPONIN I TEST", price: "₹1,250" },
+        { name: "TROPONIN T TEST", price: "₹1,300" },
+        { name: "TSH", price: "₹400" },
+        { name: "TYPHIDOT", price: "₹350" },
+        { name: "URIC ACID", price: "₹150" },
+        { name: "Urine Albumin", price: "₹100" },
+        { name: "URINE CULTURE", price: "₹350" },
+        { name: "URINE FOR ACR", price: "₹600" },
+        { name: "URINE PREGNANCY TEST / beta HCG", price: "₹150" },
+        { name: "URINE PROTEIN 24 HOURS", price: "₹350" },
+        { name: "URINE R.E.", price: "₹150" },
+        { name: "Urine Sugar", price: "₹100" },
+        { name: "VDRL KIT", price: "₹400" },
+        { name: "Vitamin A", price: "₹4,000" },
+        { name: "Vitamin B12", price: "₹1,500" },
+        { name: "Vitamin C", price: "₹3,500" },
+        { name: "VITAMIN D", price: "₹1,700" },
+        { name: "Vitamin E", price: "₹2,500" },
+        { name: "Vitamin K", price: "₹4,500" },
+        { name: "WIDAL TEST", price: "₹250" }
+    ];
+
+    // Render list
+    const container = document.getElementById('testsContainer');
+    function renderTests(tests) {
+        container.innerHTML = '';
+        tests.forEach(test => {
+            const div = document.createElement('div');
+            div.className = 'list-item';
+            div.onclick = () => openBooking(test.name, test.price);
+            div.innerHTML = `
+                <div class="list-item-left">
+                    <div class="item-icon"><i class="fa-solid fa-flask"></i></div>
+                    <div class="list-item-text">
+                        <h4>${test.name}</h4>
+                        <p>Home collection available</p>
+                    </div>
+                </div>
+                <div class="list-item-right">
+                    <span class="price">${test.price}</span>
+                    <i class="fa-solid fa-circle-plus add-circle"></i>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    renderTests(allTests);
+
+    // Live search filter
+    document.getElementById('testSearch').addEventListener('input', function(e) {
+        const val = e.target.value.toLowerCase();
+        const filtered = allTests.filter(t => t.name.toLowerCase().includes(val));
+        renderTests(filtered);
+    });
+
+    let currentTest = "CBC";
 
     function openBooking(testName, price) {
         currentTest = testName;
@@ -805,6 +521,7 @@
         document.getElementById('bookingModal').style.display = 'none';
     }
 
+    // Submit form
     document.getElementById('scheduleForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const btn = document.getElementById('confirmBtn');
@@ -841,15 +558,6 @@
             btn.disabled = false;
             btn.innerHTML = 'Confirm home collection <i class="fa-solid fa-arrow-right"></i>';
         }
-    });
-
-    // Simple search filter
-    document.getElementById('testSearch').addEventListener('input', function(e) {
-        const val = e.target.value.toLowerCase();
-        document.querySelectorAll('.list-item').forEach(item => {
-            const txt = item.innerText.toLowerCase();
-            item.style.display = txt.includes(val) ? 'flex' : 'none';
-        });
     });
 </script>
 
