@@ -25,11 +25,23 @@
 
         /* Top Bar */
         .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .brand-info { display: flex; align-items: center; gap: 10px; }
+        .brand-info { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
         .brand-logo { width: 40px; height: 40px; background: linear-gradient(135deg, #0284c7, #06b6d4); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3); }
         .brand-text h4 { font-size: 13px; font-weight: 700; }
         .brand-text p { font-size: 11px; color: var(--text-muted); }
-        .bell-btn { width: 36px; height: 36px; background: var(--card-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); border: 1px solid var(--card-border); }
+        .google-verified-badge {
+            background: #143e52;
+            color: #4285f4;
+            font-size: 11px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            border: 1px solid rgba(66, 133, 244, 0.3);
+        }
 
         /* Hero */
         .badge-tag { font-size: 11px; font-weight: 700; color: var(--cyan-primary); letter-spacing: 0.8px; margin-bottom: 6px; text-transform: uppercase; }
@@ -55,7 +67,7 @@
         .section-head h3 { font-size: 17px; font-weight: 700; }
         .section-head p { font-size: 12px; color: var(--text-muted); }
 
-        /* Selection Header / Cart Notice */
+        /* Multi-Select Banner */
         .multi-select-banner {
             background: rgba(56, 189, 248, 0.08);
             border: 1px dashed var(--cyan-primary);
@@ -109,12 +121,30 @@
         .list-item-right { text-align: right; margin-left: 10px; }
         .list-item-right .price { font-size: 14px; font-weight: 800; color: var(--cyan-primary); }
 
-        /* Trust & Help */
+        /* Trust & Location Card */
         .trust-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; margin: 24px 0; }
         .trust-title { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--card-border); }
         .trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
         .trust-item i { color: #38d39f; }
 
+        .google-card {
+            background: #143e52;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #fff;
+            border: 1px solid rgba(66, 133, 244, 0.4);
+        }
+        .google-card-left { display: flex; align-items: center; gap: 10px; }
+        .google-icon { font-size: 24px; color: #4285f4; }
+        .google-card h5 { font-size: 12px; font-weight: 700; }
+        .google-card p { font-size: 10px; color: var(--text-muted); }
+
+        /* Help Box */
         .help-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; margin-bottom: 24px; }
         .help-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
         .call-btn { background: #143e52; color: var(--cyan-primary); text-decoration: none; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 700; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; }
@@ -159,7 +189,6 @@
         .modal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
         .btn-back { background: var(--card-bg); border: 1px solid var(--card-border); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .booking-summary-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 14px; margin-bottom: 20px; }
-        .booking-summary-box h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
         .booking-summary-box .test-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
         .test-tag { background: #143e52; color: var(--cyan-primary); font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: 600; }
         .form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; display: block; }
@@ -172,22 +201,24 @@
 <body>
 
 <div class="container" id="homeView">
-    <!-- Top Bar -->
+    <!-- Top Bar with Google Link -->
     <div class="top-bar">
-        <div class="brand-info">
+        <a href="https://www.google.com/search?kgmid=%2Fg%2F11z3b65pfx&hl=en-IN&q=Mouchumi%20Lab%20Test%20Blood%20Collection%20Service" target="_blank" class="brand-info">
             <div class="brand-logo"><i class="fa-solid fa-droplet"></i></div>
             <div class="brand-text">
                 <h4>Mouchumi Lab Test Blood Collection...</h4>
-                <p>Golaghat · At-home collection[span_0](start_span)[span_0](end_span)</p>
+                <p>Golaghat · At-home collection</p>
             </div>
-        </div>
-        <div class="bell-btn"><i class="fa-regular fa-bell"></i></div>
+        </a>
+        <a href="https://www.google.com/search?kgmid=%2Fg%2F11z3b65pfx&hl=en-IN&q=Mouchumi%20Lab%20Test%20Blood%20Collection%20Service" target="_blank" class="google-verified-badge">
+            <i class="fa-brands fa-google"></i> Verified
+        </a>
     </div>
 
     <!-- Hero -->
     <div class="badge-tag">YOUR HEALTH, HANDLED</div>
     <h1 class="hero-title">The care you need,<br><span>right at home.</span></h1>
-    <p class="hero-sub">Safe, gentle sample collection from certified labs, whenever it suits you.</p>
+    <p class="hero-sub">Safe, gentle sample collection from certified labs in Golaghat.</p>
 
     <!-- Live Search Box -->
     <div class="search-box">
@@ -199,46 +230,58 @@
     <!-- Banner -->
     <div class="banner-card">
         <div class="banner-tag"><i class="fa-solid fa-house"></i> Home Collection</div>
-        <h2>Reliable at-home<br>sample collection<br>in Golaghat.[span_1](start_span)[span_1](end_span)</h2>
+        <h2>Reliable at-home<br>sample collection<br>in Golaghat.</h2>
         <p>Safe, gentle collection from a trusted local team.</p>
         <button class="btn-banner" onclick="scrollToTests()">
             Select Tests Below <i class="fa-solid fa-arrow-down"></i>
         </button>
     </div>
 
-    <!-- Multi-Select Banner -->
+    <!-- Multi-Select Notice -->
     <div class="multi-select-banner">
-        <p><i class="fa-solid fa-square-check"></i> Tap any test to add/remove from booking</p>
+        <p><i class="fa-solid fa-square-check"></i> Tap tests to add or remove from your booking</p>
     </div>
 
     <!-- All Tests List -->
     <div class="section-head" id="testsSection">
         <div>
-            <h3>All tests & prices (156)[span_2](start_span)[span_2](end_span)</h3>
+            <h3>All tests & prices (156)</h3>
             <p>Select multiple tests for a single visit</p>
         </div>
     </div>
 
     <div id="testsContainer"></div>
 
-    <!-- Trust Box -->
+    <!-- Trust & Google Maps Link Box -->
     <div class="trust-box">
         <div class="trust-title">
             <i class="fa-solid fa-shield-virus" style="color:#38d39f; font-size:20px;"></i>
             <div>
                 <h4 style="font-size:13px;">Your health is in safe hands</h4>
-                <p style="font-size:11px; color:var(--text-muted);">Trusted at every step</p>
+                <p style="font-size:11px; color:var(--text-muted);">Trusted local service in Golaghat</p>
             </div>
         </div>
-        <div class="trust-item"><i class="fa-solid fa-circle-check"></i> NABL certified labs</div>
-        <div class="trust-item"><i class="fa-solid fa-circle-check"></i> Digital reports</div>
-        <div class="trust-item"><i class="fa-solid fa-circle-check"></i> Safe collection</div>
+        <div class="trust-item"><i class="fa-solid fa-circle-check"></i> NABL certified partner labs</div>
+        <div class="trust-item"><i class="fa-solid fa-circle-check"></i> Digital reports on WhatsApp</div>
+        <div class="trust-item"><i class="fa-solid fa-circle-check"></i> 100% hygienic sample collection</div>
+
+        <!-- Google Business Link Card -->
+        <a href="https://www.google.com/search?kgmid=%2Fg%2F11z3b65pfx&hl=en-IN&q=Mouchumi%20Lab%20Test%20Blood%20Collection%20Service" target="_blank" class="google-card">
+            <div class="google-card-left">
+                <i class="fa-brands fa-google google-icon"></i>
+                <div>
+                    <h5>Verified on Google</h5>
+                    <p>View profile, reviews & location</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--cyan-primary); font-size:13px;"></i>
+        </a>
     </div>
 
     <!-- Help Box -->
     <div class="help-box">
         <h4 style="font-size:13px;">Need help booking?</h4>
-        <p style="font-size:11px; color:var(--text-muted);">Call our Golaghat collection team[span_3](start_span)[span_3](end_span)</p>
+        <p style="font-size:11px; color:var(--text-muted);">Call our Golaghat collection team</p>
         <div class="help-btns">
             <a href="tel:6000219209" class="call-btn"><i class="fa-solid fa-phone"></i> 6000219209</a>
             <a href="tel:6900862973" class="call-btn"><i class="fa-solid fa-phone"></i> 6900862973</a>
@@ -310,8 +353,20 @@
             <label class="form-label">Pickup address (সম্পূৰ্ণ ঠিকনা)*</label>
             <input type="text" id="patientAddress" class="dark-input" placeholder="House/Flat, Road, Landmark" required>
 
-            <label class="form-label">Preferred Date (সংগ্ৰহৰ তাৰিখ)</label>
-            <input type="date" id="bookingDate" class="dark-input">
+            <div class="row-inputs">
+                <div>
+                    <label class="form-label">Preferred Date (তাৰিখ)</label>
+                    <input type="date" id="bookingDate" class="dark-input">
+                </div>
+                <div>
+                    <label class="form-label">Time Slot (সময়)</label>
+                    <select id="bookingSlot" class="dark-input">
+                        <option value="07:00 AM - 09:00 AM (Fasting)">07:00 AM - 09:00 AM (Fasting)</option>
+                        <option value="09:00 AM - 11:00 AM">09:00 AM - 11:00 AM</option>
+                        <option value="04:00 PM - 06:00 PM">04:00 PM - 06:00 PM</option>
+                    </select>
+                </div>
+            </div>
 
             <button type="submit" id="confirmBtn" class="btn-confirm">
                 Confirm Home Collection <i class="fa-solid fa-paper-plane"></i>
@@ -321,7 +376,7 @@
 </div>
 
 <script>
-    // All 156 Tests & Prices[span_4](start_span)[span_4](end_span)
+    // All 156 Tests & Prices from Lab PDF
     const allTests = [
         { name: "ABO, Rh GROUPING", price: 100 },
         { name: "ABSOLUTE EOSINOPHIL COUNT", price: 150 },
@@ -482,7 +537,6 @@
     ];
 
     let selectedTests = new Map();
-
     const container = document.getElementById('testsContainer');
 
     function renderTests(tests) {
@@ -535,7 +589,6 @@
 
     renderTests(allTests);
 
-    // Live search
     document.getElementById('testSearch').addEventListener('input', function(e) {
         const val = e.target.value.toLowerCase();
         const filtered = allTests.filter(t => t.name.toLowerCase().includes(val));
@@ -568,7 +621,6 @@
         document.getElementById('bookingModal').style.display = 'none';
     }
 
-    // Submit Booking
     document.getElementById('scheduleForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const btn = document.getElementById('confirmBtn');
@@ -577,6 +629,8 @@
 
         const testNamesArray = Array.from(selectedTests.keys());
         const combinedTestNames = testNamesArray.join(', ');
+        const dateVal = document.getElementById('bookingDate').value;
+        const slotVal = document.getElementById('bookingSlot').value;
 
         const data = {
             name: document.getElementById('patientName').value,
@@ -585,7 +639,7 @@
             phone: document.getElementById('patientPhone').value,
             testName: combinedTestNames,
             address: document.getElementById('patientAddress').value,
-            date: document.getElementById('bookingDate').value
+            date: dateVal ? `${dateVal} (${slotVal})` : slotVal
         };
 
         try {
