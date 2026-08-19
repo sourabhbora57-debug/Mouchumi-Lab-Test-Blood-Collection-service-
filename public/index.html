@@ -779,7 +779,7 @@
 
 </div>
 
-<!-- Direct WhatsApp Chat Floating -->
+<!-- Floating direct chat button -->
 <a href="https://wa.me/916000219209" target="_blank" class="whatsapp-float">
     <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> Chat
 </a>
@@ -855,7 +855,6 @@
                 <input type="text" id="patientAddress" class="custom-input" placeholder="Flat, building, street and locality" required>
             </div>
 
-            <!-- Referred By Input Field -->
             <div class="input-group">
                 <label>Referred By (ডাক্তৰৰ নাম / Self)</label>
                 <input type="text" id="referredBy" class="custom-input" placeholder="e.g. Dr. B. K. Saikia / Self">
@@ -1203,9 +1202,13 @@
         chosenSlot = slot;
     }
 
-    // Direct WhatsApp Submission Event
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    // Green API Backend Integration (কোনো WhatsApp খোল নাখায়)
+    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
         e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBookingBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Booking in progress...';
 
         const name = document.getElementById('patientName').value.trim();
         const age = document.getElementById('patientAge').value.trim();
@@ -1235,14 +1238,33 @@
             `--------------------------------\n` +
             `💰 *Grand Total: ₹${total.toLocaleString()}*`;
 
-        const encoded = encodeURIComponent(formattedMessage);
-        window.open(`https://wa.me/916000219209?text=${encoded}`, '_blank');
+        try {
+            const response = await fetch('/api/book-test', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: formattedMessage
+                })
+            });
 
-        alert('ধন্যবাদ! অনুগ্ৰহ কৰি WhatsApp যোগে মেছেজটো প্ৰেৰণ কৰক।');
-        document.getElementById('bookingForm').reset();
-        selectedTests.clear();
-        updateUI();
-        closeScheduleModal();
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                alert('ধন্যবাদ! আপোনাৰ তেজ সংগ্ৰহৰ অনুৰোধ সফলভাৱে পঠিওৱা হ’ল।');
+                document.getElementById('bookingForm').reset();
+                selectedTests.clear();
+                updateUI();
+                closeScheduleModal();
+            } else {
+                alert('মেছেজ পঠিওৱাত সমস্যা হৈছে: ' + (data.message || 'Error'));
+            }
+        } catch (err) {
+            console.error(err);
+            alert('চাৰ্ভাৰৰ লগত সংযোগ নহ’ল! অনুগ্ৰহ কৰি পেজটো Refresh কৰক।');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Confirm home collection <i class="fa-solid fa-arrow-right"></i>';
+        }
     });
 
     renderTests();
