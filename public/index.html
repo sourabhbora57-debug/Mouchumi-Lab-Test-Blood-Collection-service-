@@ -688,7 +688,6 @@
 <body>
 
 <div class="container">
-    
     <div class="top-bar">
         <a href="#" class="brand-box">
             <div class="brand-avatar"><i class="fa-solid fa-droplet"></i></div>
@@ -776,10 +775,8 @@
             <span>View all 156 tests</span> <i class="fa-solid fa-angle-down"></i>
         </button>
     </div>
-
 </div>
 
-<!-- Floating direct chat button -->
 <a href="https://wa.me/916000219209" target="_blank" class="whatsapp-float">
     <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> Chat
 </a>
@@ -1202,7 +1199,7 @@
         chosenSlot = slot;
     }
 
-    // Green API Backend Integration (কোনো WhatsApp খোল নাখায়)
+    // Backend Green API Integration
     document.getElementById('bookingForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -1242,21 +1239,19 @@
             const response = await fetch('/api/book-test', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    message: formattedMessage
-                })
+                body: JSON.stringify({ message: formattedMessage })
             });
 
             const data = await response.json();
 
             if (response.ok && data.success) {
-                alert('ধন্যবাদ! আপোনাৰ তেজ সংগ্ৰহৰ অনুৰোধ সফলভাৱে পঠিওৱা হ’ল।');
+                alert('ধন্যবাদ! আপোনাৰ তেজ সংগ্ৰহৰ অনুৰোধ সফলভাৱে পঠিওৱা হ’ল। অতি সোনকালে আমি যোগাযোগ কৰিম।');
                 document.getElementById('bookingForm').reset();
                 selectedTests.clear();
                 updateUI();
                 closeScheduleModal();
             } else {
-                alert('মেছেজ পঠিওৱাত সমস্যা হৈছে: ' + (data.message || 'Error'));
+                alert('মেছেজ পঠিওৱাত সমস্যা হৈছে: ' + (data.message || 'Error occurred'));
             }
         } catch (err) {
             console.error(err);
