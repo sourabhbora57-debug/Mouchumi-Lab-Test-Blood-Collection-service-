@@ -119,7 +119,7 @@
             margin-bottom: 18px;
         }
 
-        /* Hero Banner */
+        /* Banner Card */
         .banner-card {
             background: var(--banner-gradient);
             border-radius: 20px;
@@ -619,6 +619,11 @@
         .custom-input:focus {
             border-color: var(--cyan-primary);
         }
+        .inputs-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
 
         .pills-row {
             display: grid;
@@ -810,7 +815,7 @@
     </button>
 </div>
 
-<!-- Schedule Modal -->
+<!-- Schedule Modal with Age & Sex fields -->
 <div class="modal" id="scheduleModal">
     <div class="modal-inner">
         <div class="modal-top-nav">
@@ -844,7 +849,23 @@
 
             <div class="input-group">
                 <label>Full name *</label>
-                <input type="text" id="patientName" class="custom-input" placeholder="e.g. Aanya Sharma" required>
+                <input type="text" id="patientName" class="custom-input" placeholder="e.g. Rahul Sharma" required>
+            </div>
+
+            <!-- Age & Sex Row -->
+            <div class="inputs-row">
+                <div class="input-group">
+                    <label>Age (বয়স) *</label>
+                    <input type="number" id="patientAge" class="custom-input" placeholder="e.g. 28" min="1" max="120" required>
+                </div>
+                <div class="input-group">
+                    <label>Sex (লিংগ) *</label>
+                    <select id="patientSex" class="custom-input" style="background-color: var(--card-bg);" required>
+                        <option value="Male" selected>Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
             </div>
 
             <div class="input-group">
@@ -1075,7 +1096,7 @@
         let listToDisplay = [];
 
         if (query.length > 0) {
-            // Instant Live Search: Matched tests appear right on top
+            // Instant Live Search
             listToDisplay = allTests.filter(t => t.name.toLowerCase().includes(query));
             toggleBtn.style.display = 'none';
         } else {
@@ -1211,6 +1232,8 @@
         e.preventDefault();
 
         const name = document.getElementById('patientName').value.trim();
+        const age = document.getElementById('patientAge').value.trim();
+        const sex = document.getElementById('patientSex').value;
         const phone = document.getElementById('patientPhone').value.trim();
         const address = document.getElementById('patientAddress').value.trim();
 
@@ -1223,7 +1246,8 @@
 
         const message = `*📋 NEW HOME COLLECTION SCHEDULED*%0A` +
             `--------------------------------%0A` +
-            `👤 *Name:* ${name}%0A` +
+            `👤 *Patient Name:* ${name}%0A` +
+            `🎂 *Age / Sex:* ${age} Yrs / ${sex}%0A` +
             `📞 *Phone:* ${phone}%0A` +
             `📍 *Pickup Address:* ${address}%0A` +
             `🗓 *Date:* ${chosenDate}%0A` +
