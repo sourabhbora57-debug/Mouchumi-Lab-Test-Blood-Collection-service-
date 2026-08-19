@@ -1,8 +1,5 @@
-import express from 'express';
-import axios from 'axios';
-
-const app = express();
-app.use(express.json());
+const http = require('http');
+const https = require('https');
 
 const PORT = process.env.PORT || 3000;
 
@@ -11,43 +8,93 @@ const ID_INSTANCE = '710722713374';
 const API_TOKEN = 'ba66c849c53047ce98200faea718e7e9ff228978d1df4ad9aa';
 const TARGET_CHAT_ID = '916000219209@c.us';
 
-app.post('/send-booking', async (req, res) => {
-    try {
-        const { patientName, age, sex, phone, address, referredBy, testsList, grandTotal, date, timeSlot } = req.body;
+const server = http.createServer((req, res) => {
+    // CORS Headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-        const message = `*📋 NEW HOME COLLECTION SCHEDULED*
---------------------------------
-👤 *Patient Name:* ${patientName}
-🎂 *Age / Sex:* ${age} Yrs / ${sex}
-📞 *Phone:* ${phone}
-📍 *Pickup Address:* ${address}
-🩺 *Referred By:* ${referredBy}
-🗓 *Date:* ${date}
-⏰ *Time Slot:* ${timeSlot}
---------------------------------
-🧪 *Selected Tests:*
-${testsList}
---------------------------------
-💰 *Grand Total: ₹${grandTotal}*`;
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
 
-        const url = `https://api.green-api.com/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`;
+    if (req.method === 'GET' && req.url === '/') {
+        res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('Lab Test Booking Server is running fine!');
+        return;
+    }
 
-        const response = await axios.post(url, {
-            chatId: TARGET_CHAT_ID,
-            message: message
+    if (req.method === 'POST' && req.url === '/send-booking') {
+        let body = '';
+
+        req.on('data', chunk => {
+            body += chunk.toString();
         });
 
-        res.status(200).json({ success: true, data: response.data });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({ success: false, error: error.message });
+        req.on('end', () => {
+            try {
+                const data = JSON.parse(body);
+                const { patientName, age, sex, phone, address, referredBy, testsList, grandTotal, date, timeSlot } = data;
+
+                const message = `*📋 NEW HOME COLLECTION SCHEDULED*\n` +
+                    `--------------------------------\n` +
+                    `👤 *Patient Name:* ${patientName || 'N/A'}\n` +
+                    `🎂 *Age / Sex:* ${age || ''} Yrs / ${sex || ''}\n` +
+                    `📞 *Phone:* ${phone || 'N/A'}\n` +
+                    `📍 *Pickup Address:* ${address || 'N/A'}\n` +
+                    `🩺 *Referred By:* ${referredBy || 'Self'}\n` +
+                    `🗓 *Date:* ${date || 'N/A'}\n` +
+                    `⏰ *Time Slot:* ${timeSlot || 'N/A'}\n` +
+                    `--------------------------------\n` +
+                    `🧪 *Selected Tests:*\n${testsList || 'N/A'}\n` +
+                    `--------------------------------\n` +
+                    `💰 *Grand Total: ₹${grandTotal || 0}*`;
+
+                const postData = JSON.stringify({
+                    chatId: TARGET_CHAT_ID,
+                    message: message
+                });
+
+                const options = {
+                    hostname: 'api.green-api.com',
+                    path: `/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Content-Length': Buffer.byteLength(postData)
+                    }
+                };
+
+                const apiReq = https.request(options, (apiRes) => {
+                    let apiResponse = '';
+                    apiRes.on('data', chunk => { apiResponse += chunk; });
+                    apiRes.on('end', () => {
+                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ success: true, greenApiResponse: JSON.parse(apiResponse || '{}') }));
+                    });
+                });
+
+                apiReq.on('error', (e) => {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: e.message }));
+                });
+
+                apiReq.write(postData);
+                apiReq.end();
+
+            } catch (err) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: 'Invalid JSON payload' }));
+            }
+        });
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Not Found');
     }
 });
 
-app.get('/', (req, res) => {
-    res.send('Lab Test Booking Server is running!');
-});
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
