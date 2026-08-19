@@ -16,6 +16,7 @@
             --border-color: #e2e8f0;
             --btn-green: #5ea828;
             --footer-bg: #032b5f;
+            --active-border: #38d39f;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -26,7 +27,7 @@
         .section-card {
             background: var(--card-bg);
             border-radius: 16px;
-            padding: 18px 16px;
+            padding: 16px;
             margin-bottom: 14px;
             border: 1px solid var(--border-color);
             box-shadow: 0 2px 8px rgba(0,0,0,0.03);
@@ -36,7 +37,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
         .card-title {
             display: flex;
@@ -75,10 +76,10 @@
         }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-        /* Search Input */
+        /* Search Input Box */
         .search-box-wrap {
             position: relative;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
         .search-box-wrap i {
             position: absolute;
@@ -93,44 +94,49 @@
             background: #f8fafc;
             border: 1px solid #cbd5e1;
             border-radius: 10px;
-            padding: 10px 12px 10px 34px;
-            font-size: 13px;
+            padding: 11px 12px 11px 36px;
+            font-size: 13.5px;
             outline: none;
+            transition: border-color 0.2s;
         }
         .search-box-wrap input:focus {
             background: #fff;
             border-color: var(--primary-blue);
         }
 
-        /* Test List */
+        /* Test Box Item */
         .tests-list {
-            max-height: 420px;
-            overflow-y: auto;
-            padding-right: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-        .test-row {
+        .test-box {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 6px;
-            border-bottom: 1px solid #f1f5f9;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 14px;
             cursor: pointer;
-            transition: background 0.15s ease;
+            transition: all 0.15s ease;
         }
-        .test-row:last-child { border-bottom: none; }
-        .test-row:active { background-color: #f1f5f9; }
+        .test-box.active {
+            background: #f0fdf4;
+            border-color: var(--active-border);
+        }
 
-        .test-row-left {
+        .test-box-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             flex: 1;
         }
         .custom-checkbox {
-            width: 18px;
-            height: 18px;
+            width: 19px;
+            height: 19px;
             border: 1.5px solid #94a3b8;
-            border-radius: 4px;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -139,33 +145,36 @@
             background: #fff;
             flex-shrink: 0;
         }
-        .test-row.active .custom-checkbox {
-            background: var(--primary-blue);
-            border-color: var(--primary-blue);
+        .test-box.active .custom-checkbox {
+            background: var(--btn-green);
+            border-color: var(--btn-green);
             color: #fff;
         }
 
-        .test-info {
+        .test-details {
             display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
+            flex-direction: column;
+            gap: 3px;
         }
         .test-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #334155;
-            line-height: 1.3;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.25;
+        }
+        .sub-details {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* Vial Badges */
+        /* Badges */
         .vial-badge {
             font-size: 10px;
             font-weight: 700;
             padding: 2px 6px;
             border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
         .vial-violet { background: #f3e8ff; color: #9333ea; }
         .vial-red { background: #fee2e2; color: #ef4444; }
@@ -177,10 +186,28 @@
 
         .test-price {
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 800;
             color: #0284c7;
-            margin-left: 8px;
+            margin-left: 10px;
             white-space: nowrap;
+        }
+
+        /* Show All Toggle Button */
+        .btn-toggle-view {
+            width: 100%;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px dashed #cbd5e1;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 700;
+            margin-top: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-toggle-view:hover {
+            background: #e2e8f0;
         }
 
         /* Bottom Floating Bar */
@@ -222,7 +249,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 4px 10px rgba(94, 168, 40, 0.3);
         }
         .btn-receipt:active { transform: scale(0.97); }
     </style>
@@ -231,7 +257,7 @@
 
 <div class="container">
     
-    <!-- 1. Patient Details Card -->
+    <!-- Patient Details Card -->
     <div class="section-card">
         <div class="card-header">
             <div class="card-title">
@@ -273,7 +299,7 @@
         </form>
     </div>
 
-    <!-- 2. Test Selection Card -->
+    <!-- Test Selection Card -->
     <div class="section-card">
         <div class="card-header" style="margin-bottom: 12px;">
             <div class="card-title">
@@ -281,19 +307,24 @@
             </div>
         </div>
 
-        <!-- Live Search Box -->
+        <!-- Live Instant Search Box -->
         <div class="search-box-wrap">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="testSearchInput" placeholder="টেষ্টৰ নাম বিচাৰক (e.g. CBC, Thyroid, KFT)...">
+            <input type="text" id="testSearchInput" placeholder="টেষ্টৰ নাম বিচাৰক (e.g. CBC, Thyroid, KFT)..." autocomplete="off">
         </div>
 
-        <!-- All Tests List -->
+        <!-- Dynamic Tests List (Box Format) -->
         <div class="tests-list" id="testsContainer"></div>
+
+        <!-- Toggle Button for Full List -->
+        <button id="toggleBtn" class="btn-toggle-view" onclick="toggleViewAll()">
+            View All Tests (156) <i class="fa-solid fa-angle-down"></i>
+        </button>
     </div>
 
 </div>
 
-<!-- 3. Bottom Sticky Bar -->
+<!-- Bottom Floating Checkout Bar -->
 <div class="bottom-bar">
     <div class="bottom-bar-left">
         <p>Selected: <span id="countDisplay">0</span> Tests</p>
@@ -305,8 +336,16 @@
 </div>
 
 <script>
-    // All 156 Tests, Prices & Vial Colours from Price List
+    // Complete 156 Tests Database
     const testData = [
+        { name: "CBC", price: 400, vial: "VIOLET", popular: true },
+        { name: "LIVER FUNCTION TEST", price: 800, vial: "RED", popular: true },
+        { name: "KFT (WITH 3 PARA ELECTROLYTE)", price: 1100, vial: "RED", popular: true },
+        { name: "LIPID PROFILE", price: 800, vial: "RED", popular: true },
+        { name: "THYROID PROFILE, TOTAL", price: 700, vial: "RED", popular: true },
+        { name: "HbA1C", price: 600, vial: "VIOLET", popular: true },
+        { name: "FASTING PLASMA GLUCOSE (FBS)", price: 50, vial: "GREY", popular: true },
+        { name: "VITAMIN D", price: 1700, vial: "RED", popular: true },
         { name: "ABO, Rh GROUPING", price: 100, vial: "VIOLET" },
         { name: "ABSOLUTE EOSINOPHIL COUNT", price: 150, vial: "VIOLET" },
         { name: "ABSOLUTE LYMPHOCYTE COUNT", price: 150, vial: "VIOLET" },
@@ -336,7 +375,6 @@
         { name: "CPK MB", price: 1350, vial: "RED" },
         { name: "CRP (TITRE) immunoturbidity", price: 450, vial: "RED" },
         { name: "CA 125", price: 1600, vial: "RED" },
-        { name: "CBC", price: 400, vial: "VIOLET" },
         { name: "CHOLESTEROL TOTAL", price: 200, vial: "RED" },
         { name: "COAGULATION PROFILE", price: 1200, vial: "BLUE" },
         { name: "CSF ANALYSIS", price: 550, vial: "NA" },
@@ -348,7 +386,6 @@
         { name: "eGFR", price: 500, vial: "RED" },
         { name: "ELECTROLYTE 3 (THREE) PARAMETERS", price: 600, vial: "RED" },
         { name: "ESR", price: 100, vial: "BLACK" },
-        { name: "FASTING PLASMA GLUCOSE (FBS)", price: 50, vial: "GREY" },
         { name: "FERRITIN", price: 1000, vial: "RED" },
         { name: "FERTILITY PROFILE", price: 1500, vial: "RED" },
         { name: "FERTILITY PROFILE (MALE)", price: 2400, vial: "RED" },
@@ -364,7 +401,6 @@
         { name: "H D L CHOLESTEROL", price: 350, vial: "RED" },
         { name: "HAEMOGLOBIN (Hb)", price: 100, vial: "VIOLET" },
         { name: "Hb TYPING", price: 1400, vial: "VIOLET" },
-        { name: "HbA1C", price: 600, vial: "VIOLET" },
         { name: "HEPATITIS A / HAV (SCREENING)", price: 600, vial: "RED" },
         { name: "HEPATITIS B SURFACE AG (HBsAg)", price: 400, vial: "RED" },
         { name: "HEPATITIS C (SCREENING)", price: 400, vial: "RED" },
@@ -377,14 +413,11 @@
         { name: "IRON & TIBC", price: 750, vial: "RED" },
         { name: "IRON & UIBC", price: 750, vial: "RED" },
         { name: "IRON PROFILE", price: 1500, vial: "RED" },
-        { name: "KFT (WITH 3 PARA ELECTROLYTE)", price: 1100, vial: "RED" },
         { name: "KOH TEST FOR SKIN & NAILS", price: 300, vial: "NA" },
         { name: "LDH", price: 650, vial: "RED" },
         { name: "Leptospira (IgM/IgG)", price: 600, vial: "RED" },
         { name: "LH", price: 650, vial: "RED" },
         { name: "LIPASE", price: 500, vial: "RED" },
-        { name: "LIPID PROFILE", price: 800, vial: "RED" },
-        { name: "LIVER FUNCTION TEST", price: 800, vial: "RED" },
         { name: "M.P. By Slide Method / PBF FOR MP", price: 250, vial: "VIOLET" },
         { name: "MALARIA PF/PV CARD RAPID TEST", price: 250, vial: "VIOLET" },
         { name: "MALIGNANT CELL", price: 550, vial: "VIOLET" },
@@ -436,7 +469,6 @@
         { name: "T4", price: 400, vial: "RED" },
         { name: "TESTOSTEORNE-FREE", price: 2600, vial: "RED" },
         { name: "TESTOSTERONE - TOTAL", price: 900, vial: "RED" },
-        { name: "THYROID PROFILE, TOTAL", price: 700, vial: "RED" },
         { name: "TORCH PANEL (10 PROFILE)", price: 3000, vial: "RED" },
         { name: "TOTAL PROTEIN & FRACTION", price: 300, vial: "RED" },
         { name: "TOTAL R B C COUNT", price: 100, vial: "VIOLET" },
@@ -459,14 +491,16 @@
         { name: "Vitamin A", price: 4000, vial: "RED" },
         { name: "Vitamin B12", price: 1500, vial: "RED" },
         { name: "Vitamin C", price: 3500, vial: "RED" },
-        { name: "VITAMIN D", price: 1700, vial: "RED" },
         { name: "Vitamin E", price: 2500, vial: "RED" },
         { name: "Vitamin K", price: 4500, vial: "RED" },
         { name: "WIDAL TEST", price: 250, vial: "RED" }
     ];
 
     let selectedMap = new Map();
+    let isViewAll = false;
     const container = document.getElementById('testsContainer');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const searchInput = document.getElementById('testSearchInput');
 
     function getVialBadgeClass(vial) {
         const v = vial.toUpperCase();
@@ -479,29 +513,54 @@
         return 'vial-na';
     }
 
-    function renderTests(list) {
+    function renderTests() {
+        const query = searchInput.value.toLowerCase().trim();
         container.innerHTML = '';
-        if (list.length === 0) {
-            container.innerHTML = '<div style="text-align:center; padding:20px; color:#94a3b8; font-size:13px;">কোনো টেষ্ট পোৱা নগ’ল</div>';
+
+        let listToDisplay = [];
+
+        if (query.length > 0) {
+            // Instant Search Filter: Matches appear immediately on top
+            listToDisplay = testData.filter(t => t.name.toLowerCase().includes(query));
+            toggleBtn.style.display = 'none';
+        } else {
+            toggleBtn.style.display = 'block';
+            if (isViewAll) {
+                // Pin selected tests to top when viewing all
+                const selectedList = testData.filter(t => selectedMap.has(t.name));
+                const unselectedList = testData.filter(t => !selectedMap.has(t.name));
+                listToDisplay = [...selectedList, ...unselectedList];
+            } else {
+                // Show selected tests + top popular tests (limited compact view)
+                const selectedList = testData.filter(t => selectedMap.has(t.name));
+                const popularList = testData.filter(t => t.popular && !selectedMap.has(t.name));
+                listToDisplay = [...selectedList, ...popularList];
+            }
+        }
+
+        if (listToDisplay.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:18px; color:#94a3b8; font-size:13px;">কোনো টেষ্ট পোৱা নগ’ল</div>';
             return;
         }
 
-        list.forEach(item => {
+        listToDisplay.forEach(item => {
             const isChecked = selectedMap.has(item.name);
             const badgeClass = getVialBadgeClass(item.vial);
             
             const div = document.createElement('div');
-            div.className = `test-row ${isChecked ? 'active' : ''}`;
-            div.onclick = () => toggleSelection(item, div);
+            div.className = `test-box ${isChecked ? 'active' : ''}`;
+            div.onclick = () => toggleSelection(item);
 
             div.innerHTML = `
-                <div class="test-row-left">
+                <div class="test-box-left">
                     <div class="custom-checkbox">
                         <i class="fa-solid fa-check"></i>
                     </div>
-                    <div class="test-info">
+                    <div class="test-details">
                         <span class="test-name">${item.name}</span>
-                        <span class="vial-badge ${badgeClass}">${item.vial}</span>
+                        <div class="sub-details">
+                            <span class="vial-badge ${badgeClass}">${item.vial}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="test-price">₹${item.price}</div>
@@ -510,15 +569,14 @@
         });
     }
 
-    function toggleSelection(item, element) {
+    function toggleSelection(item) {
         if (selectedMap.has(item.name)) {
             selectedMap.delete(item.name);
-            element.classList.remove('active');
         } else {
             selectedMap.set(item.name, item.price);
-            element.classList.add('active');
         }
         updateBottomBar();
+        renderTests();
     }
 
     function updateBottomBar() {
@@ -530,14 +588,20 @@
         document.getElementById('totalDisplay').innerText = `Total: ₹${sum.toLocaleString()}`;
     }
 
-    // Live Search Filter
-    document.getElementById('testSearchInput').addEventListener('input', function(e) {
-        const query = e.target.value.toLowerCase().trim();
-        const filtered = testData.filter(t => t.name.toLowerCase().includes(query));
-        renderTests(filtered);
+    function toggleViewAll() {
+        isViewAll = !isViewAll;
+        toggleBtn.innerHTML = isViewAll 
+            ? 'Show Less <i class="fa-solid fa-angle-up"></i>' 
+            : 'View All Tests (156) <i class="fa-solid fa-angle-down"></i>';
+        renderTests();
+    }
+
+    // Instant Search Input Event
+    searchInput.addEventListener('input', function() {
+        renderTests();
     });
 
-    // Booking Submission / Receipt WhatsApp Trigger
+    // WhatsApp Receipt Trigger
     function proceedBooking() {
         const name = document.getElementById('patientName').value.trim();
         const age = document.getElementById('patientAge').value.trim();
@@ -576,8 +640,8 @@
         window.open(`https://wa.me/916000219209?text=${message}`, '_blank');
     }
 
-    // Initial Render
-    renderTests(testData);
+    // Initial compact view
+    renderTests();
 </script>
 
 </body>
