@@ -42,7 +42,6 @@
             padding: 16px;
         }
 
-        /* Top Bar Header */
         .top-bar {
             display: flex;
             align-items: center;
@@ -94,7 +93,6 @@
             cursor: pointer;
         }
 
-        /* Hero Text */
         .badge-tag {
             font-size: 11px;
             font-weight: 700;
@@ -119,7 +117,6 @@
             margin-bottom: 18px;
         }
 
-        /* Banner Card */
         .banner-card {
             background: var(--banner-gradient);
             border-radius: 20px;
@@ -176,7 +173,6 @@
             box-shadow: 0 4px 14px rgba(0,0,0,0.18);
         }
 
-        /* Popular Tests Scroll */
         .popular-scroll {
             display: flex;
             gap: 12px;
@@ -254,7 +250,6 @@
             color: #061723;
         }
 
-        /* Dedicated Tests Box Container */
         .tests-box-wrapper {
             background: #091e2b;
             border: 1px solid var(--card-border);
@@ -280,7 +275,6 @@
             font-weight: 700;
         }
 
-        /* Instant Search Box Inside Container */
         .search-box {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -312,7 +306,6 @@
             white-space: nowrap;
         }
 
-        /* Test Card Item */
         .test-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -364,7 +357,6 @@
             margin-top: 3px;
         }
 
-        /* Vial Colour Badges */
         .vial-badge {
             font-size: 9.5px;
             font-weight: 800;
@@ -391,7 +383,6 @@
             color: var(--cyan-primary);
         }
 
-        /* Show All / Show Less Toggle Button */
         .btn-toggle-all {
             width: 100%;
             background: var(--card-bg);
@@ -409,7 +400,6 @@
             margin-top: 8px;
         }
 
-        /* Bottom Floating Multi-Test Bar */
         .bottom-floating-bar {
             position: fixed;
             bottom: 0;
@@ -447,7 +437,6 @@
             gap: 6px;
         }
 
-        /* Floating WhatsApp Button */
         .whatsapp-float {
             position: fixed;
             bottom: 85px;
@@ -466,7 +455,6 @@
             z-index: 100;
         }
 
-        /* Modal: Schedule a Home Visit */
         .modal {
             display: none;
             position: fixed;
@@ -701,7 +689,6 @@
 
 <div class="container">
     
-    <!-- Top Header -->
     <div class="top-bar">
         <a href="#" class="brand-box">
             <div class="brand-avatar"><i class="fa-solid fa-droplet"></i></div>
@@ -713,12 +700,10 @@
         <button class="btn-bell"><i class="fa-regular fa-bell"></i></button>
     </div>
 
-    <!-- Hero Titles -->
     <div class="badge-tag">YOUR HEALTH, HANDLED</div>
     <h1 class="hero-title">The care you need,<br><span>right at home.</span></h1>
     <p class="hero-sub">Safe, gentle sample collection from certified labs, whenever it suits you.</p>
 
-    <!-- Gradient Hero Banner -->
     <div class="banner-card">
         <div class="banner-tag"><i class="fa-solid fa-house-chimney-medical"></i> HOME COLLECTION</div>
         <h2>Reliable at-home<br>sample collection<br>in Golaghat.</h2>
@@ -728,11 +713,10 @@
         </button>
     </div>
 
-    <!-- Popular Tests Horizontal Scroll -->
     <div class="section-head">
         <div>
             <h3>Popular tests</h3>
-            <p style="font-size: 11.5px; color: var(--text-muted);">Most booked this week</p>
+            <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px;">Most booked this week</p>
         </div>
     </div>
 
@@ -774,24 +758,20 @@
         </div>
     </div>
 
-    <!-- Tests Search & Selection Container Box -->
     <div class="tests-box-wrapper" id="testsSection">
         <div class="tests-box-header">
             <h3>Select Tests & Packages</h3>
             <span>156 Tests</span>
         </div>
 
-        <!-- Instant Live Search Bar Inside Box -->
         <div class="search-box">
             <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
             <input type="text" id="searchInput" placeholder="Search test name (e.g. CBC, Thyroid, KFT)..." autocomplete="off">
             <span class="search-badge">Instant</span>
         </div>
 
-        <!-- Dynamic Tests List -->
         <div id="testsContainer"></div>
 
-        <!-- Show More / Less Button -->
         <button id="toggleAllBtn" class="btn-toggle-all" onclick="toggleViewAll()">
             <span>View all 156 tests</span> <i class="fa-solid fa-angle-down"></i>
         </button>
@@ -799,12 +779,11 @@
 
 </div>
 
-<!-- Floating WhatsApp Button -->
+<!-- Direct WhatsApp Chat Floating -->
 <a href="https://wa.me/916000219209" target="_blank" class="whatsapp-float">
     <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> Chat
 </a>
 
-<!-- Bottom Floating Multi-Test Bar -->
 <div class="bottom-floating-bar" id="checkoutBar">
     <div>
         <h4 id="selectedCountText">0 Tests Selected</h4>
@@ -815,7 +794,7 @@
     </button>
 </div>
 
-<!-- Schedule Modal with Age & Sex fields -->
+<!-- Modal Form -->
 <div class="modal" id="scheduleModal">
     <div class="modal-inner">
         <div class="modal-top-nav">
@@ -830,7 +809,6 @@
             <i class="fa-solid fa-location-dot"></i> Mouchumi Lab Test Blood Collection service · Golaghat
         </div>
 
-        <!-- Summary -->
         <div class="booking-summary-card">
             <div class="summary-left">
                 <div class="summary-icon"><i class="fa-solid fa-droplet"></i></div>
@@ -852,7 +830,6 @@
                 <input type="text" id="patientName" class="custom-input" placeholder="e.g. Rahul Sharma" required>
             </div>
 
-            <!-- Age & Sex Row -->
             <div class="inputs-row">
                 <div class="input-group">
                     <label>Age (বয়স) *</label>
@@ -870,7 +847,7 @@
 
             <div class="input-group">
                 <label>Phone number *</label>
-                <input type="tel" id="patientPhone" class="custom-input" placeholder="+91 98765 43210" required>
+                <input type="tel" id="patientPhone" class="custom-input" placeholder="e.g. 9876543210" required>
             </div>
 
             <div class="input-group">
@@ -884,7 +861,7 @@
             <div class="pills-row">
                 <div class="pill-btn" onclick="selectDatePill(this, 'Today')">Today</div>
                 <div class="pill-btn active" onclick="selectDatePill(this, 'Tomorrow')">Tomorrow</div>
-                <div class="pill-btn" id="thirdDatePill" onclick="selectDatePill(this, this.innerText)">Next Day</div>
+                <div class="pill-btn" id="thirdDatePill" onclick="selectDatePill(this, 'Day After Tomorrow')">Day After</div>
             </div>
 
             <div class="slot-row active" onclick="selectTimeSlot(this, '7:00 – 9:00 AM (Fasting)')">
@@ -900,7 +877,7 @@
                 <i class="fa-solid fa-circle-check"></i>
             </div>
 
-            <button type="submit" class="btn-confirm-all">
+            <button type="submit" class="btn-confirm-all" id="submitBookingBtn">
                 Confirm home collection <i class="fa-solid fa-arrow-right"></i>
             </button>
         </form>
@@ -908,7 +885,6 @@
 </div>
 
 <script>
-    // Complete 156 Tests Database with Vial Colours from PDF
     const allTests = [
         { name: "CBC", price: 400, vial: "VIOLET", popular: true },
         { name: "LIVER FUNCTION TEST", price: 800, vial: "RED", popular: true },
@@ -1096,7 +1072,6 @@
         let listToDisplay = [];
 
         if (query.length > 0) {
-            // Instant Live Search
             listToDisplay = allTests.filter(t => t.name.toLowerCase().includes(query));
             toggleBtn.style.display = 'none';
         } else {
@@ -1156,7 +1131,6 @@
         let total = 0;
         selectedTests.forEach(p => total += p);
 
-        // Update Floating Checkout Bar
         const bar = document.getElementById('checkoutBar');
         if (count > 0) {
             document.getElementById('selectedCountText').innerText = `${count} ${count === 1 ? 'Test' : 'Tests'} Selected`;
@@ -1166,7 +1140,6 @@
             bar.style.display = 'none';
         }
 
-        // Popular Cards Sync
         ['CBC', 'DIABETIC PROFILE', 'LIVER FUNCTION TEST'].forEach(pop => {
             const btn = document.getElementById(`pop-${pop}`);
             if (btn) {
@@ -1177,7 +1150,6 @@
         renderTests();
     }
 
-    // Instant Search Listener
     searchInput.addEventListener('input', function() {
         renderTests();
     });
@@ -1194,7 +1166,6 @@
         document.getElementById('testsSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Schedule Modal Operations
     function openScheduleModal() {
         if (selectedTests.size === 0) return;
 
@@ -1227,9 +1198,13 @@
         chosenSlot = slot;
     }
 
-    // WhatsApp Booking Trigger
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    // Green API Backend Integration Form Trigger
+    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
         e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBookingBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Booking in progress...';
 
         const name = document.getElementById('patientName').value.trim();
         const age = document.getElementById('patientAge').value.trim();
@@ -1244,24 +1219,49 @@
             testList.push(`• ${tName} (₹${price})`);
         });
 
-        const message = `*📋 NEW HOME COLLECTION SCHEDULED*%0A` +
-            `--------------------------------%0A` +
-            `👤 *Patient Name:* ${name}%0A` +
-            `🎂 *Age / Sex:* ${age} Yrs / ${sex}%0A` +
-            `📞 *Phone:* ${phone}%0A` +
-            `📍 *Pickup Address:* ${address}%0A` +
-            `🗓 *Date:* ${chosenDate}%0A` +
-            `⏰ *Time Slot:* ${chosenSlot}%0A` +
-            `--------------------------------%0A` +
-            `🧪 *Selected Tests (${selectedTests.size}):*%0A${testList.join('%0A')}%0A` +
-            `--------------------------------%0A` +
+        const formattedMessage = `*📋 NEW HOME COLLECTION SCHEDULED*\n` +
+            `--------------------------------\n` +
+            `👤 *Patient Name:* ${name}\n` +
+            `🎂 *Age / Sex:* ${age} Yrs / ${sex}\n` +
+            `📞 *Phone:* ${phone}\n` +
+            `📍 *Pickup Address:* ${address}\n` +
+            `🗓 *Date:* ${chosenDate}\n` +
+            `⏰ *Time Slot:* ${chosenSlot}\n` +
+            `--------------------------------\n` +
+            `🧪 *Selected Tests (${selectedTests.size}):*\n${testList.join('\n')}\n` +
+            `--------------------------------\n` +
             `💰 *Grand Total: ₹${total.toLocaleString()}*`;
 
-        window.open(`https://wa.me/916000219209?text=${message}`, '_blank');
-        closeScheduleModal();
+        try {
+            const response = await fetch('/api/book-test', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    patientPhone: phone,
+                    message: formattedMessage
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                alert('ধন্যবাদ! আপোনাৰ তেজ সংগ্ৰহৰ অনুৰোধ সফলভাৱে পঠিওৱা হ’ল। অতি সোনকালে আমি যোগাযোগ কৰিম।');
+                document.getElementById('bookingForm').reset();
+                selectedTests.clear();
+                updateUI();
+                closeScheduleModal();
+            } else {
+                alert('Error: ' + (data.message || 'মেছেজ পঠিওৱাত সমস্যা হৈছে।'));
+            }
+        } catch (err) {
+            console.error(err);
+            alert('চাৰ্ভাৰৰ লগত সংযোগ স্থাপন নহ’ল! অনুগ্ৰহ কৰি Render Settings পৰীক্ষা কৰক।');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Confirm home collection <i class="fa-solid fa-arrow-right"></i>';
+        }
     });
 
-    // Initial compact render
     renderTests();
 </script>
 
