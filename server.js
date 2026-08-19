@@ -31,8 +31,27 @@ const HTML_PAGE = `<!DOCTYPE html>
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-dark); color: var(--text-main); padding-bottom: 100px; }
-        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg-dark); position: relative; }
+        
+        /* Overscroll prevent extra bounce and white/blank space */
+        html, body { 
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            padding-bottom: 0; 
+            margin: 0;
+            overscroll-behavior-y: none;
+            overflow-x: hidden;
+        }
+        
+        .app-container { 
+            max-width: 480px; 
+            margin: 0 auto; 
+            min-height: 100vh; 
+            background: var(--bg-dark); 
+            position: relative; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
         /* Top Header */
         .top-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -43,7 +62,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         .notif-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--card-dark); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
 
         /* View Section */
-        .view-section { padding: 16px 20px 0; }
+        .view-section { padding: 16px 20px 10px; }
         .badge-tag { color: var(--accent-cyan); font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
         .hero-title { font-size: 28px; font-weight: 800; line-height: 1.15; margin-bottom: 8px; letter-spacing: -0.5px; }
         .hero-title span { color: var(--accent-cyan); }
@@ -58,7 +77,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         .banner-btn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: #0f172a; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; border: none; cursor: pointer; }
 
         /* Dedicated Tests Card Container */
-        .tests-main-container { background: #0c1d2e; border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .tests-main-container { background: #0c1d2e; border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .tests-header-area { margin-bottom: 12px; }
         .tests-header-area h3 { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 2px; }
         .tests-header-area p { font-size: 12px; color: var(--text-muted); }
@@ -70,7 +89,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         .test-search-icon { position: absolute; left: 14px; top: 14px; color: var(--accent-cyan); }
 
         /* Scrollable Tests List */
-        .tests-scroll-view { max-height: 440px; overflow-y: auto; padding-right: 4px; scroll-behavior: smooth; display: flex; flex-direction: column; gap: 10px; }
+        .tests-scroll-view { max-height: 440px; overflow-y: auto; padding-right: 4px; scroll-behavior: smooth; display: flex; flex-direction: column; gap: 10px; overscroll-behavior: contain; }
         .tests-scroll-view::-webkit-scrollbar { width: 4px; }
         .tests-scroll-view::-webkit-scrollbar-thumb { background: #1e3d5f; border-radius: 10px; }
 
@@ -96,7 +115,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         .add-action-btn.active-btn { background: var(--accent-cyan); color: #04121e; border-color: var(--accent-cyan); }
 
         /* Booking View */
-        .booking-view { display: none; padding: 0 20px; }
+        .booking-view { display: none; padding: 0 20px 20px; }
         .nav-back-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; margin-bottom: 12px; }
         .back-btn { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; }
         .step-pill { background: #164e63; color: var(--accent-cyan); font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 20px; }
@@ -139,174 +158,177 @@ const HTML_PAGE = `<!DOCTYPE html>
         .success-icon { width: 65px; height: 65px; background: rgba(16,185,129,0.15); border: 2px solid #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; color: #10b981; }
 
         /* Floating Bars */
-        .floating-cart { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 440px; background: #0369a1; border-radius: 16px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; }
+        .floating-cart { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 440px; background: #0369a1; border-radius: 16px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; }
         .cart-info h4 { font-size: 15px; font-weight: 800; color: #fff; }
         .cart-info p { font-size: 12px; color: #bae6fd; }
         .cart-next-btn { background: #fff; color: #0369a1; border: none; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; }
 
-        .wa-float { position: fixed; bottom: 85px; right: 20px; background: #22c55e; color: #fff; padding: 10px 16px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 16px rgba(34,197,94,0.3); z-index: 99; }
+        .wa-float { position: fixed; bottom: 80px; right: 20px; background: #22c55e; color: #fff; padding: 10px 16px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 16px rgba(34,197,94,0.3); z-index: 99; }
 
-        /* Footer Section */
-        .app-footer { background: #050e17; border-top: 1px solid var(--border-color); padding: 24px 20px 30px; text-align: center; margin-top: 20px; }
-        .footer-brand { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 6px; letter-spacing: -0.2px; }
-        .footer-tagline { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+        /* Compact & Neat Footer */
+        .app-footer { background: #050e17; border-top: 1px solid var(--border-color); padding: 20px 20px 24px; text-align: center; margin-top: auto; }
+        .footer-brand { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+        .footer-tagline { font-size: 11px; color: var(--text-muted); margin-bottom: 14px; }
         
-        .footer-contact-box { background: #0a1b2a; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
-        .contact-label { font-size: 11px; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
-        .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .phone-badge { color: #fff; text-decoration: none; font-size: 13px; font-weight: 700; background: #132d47; padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
+        .footer-contact-box { background: #0a1b2a; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px; margin-bottom: 14px; }
+        .contact-label { font-size: 10px; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+        .contact-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .phone-badge { color: #fff; text-decoration: none; font-size: 12px; font-weight: 700; background: #132d47; padding: 6px 10px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
 
-        .footer-social-links { display: flex; justify-content: center; gap: 10px; margin-bottom: 16px; }
-        .social-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 10px; font-size: 12px; font-weight: 700; text-decoration: none; color: #fff; }
+        .footer-social-links { display: flex; justify-content: center; gap: 10px; margin-bottom: 14px; }
+        .social-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; text-decoration: none; color: #fff; }
         .social-google { background: #1e3a5f; border: 1px solid #38bdf8; }
         .social-fb { background: #1877f2; }
 
-        .copyright-text { font-size: 11px; color: #64748b; }
+        .copyright-text { font-size: 11px; color: #64748b; margin-bottom: 0; }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Top App Header -->
-        <div class="top-nav">
-            <div class="logo-box">
-                <div class="logo-icon">💧</div>
-                <div class="logo-text">
-                    <h3>Mouchumi Lab Test Blood Collection service</h3>
-                    <p>Golaghat • At-home certified sample collection</p>
-                </div>
-            </div>
-            <div class="notif-btn">🔔</div>
-        </div>
-
-        <!-- Home View -->
-        <div id="homeView" class="view-section">
-            <div class="badge-tag">YOUR HEALTH, HANDLED</div>
-            <h1 class="hero-title">The care you need, <br><span>right at home.</span></h1>
-            <p class="hero-desc">Safe, gentle sample collection from certified labs, whenever it suits you.</p>
-
-            <div class="banner-card">
-                <div class="banner-tag">🏠 HOME COLLECTION</div>
-                <h3>Reliable at-home sample collection in Golaghat.</h3>
-                <p>Safe, gentle collection from a trusted local team.</p>
-                <button class="banner-btn" onclick="focusSearch()">Select Tests ➔</button>
-            </div>
-
-            <!-- Dedicated Tests Section with Attached Search -->
-            <div class="tests-main-container" id="testBoxContainer">
-                <div class="tests-header-area">
-                    <h3>All 156 Tests & Packages</h3>
-                    <p>Find blood, urine, or organ health tests below</p>
-                </div>
-
-                <div class="test-search-wrapper">
-                    <span class="test-search-icon">🔍</span>
-                    <input type="text" id="searchInput" placeholder="Search test name (e.g. CBC, Sugar, Lipid)...">
-                </div>
-
-                <div class="tests-scroll-view" id="testsContainer"></div>
-            </div>
-        </div>
-
-        <!-- Booking View -->
-        <div id="bookingView" class="booking-view">
-            <div class="nav-back-header">
-                <button class="back-btn" onclick="showHomeView()">←</button>
-                <h3 style="font-size: 17px; font-weight: 700;">Schedule a home visit</h3>
-                <span class="step-pill">1</span>
-            </div>
-
-            <div class="selected-summary-card">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <div style="font-size: 20px;">💧</div>
-                    <div>
-                        <div style="font-size: 11px; color: var(--accent-cyan); font-weight: 700;">SELECTED TESTS</div>
-                        <div id="bookingSelectedSummary" style="font-size: 13px; font-weight: 700; max-width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">--</div>
+        <!-- Main Scrollable Content Wrap -->
+        <div>
+            <!-- Top App Header -->
+            <div class="top-nav">
+                <div class="logo-box">
+                    <div class="logo-icon">💧</div>
+                    <div class="logo-text">
+                        <h3>Mouchumi Lab Test Blood Collection service</h3>
+                        <p>Golaghat • At-home certified sample collection</p>
                     </div>
                 </div>
-                <div id="bookingTotalSummary" style="font-size: 16px; font-weight: 800; color: #38bdf8;">₹0</div>
+                <div class="notif-btn">🔔</div>
             </div>
 
-            <form id="scheduleForm">
-                <div class="form-group">
-                    <label>Full name *</label>
-                    <div class="input-wrap">
-                        <span class="field-icon">👤</span>
-                        <input type="text" id="custName" required placeholder="Enter Patient Name">
-                    </div>
+            <!-- Home View -->
+            <div id="homeView" class="view-section">
+                <div class="badge-tag">YOUR HEALTH, HANDLED</div>
+                <h1 class="hero-title">The care you need, <br><span>right at home.</span></h1>
+                <p class="hero-desc">Safe, gentle sample collection from certified labs, whenever it suits you.</p>
+
+                <div class="banner-card">
+                    <div class="banner-tag">🏠 HOME COLLECTION</div>
+                    <h3>Reliable at-home sample collection in Golaghat.</h3>
+                    <p>Safe, gentle collection from a trusted local team.</p>
+                    <button class="banner-btn" onclick="focusSearch()">Select Tests ➔</button>
                 </div>
 
-                <div style="display: flex; gap: 10px;" class="form-group">
-                    <div style="flex:1;">
-                        <label>Age *</label>
-                        <div class="input-wrap">
-                            <span class="field-icon">🎂</span>
-                            <input type="number" id="custAge" required placeholder="Age">
+                <!-- Dedicated Tests Section with Attached Search -->
+                <div class="tests-main-container" id="testBoxContainer">
+                    <div class="tests-header-area">
+                        <h3>All 156 Tests & Packages</h3>
+                        <p>Find blood, urine, or organ health tests below</p>
+                    </div>
+
+                    <div class="test-search-wrapper">
+                        <span class="test-search-icon">🔍</span>
+                        <input type="text" id="searchInput" placeholder="Search test name (e.g. CBC, Sugar, Lipid)...">
+                    </div>
+
+                    <div class="tests-scroll-view" id="testsContainer"></div>
+                </div>
+            </div>
+
+            <!-- Booking View -->
+            <div id="bookingView" class="booking-view">
+                <div class="nav-back-header">
+                    <button class="back-btn" onclick="showHomeView()">←</button>
+                    <h3 style="font-size: 17px; font-weight: 700;">Schedule a home visit</h3>
+                    <span class="step-pill">1</span>
+                </div>
+
+                <div class="selected-summary-card">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div style="font-size: 20px;">💧</div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--accent-cyan); font-weight: 700;">SELECTED TESTS</div>
+                            <div id="bookingSelectedSummary" style="font-size: 13px; font-weight: 700; max-width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">--</div>
                         </div>
                     </div>
-                    <div style="flex:1;">
-                        <label>Sex *</label>
+                    <div id="bookingTotalSummary" style="font-size: 16px; font-weight: 800; color: #38bdf8;">₹0</div>
+                </div>
+
+                <form id="scheduleForm">
+                    <div class="form-group">
+                        <label>Full name *</label>
                         <div class="input-wrap">
-                            <span class="field-icon">⚧</span>
-                            <select id="custSex" required style="padding-left: 36px;">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
+                            <span class="field-icon">👤</span>
+                            <input type="text" id="custName" required placeholder="Enter Patient Name">
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label>Phone number *</label>
-                    <div class="input-wrap">
-                        <span class="field-icon">📞</span>
-                        <input type="tel" id="custPhone" required placeholder="WhatsApp / Phone number">
+                    <div style="display: flex; gap: 10px;" class="form-group">
+                        <div style="flex:1;">
+                            <label>Age *</label>
+                            <div class="input-wrap">
+                                <span class="field-icon">🎂</span>
+                                <input type="number" id="custAge" required placeholder="Age">
+                            </div>
+                        </div>
+                        <div style="flex:1;">
+                            <label>Sex *</label>
+                            <div class="input-wrap">
+                                <span class="field-icon">⚧</span>
+                                <select id="custSex" required style="padding-left: 36px;">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label>Pickup address *</label>
-                    <div class="input-wrap">
-                        <span class="field-icon">📍</span>
-                        <textarea id="custAddress" rows="2" required placeholder="Flat, house no, street, locality"></textarea>
+                    <div class="form-group">
+                        <label>Phone number *</label>
+                        <div class="input-wrap">
+                            <span class="field-icon">📞</span>
+                            <input type="tel" id="custPhone" required placeholder="WhatsApp / Phone number">
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label>Doctor Referral (Optional)</label>
-                    <div class="input-wrap">
-                        <span class="field-icon">🩺</span>
-                        <input type="text" id="custDoctor" placeholder="Doctor or Clinic Name">
+                    <div class="form-group">
+                        <label>Pickup address *</label>
+                        <div class="input-wrap">
+                            <span class="field-icon">📍</span>
+                            <textarea id="custAddress" rows="2" required placeholder="Flat, house no, street, locality"></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div style="margin-top: 15px; margin-bottom: 8px;">
-                    <label style="font-weight: 700; color: #fff; font-size: 14px;">Choose a date</label>
-                    <div class="pills-group" style="margin-top: 8px;">
-                        <div class="pill-btn active" onclick="selectDate(this, 'Today')">Today</div>
-                        <div class="pill-btn" onclick="selectDate(this, 'Tomorrow')">Tomorrow</div>
-                        <div class="pill-btn" onclick="selectDate(this, 'Upcoming')">Upcoming</div>
+                    <div class="form-group">
+                        <label>Doctor Referral (Optional)</label>
+                        <div class="input-wrap">
+                            <span class="field-icon">🩺</span>
+                            <input type="text" id="custDoctor" placeholder="Doctor or Clinic Name">
+                        </div>
                     </div>
-                </div>
 
-                <div style="margin-bottom: 20px;">
-                    <label style="font-weight: 700; color: #fff; font-size: 14px; margin-bottom: 8px; display:block;">Choose a time</label>
-                    <div class="slot-card active" onclick="selectTime(this, '7:00 – 9:00 AM')">
-                        <span>🕒 7:00 – 9:00 AM (Fasting Preferred)</span>
-                        <span>✔</span>
+                    <div style="margin-top: 15px; margin-bottom: 8px;">
+                        <label style="font-weight: 700; color: #fff; font-size: 14px;">Choose a date</label>
+                        <div class="pills-group" style="margin-top: 8px;">
+                            <div class="pill-btn active" onclick="selectDate(this, 'Today')">Today</div>
+                            <div class="pill-btn" onclick="selectDate(this, 'Tomorrow')">Tomorrow</div>
+                            <div class="pill-btn" onclick="selectDate(this, 'Upcoming')">Upcoming</div>
+                        </div>
                     </div>
-                    <div class="slot-card" onclick="selectTime(this, '9:00 – 11:00 AM')">
-                        <span>🕒 9:00 – 11:00 AM</span>
-                        <span></span>
-                    </div>
-                    <div class="slot-card" onclick="selectTime(this, '4:00 – 6:00 PM')">
-                        <span>🕒 4:00 – 6:00 PM</span>
-                        <span></span>
-                    </div>
-                </div>
 
-                <button type="submit" class="main-submit-btn">Review Booking Details ➔</button>
-            </form>
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-weight: 700; color: #fff; font-size: 14px; margin-bottom: 8px; display:block;">Choose a time</label>
+                        <div class="slot-card active" onclick="selectTime(this, '7:00 – 9:00 AM')">
+                            <span>🕒 7:00 – 9:00 AM (Fasting Preferred)</span>
+                            <span>✔</span>
+                        </div>
+                        <div class="slot-card" onclick="selectTime(this, '9:00 – 11:00 AM')">
+                            <span>🕒 9:00 – 11:00 AM</span>
+                            <span></span>
+                        </div>
+                        <div class="slot-card" onclick="selectTime(this, '4:00 – 6:00 PM')">
+                            <span>🕒 4:00 – 6:00 PM</span>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="main-submit-btn">Review Booking Details ➔</button>
+                </form>
+            </div>
         </div>
 
         <!-- Details Review & Confirmation Modal -->
@@ -369,7 +391,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Fixed Footer Section -->
+        <!-- Compact Bottom Footer -->
         <footer class="app-footer">
             <div class="footer-brand">Mouchumi Lab Test Blood Collection service</div>
             <div class="footer-tagline">Quality Diagnostic Care At Your Doorstep • Golaghat</div>
@@ -426,7 +448,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             { id: 10, name: "ΑΜΜΟΝΙΑ", price: 1000, vial: "VIOLET" },
             { id: 11, name: "ANTENATAL CHECK UP (ANC)", price: 2900, vial: "GREY, VIOLET & RED" },
             { id: 12, name: "ANTI CCP", price: 1600, vial: "RED" },
-            { id: 13, name: "ΑΝΤΙ ΤΡΟ", price: 2000, vial: "RED" },
+            { id: 13, name: "ΑΝ𝗧𝗜 ΤΡΟ", price: 2000, vial: "RED" },
             { id: 14, name: "ANTINUCLEAR ANTI BODY (ΑΝΑ)", price: 1000, vial: "RED" },
             { id: 15, name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: 4000, vial: "RED" },
             { id: 16, name: "APTT", price: 500, vial: "BLUE" },
