@@ -111,3 +111,1272 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouchumi Lab Test Blood Collection service · Golaghat</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #061723;
+            --card-bg: #0b2230;
+            --card-active: #0f3044;
+            --card-border: #14374b;
+            --cyan-primary: #38bdf8;
+            --cyan-accent: #0284c7;
+            --banner-gradient: linear-gradient(135deg, #0284c7 0%, #06b6d4 50%, #14b8a6 100%);
+            --whatsapp-green: #25d366;
+            --text-white: #ffffff;
+            --text-muted: #7fa1b5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            padding-bottom: 120px;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .brand-avatar {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #0284c7, #06b6d4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+        }
+        .brand-text h4 {
+            font-size: 13.5px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 250px;
+        }
+        .brand-text p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .btn-bell {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .badge-tag {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--cyan-primary);
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .hero-title {
+            font-size: 30px;
+            font-weight: 800;
+            line-height: 1.18;
+            margin-bottom: 8px;
+        }
+        .hero-title span {
+            color: var(--cyan-primary);
+        }
+        .hero-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin-bottom: 18px;
+        }
+
+        .banner-card {
+            background: var(--banner-gradient);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .banner-card::after {
+            content: "\f043";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: -15px;
+            bottom: -25px;
+            font-size: 140px;
+            color: rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+        .banner-tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .banner-card h2 {
+            font-size: 21px;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+        .banner-card p {
+            font-size: 12.5px;
+            opacity: 0.92;
+            margin-bottom: 18px;
+            line-height: 1.4;
+        }
+        .btn-banner {
+            background: #ffffff;
+            color: #061723;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 22px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+        }
+
+        .popular-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 24px;
+            scrollbar-width: none;
+        }
+        .popular-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .popular-card {
+            min-width: 175px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .popular-card.active {
+            border-color: var(--cyan-primary);
+            background: var(--card-active);
+        }
+        .pop-icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--cyan-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .pop-card-title {
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+        .pop-card-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .pop-card-foot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .pop-price {
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .pop-add-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: var(--card-active);
+            color: var(--cyan-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .popular-card.active .pop-add-btn {
+            background: var(--cyan-primary);
+            color: #061723;
+        }
+
+        .tests-box-wrapper {
+            background: #091e2b;
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+        }
+
+        .tests-box-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .tests-box-header h3 {
+            font-size: 16px;
+            font-weight: 800;
+        }
+        .tests-box-header span {
+            font-size: 12px;
+            color: var(--cyan-primary);
+            font-weight: 700;
+        }
+
+        .search-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 11px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 13.5px;
+            width: 100%;
+        }
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+        .search-badge {
+            background: var(--card-active);
+            color: var(--cyan-primary);
+            font-size: 10.5px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .test-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .test-card.active {
+            border-color: var(--cyan-primary);
+            background: var(--card-active);
+        }
+        .test-card-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        .test-card-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: rgba(56, 189, 248, 0.08);
+            color: var(--cyan-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .test-card.active .test-card-icon {
+            background: var(--cyan-primary);
+            color: #061723;
+        }
+        .test-card-info h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.25;
+        }
+        .test-card-sub {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 3px;
+        }
+
+        .vial-badge {
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .vial-violet { background: rgba(168, 85, 247, 0.18); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+        .vial-red { background: rgba(239, 68, 68, 0.18); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+        .vial-blue { background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+        .vial-grey { background: rgba(148, 163, 184, 0.18); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.4); }
+        .vial-black { background: rgba(15, 23, 42, 0.6); color: #ffffff; border: 1px solid #334155; }
+        .vial-green { background: rgba(34, 197, 94, 0.18); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
+        .vial-na { background: rgba(100, 116, 139, 0.1); color: var(--text-muted); border: 1px solid rgba(100, 116, 139, 0.2); }
+
+        .test-card-right {
+            text-align: right;
+            margin-left: 10px;
+        }
+        .test-card-right .price {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--cyan-primary);
+        }
+
+        .btn-toggle-all {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px dashed var(--card-border);
+            color: var(--cyan-primary);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .bottom-floating-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #081d2a;
+            border-top: 1px solid var(--card-border);
+            padding: 12px 18px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 150;
+            box-shadow: 0 -6px 20px rgba(0,0,0,0.4);
+        }
+        .bottom-floating-bar h4 {
+            font-size: 14px;
+            font-weight: 800;
+        }
+        .bottom-floating-bar p {
+            font-size: 12px;
+            color: var(--cyan-primary);
+            font-weight: 700;
+        }
+        .btn-proceed {
+            background: var(--cyan-primary);
+            color: #061723;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 85px;
+            right: 16px;
+            background: var(--whatsapp-green);
+            color: #ffffff;
+            padding: 9px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-main);
+            z-index: 200;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        .modal-inner {
+            max-width: 480px;
+            margin: 0 auto;
+            padding-bottom: 40px;
+        }
+        .modal-top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .btn-back-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .step-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--cyan-primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .step-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #dff2f7;
+            color: #061723;
+            font-weight: 800;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-heading {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .service-loc-badge {
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 11.5px;
+            color: var(--cyan-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .booking-summary-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .summary-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .summary-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--cyan-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .summary-text p {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .summary-text h4 {
+            font-size: 14px;
+            font-weight: 800;
+        }
+        .summary-text span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .summary-price {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--cyan-primary);
+        }
+
+        .section-label {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .section-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+        .input-group {
+            margin-bottom: 14px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+        }
+        .custom-input {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #ffffff;
+            font-size: 13.5px;
+            outline: none;
+        }
+        .custom-input:focus {
+            border-color: var(--cyan-primary);
+        }
+        .inputs-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .pills-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .pill-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .pill-btn.active {
+            background: var(--cyan-primary);
+            color: #061723;
+            border-color: var(--cyan-primary);
+        }
+
+        .slot-row {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .slot-row.active {
+            background: #0d382f;
+            border-color: #10b981;
+            color: #ffffff;
+        }
+        .slot-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .slot-row i.fa-circle-check {
+            display: none;
+            color: #10b981;
+        }
+        .slot-row.active i.fa-circle-check {
+            display: block;
+        }
+
+        .btn-confirm-all {
+            width: 100%;
+            background: var(--cyan-primary);
+            color: #061723;
+            border: none;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-bar">
+        <a href="#" class="brand-box">
+            <div class="brand-avatar"><i class="fa-solid fa-droplet"></i></div>
+            <div class="brand-text">
+                <h4>Mouchumi Lab Test Blood Collection service</h4>
+                <p>Golaghat · At-home collection</p>
+            </div>
+        </a>
+        <button class="btn-bell"><i class="fa-regular fa-bell"></i></button>
+    </div>
+
+    <div class="badge-tag">YOUR HEALTH, HANDLED</div>
+    <h1 class="hero-title">The care you need,<br><span>right at home.</span></h1>
+    <p class="hero-sub">Safe, gentle sample collection from certified labs, whenever it suits you.</p>
+
+    <div class="banner-card">
+        <div class="banner-tag"><i class="fa-solid fa-house-chimney-medical"></i> HOME COLLECTION</div>
+        <h2>Reliable at-home<br>sample collection<br>in Golaghat.</h2>
+        <p>Safe, gentle collection from a trusted local team.</p>
+        <button class="btn-banner" onclick="scrollToTests()">
+            Book a test <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <div class="section-head">
+        <div>
+            <h3>Popular tests</h3>
+            <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px;">Most booked this week</p>
+        </div>
+    </div>
+
+    <div class="popular-scroll">
+        <div class="popular-card" onclick="toggleTestSelection('CBC', 400)">
+            <div>
+                <div class="pop-icon-box"><i class="fa-solid fa-droplet"></i></div>
+                <h4 class="pop-card-title">Complete Blood Count (CBC)</h4>
+                <p class="pop-card-desc">Checks your overall health and counts cells.</p>
+            </div>
+            <div class="pop-card-foot">
+                <span class="pop-price">₹400</span>
+                <div class="pop-add-btn" id="pop-CBC"><i class="fa-solid fa-plus"></i></div>
+            </div>
+        </div>
+
+        <div class="popular-card" onclick="toggleTestSelection('DIABETIC PROFILE', 2500)">
+            <div>
+                <div class="pop-icon-box"><i class="fa-solid fa-chart-line"></i></div>
+                <h4 class="pop-card-title">Diabetes Panel</h4>
+                <p class="pop-card-desc">Track blood sugar and long-term HbA1c.</p>
+            </div>
+            <div class="pop-card-foot">
+                <span class="pop-price">₹2,500</span>
+                <div class="pop-add-btn" id="pop-DIABETIC PROFILE"><i class="fa-solid fa-plus"></i></div>
+            </div>
+        </div>
+
+        <div class="popular-card" onclick="toggleTestSelection('LIVER FUNCTION TEST', 800)">
+            <div>
+                <div class="pop-icon-box"><i class="fa-solid fa-flask"></i></div>
+                <h4 class="pop-card-title">Liver Function Test</h4>
+                <p class="pop-card-desc">Bilirubin, SGOT, SGPT & protein fractions.</p>
+            </div>
+            <div class="pop-card-foot">
+                <span class="pop-price">₹800</span>
+                <div class="pop-add-btn" id="pop-LIVER FUNCTION TEST"><i class="fa-solid fa-plus"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tests-box-wrapper" id="testsSection">
+        <div class="tests-box-header">
+            <h3>Select Tests & Packages</h3>
+            <span>156 Tests</span>
+        </div>
+
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+            <input type="text" id="searchInput" placeholder="Search test name (e.g. CBC, Thyroid, KFT)..." autocomplete="off">
+            <span class="search-badge">Instant</span>
+        </div>
+
+        <div id="testsContainer"></div>
+
+        <button id="toggleAllBtn" class="btn-toggle-all" onclick="toggleViewAll()">
+            <span>View all 156 tests</span> <i class="fa-solid fa-angle-down"></i>
+        </button>
+    </div>
+</div>
+
+<a href="https://wa.me/916000219209" target="_blank" class="whatsapp-float">
+    <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> Chat
+</a>
+
+<div class="bottom-floating-bar" id="checkoutBar">
+    <div>
+        <h4 id="selectedCountText">0 Tests Selected</h4>
+        <p id="totalPriceText">Total: ₹0</p>
+    </div>
+    <button class="btn-proceed" onclick="openScheduleModal()">
+        Book Now <i class="fa-solid fa-arrow-right"></i>
+    </button>
+</div>
+
+<!-- Modal Form -->
+<div class="modal" id="scheduleModal">
+    <div class="modal-inner">
+        <div class="modal-top-nav">
+            <button class="btn-back-circle" onclick="closeScheduleModal()"><i class="fa-solid fa-arrow-left"></i></button>
+            <div class="step-title">STEP 1 OF 1</div>
+            <div class="step-circle">1</div>
+        </div>
+
+        <h2 class="modal-heading">Schedule a home visit</h2>
+
+        <div class="service-loc-badge">
+            <i class="fa-solid fa-location-dot"></i> Mouchumi Lab Test Blood Collection service · Golaghat
+        </div>
+
+        <div class="booking-summary-card">
+            <div class="summary-left">
+                <div class="summary-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div class="summary-text">
+                    <p>YOU'RE BOOKING</p>
+                    <h4 id="modalTestNames">Select Tests</h4>
+                    <span>Home collection included</span>
+                </div>
+            </div>
+            <div class="summary-price" id="modalPrice">₹0</div>
+        </div>
+
+        <form id="bookingForm">
+            <h3 class="section-label">Your details</h3>
+            <p class="section-sub">So our phlebotomist knows who to meet.</p>
+
+            <div class="input-group">
+                <label>Full name (নাম) *</label>
+                <input type="text" id="patientName" class="custom-input" placeholder="e.g. Rahul Sharma" required>
+            </div>
+
+            <div class="inputs-row">
+                <div class="input-group">
+                    <label>Age (বয়স) *</label>
+                    <input type="number" id="patientAge" class="custom-input" placeholder="e.g. 28" min="1" max="120" required>
+                </div>
+                <div class="input-group">
+                    <label>Sex (লিংগ) *</label>
+                    <select id="patientSex" class="custom-input" style="background-color: var(--card-bg);" required>
+                        <option value="Male" selected>Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Phone number (ফোন নম্বৰ) *</label>
+                <input type="tel" id="patientPhone" class="custom-input" placeholder="e.g. 9876543210" required>
+            </div>
+
+            <div class="input-group">
+                <label>Pickup address (ঠিকনা) *</label>
+                <input type="text" id="patientAddress" class="custom-input" placeholder="Flat, building, street and locality" required>
+            </div>
+
+            <div class="input-group">
+                <label>Referred By (ডাক্তৰৰ নাম / Self)</label>
+                <input type="text" id="referredBy" class="custom-input" placeholder="e.g. Dr. B. K. Saikia / Self">
+            </div>
+
+            <h3 class="section-label" style="margin-top: 18px;">Choose a time</h3>
+            <p class="section-sub">Fasting? We recommend the morning slots.</p>
+
+            <div class="pills-row">
+                <div class="pill-btn" onclick="selectDatePill(this, 'Today')">Today</div>
+                <div class="pill-btn active" onclick="selectDatePill(this, 'Tomorrow')">Tomorrow</div>
+                <div class="pill-btn" id="thirdDatePill" onclick="selectDatePill(this, 'Day After Tomorrow')">Day After</div>
+            </div>
+
+            <div class="slot-row active" onclick="selectTimeSlot(this, '7:00 – 9:00 AM (Fasting)')">
+                <div class="slot-left"><i class="fa-regular fa-clock"></i> 7:00 – 9:00 AM (Fasting)</div>
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="slot-row" onclick="selectTimeSlot(this, '9:00 – 11:00 AM')">
+                <div class="slot-left"><i class="fa-regular fa-clock"></i> 9:00 – 11:00 AM</div>
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="slot-row" onclick="selectTimeSlot(this, '4:00 – 6:00 PM')">
+                <div class="slot-left"><i class="fa-regular fa-clock"></i> 4:00 – 6:00 PM</div>
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <button type="submit" class="btn-confirm-all" id="submitBookingBtn">
+                Confirm home collection <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const allTests = [
+        { name: "CBC", price: 400, vial: "VIOLET", popular: true },
+        { name: "LIVER FUNCTION TEST", price: 800, vial: "RED", popular: true },
+        { name: "KFT (WITH 3 PARA ELECTROLYTE)", price: 1100, vial: "RED", popular: true },
+        { name: "LIPID PROFILE", price: 800, vial: "RED", popular: true },
+        { name: "THYROID PROFILE, TOTAL", price: 700, vial: "RED", popular: true },
+        { name: "HbA1C", price: 600, vial: "VIOLET", popular: true },
+        { name: "FASTING PLASMA GLUCOSE (FBS)", price: 50, vial: "GREY", popular: true },
+        { name: "VITAMIN D", price: 1700, vial: "RED", popular: true },
+        { name: "ABO, Rh GROUPING", price: 100, vial: "VIOLET" },
+        { name: "ABSOLUTE EOSINOPHIL COUNT", price: 150, vial: "VIOLET" },
+        { name: "ABSOLUTE LYMPHOCYTE COUNT", price: 150, vial: "VIOLET" },
+        { name: "ABSOLUTE MONOCYTE COUNT", price: 150, vial: "VIOLET" },
+        { name: "ABSOLUTE NEUTROPHIL COUNT", price: 150, vial: "VIOLET" },
+        { name: "ADA - TBM", price: 750, vial: "RED" },
+        { name: "Albumin", price: 100, vial: "RED" },
+        { name: "Allergy Profile", price: 1200, vial: "VIOLET & RED" },
+        { name: "AMH", price: 2300, vial: "RED" },
+        { name: "AMMONIA", price: 1000, vial: "VIOLET" },
+        { name: "ANTENATAL CHECK UP (ANC)", price: 2900, vial: "GREY, VIOLET & RED" },
+        { name: "ANTI CCP", price: 1600, vial: "RED" },
+        { name: "ANTI TPO", price: 2000, vial: "RED" },
+        { name: "ANTINUCLEAR ANTI BODY (ANA)", price: 1000, vial: "RED" },
+        { name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: 4000, vial: "RED" },
+        { name: "APTT", price: 500, vial: "BLUE" },
+        { name: "ASO titre (By Immunoturbidity)", price: 500, vial: "RED" },
+        { name: "BAND CELL", price: 150, vial: "VIOLET" },
+        { name: "Beta HCG, Serum", price: 900, vial: "RED" },
+        { name: "BIOPSY- Small Tissue", price: 800, vial: "NA" },
+        { name: "BIOPSY- Medium Tissue", price: 1000, vial: "NA" },
+        { name: "BIOPSY- Large Tissue", price: 1200, vial: "NA" },
+        { name: "BIOPSY- Extra Large Tissue", price: 2000, vial: "NA" },
+        { name: "BLEEDING TIME / CLOTTING TIME (BT / CT)", price: 50, vial: "NA" },
+        { name: "BLOOD UREA", price: 200, vial: "RED" },
+        { name: "BUN", price: 150, vial: "RED" },
+        { name: "CPK MB", price: 1350, vial: "RED" },
+        { name: "CRP (TITRE) immunoturbidity", price: 450, vial: "RED" },
+        { name: "CA 125", price: 1600, vial: "RED" },
+        { name: "CHOLESTEROL TOTAL", price: 200, vial: "RED" },
+        { name: "COAGULATION PROFILE", price: 1200, vial: "BLUE" },
+        { name: "CSF ANALYSIS", price: 550, vial: "NA" },
+        { name: "DENGUE, Serology Test", price: 900, vial: "RED" },
+        { name: "DIABETIC PROFILE", price: 2500, vial: "GREY, VIOLET" },
+        { name: "Differential Leucocyte Count (D.L.C)", price: 150, vial: "VIOLET" },
+        { name: "DIRECT COOMBS TEST", price: 250, vial: "RED" },
+        { name: "DIRECT/INDIRECT BILIRUBIN", price: 150, vial: "RED" },
+        { name: "eGFR", price: 500, vial: "RED" },
+        { name: "ELECTROLYTE 3 (THREE) PARAMETERS", price: 600, vial: "RED" },
+        { name: "ESR", price: 100, vial: "BLACK" },
+        { name: "FERRITIN", price: 1000, vial: "RED" },
+        { name: "FERTILITY PROFILE", price: 1500, vial: "RED" },
+        { name: "FERTILITY PROFILE (MALE)", price: 2400, vial: "RED" },
+        { name: "FSH", price: 650, vial: "RED" },
+        { name: "FT3", price: 600, vial: "RED" },
+        { name: "FT4", price: 600, vial: "RED" },
+        { name: "FUNGAL SMEAR", price: 250, vial: "NA" },
+        { name: "G6PD", price: 600, vial: "VIOLET" },
+        { name: "GAMMA G. T. (GGT)", price: 400, vial: "RED" },
+        { name: "GCT WITH 75 GM GLUCOSE", price: 150, vial: "GREY" },
+        { name: "GLUCOSE TOLERENCE TEST", price: 400, vial: "GREY" },
+        { name: "GRAM STAIN", price: 150, vial: "VIOLET" },
+        { name: "H D L CHOLESTEROL", price: 350, vial: "RED" },
+        { name: "HAEMOGLOBIN (Hb)", price: 100, vial: "VIOLET" },
+        { name: "Hb TYPING", price: 1400, vial: "VIOLET" },
+        { name: "HEPATITIS A / HAV (SCREENING)", price: 600, vial: "RED" },
+        { name: "HEPATITIS B SURFACE AG (HBsAg)", price: 400, vial: "RED" },
+        { name: "HEPATITIS C (SCREENING)", price: 400, vial: "RED" },
+        { name: "HEPATITIS E (SCREENING)", price: 600, vial: "RED" },
+        { name: "HEPATITIS PANEL", price: 3500, vial: "RED" },
+        { name: "HIV (I & II) SCREENING", price: 350, vial: "RED" },
+        { name: "IMMATURE CELL", price: 150, vial: "VIOLET" },
+        { name: "INDIRECT COOMBS TEST", price: 1100, vial: "RED" },
+        { name: "IRON", price: 500, vial: "RED" },
+        { name: "IRON & TIBC", price: 750, vial: "RED" },
+        { name: "IRON & UIBC", price: 750, vial: "RED" },
+        { name: "IRON PROFILE", price: 1500, vial: "RED" },
+        { name: "KOH TEST FOR SKIN & NAILS", price: 300, vial: "NA" },
+        { name: "LDH", price: 650, vial: "RED" },
+        { name: "Leptospira (IgM/IgG)", price: 600, vial: "RED" },
+        { name: "LH", price: 650, vial: "RED" },
+        { name: "LIPASE", price: 500, vial: "RED" },
+        { name: "M.P. By Slide Method / PBF FOR MP", price: 250, vial: "VIOLET" },
+        { name: "MALARIA PF/PV CARD RAPID TEST", price: 250, vial: "VIOLET" },
+        { name: "MALIGNANT CELL", price: 550, vial: "VIOLET" },
+        { name: "MICROALBUMIN, Spot Urine", price: 600, vial: "NA" },
+        { name: "NT PRO BNP", price: 1750, vial: "RED" },
+        { name: "PBS FOR CELL MORPHOLOGY", price: 250, vial: "VIOLET" },
+        { name: "PLATELET COUNT", price: 100, vial: "VIOLET" },
+        { name: "PLEURAL FLUID ANALYSIS: PHYSICAL, CHEMICAL AND MICROSCOPIC", price: 850, vial: "PF" },
+        { name: "PLEURAL FLUID ANALYSIS: CYTOLOGICAL", price: 500, vial: "PF" },
+        { name: "PLEURAL FLUID ANALYSIS: ADA", price: 650, vial: "PF" },
+        { name: "PLEURAL FLUID ANALYSIS: LH", price: 400, vial: "PF" },
+        { name: "POST PRANDIAL PLASMA GLUCOSE (PPBS)", price: 50, vial: "GREY" },
+        { name: "PROLACTIN", price: 900, vial: "RED" },
+        { name: "PROTHROMBIN TIME (PT INR)", price: 400, vial: "BLUE" },
+        { name: "PSA", price: 1050, vial: "RED" },
+        { name: "QUANTI FERON", price: 1800, vial: "GREEN" },
+        { name: "QUANTITATIVE HBsAg", price: 600, vial: "RED" },
+        { name: "QUANTITATIVE HCV", price: 600, vial: "RED" },
+        { name: "QUANTITATIVE HIV", price: 600, vial: "RED" },
+        { name: "R.A FACTOR", price: 250, vial: "RED" },
+        { name: "RANDOM PLASMA GLUCOSE (RBS)", price: 100, vial: "GREY" },
+        { name: "RETICULOCYTE COUNT", price: 300, vial: "VIOLET" },
+        { name: "Rh ANTIBODY TITRE", price: 650, vial: "VIOLET" },
+        { name: "ROUTINE EXAM.OF BLOOD", price: 300, vial: "VIOLET" },
+        { name: "Scrub typhus (IgM/IgG)", price: 500, vial: "RED" },
+        { name: "SGOT / AST", price: 150, vial: "RED" },
+        { name: "SGPT / ALT", price: 150, vial: "RED" },
+        { name: "SEMEN ANALYSIS", price: 500, vial: "NA" },
+        { name: "Sepsis Screen", price: 800, vial: "VIOLET & RED" },
+        { name: "SERUM ALK. PHOSPHATASE", price: 200, vial: "RED" },
+        { name: "SERUM AMYLASE", price: 450, vial: "RED" },
+        { name: "SERUM BILIRUBIN, TOTAL", price: 150, vial: "RED" },
+        { name: "SERUM CALCIUM", price: 250, vial: "RED" },
+        { name: "SERUM C-PEPTIDE", price: 1000, vial: "RED" },
+        { name: "SERUM CHLORIDE", price: 250, vial: "RED" },
+        { name: "SERUM CREATININE", price: 150, vial: "RED" },
+        { name: "SERUM IgE", price: 900, vial: "RED" },
+        { name: "SERUM MAGNESIUM", price: 500, vial: "RED" },
+        { name: "SERUM PHOSPHATE", price: 350, vial: "RED" },
+        { name: "SERUM PHOSPHORUS", price: 500, vial: "RED" },
+        { name: "SERUM POTASSIUM (K)", price: 250, vial: "RED" },
+        { name: "SERUM SODIUM (Na)", price: 250, vial: "RED" },
+        { name: "SPUTUM AFB (Z.N. STAIN)", price: 250, vial: "NA" },
+        { name: "Sputum AFB Culture", price: 1100, vial: "NA" },
+        { name: "STOOL for Culture and Sensitivity", price: 600, vial: "NA" },
+        { name: "STOOL FOR OCCULT BLOOD", price: 150, vial: "NA" },
+        { name: "STOOL R E", price: 150, vial: "NA" },
+        { name: "T3", price: 400, vial: "RED" },
+        { name: "T4", price: 400, vial: "RED" },
+        { name: "TESTOSTEORNE-FREE", price: 2600, vial: "RED" },
+        { name: "TESTOSTERONE - TOTAL", price: 900, vial: "RED" },
+        { name: "TORCH PANEL (10 PROFILE)", price: 3000, vial: "RED" },
+        { name: "TOTAL PROTEIN & FRACTION", price: 300, vial: "RED" },
+        { name: "TOTAL R B C COUNT", price: 100, vial: "VIOLET" },
+        { name: "TOTAL W B C COUNT (T C)", price: 100, vial: "VIOLET" },
+        { name: "TOXO TEST (IgM & IgG)", price: 1500, vial: "RED" },
+        { name: "TRIGLYCERIDE", price: 250, vial: "RED" },
+        { name: "TROPONIN I TEST", price: 1250, vial: "RED" },
+        { name: "TROPONIN T TEST", price: 1300, vial: "RED" },
+        { name: "TSH", price: 400, vial: "RED" },
+        { name: "TYPHIDOT", price: 350, vial: "RED" },
+        { name: "URIC ACID", price: 150, vial: "RED" },
+        { name: "Urine Albumin", price: 100, vial: "NA" },
+        { name: "URINE CULTURE", price: 350, vial: "NA" },
+        { name: "URINE FOR ACR", price: 600, vial: "NA" },
+        { name: "URINE PREGNANCY TEST / beta HCG", price: 150, vial: "NA" },
+        { name: "URINE PROTEIN 24 HOURS", price: 350, vial: "NA" },
+        { name: "URINE R.E.", price: 150, vial: "NA" },
+        { name: "Urine Sugar", price: 100, vial: "NA" },
+        { name: "VDRL KIT", price: 400, vial: "RED" },
+        { name: "Vitamin A", price: 4000, vial: "RED" },
+        { name: "Vitamin B12", price: 1500, vial: "RED" },
+        { name: "Vitamin C", price: 3500, vial: "RED" },
+        { name: "Vitamin E", price: 2500, vial: "RED" },
+        { name: "Vitamin K", price: 4500, vial: "RED" },
+        { name: "WIDAL TEST", price: 250, vial: "RED" }
+    ];
+
+    let selectedTests = new Map();
+    let isViewAll = false;
+    let chosenDate = "Tomorrow";
+    let chosenSlot = "7:00 – 9:00 AM (Fasting)";
+
+    const container = document.getElementById('testsContainer');
+    const toggleBtn = document.getElementById('toggleAllBtn');
+    const searchInput = document.getElementById('searchInput');
+
+    function getVialBadgeClass(vial) {
+        const v = (vial || "").toUpperCase();
+        if (v.includes('VIOLET')) return 'vial-violet';
+        if (v.includes('RED')) return 'vial-red';
+        if (v.includes('BLUE')) return 'vial-blue';
+        if (v.includes('GREY')) return 'vial-grey';
+        if (v.includes('BLACK')) return 'vial-black';
+        if (v.includes('GREEN')) return 'vial-green';
+        return 'vial-na';
+    }
+
+    function renderTests() {
+        const query = searchInput.value.toLowerCase().trim();
+        container.innerHTML = '';
+
+        let listToDisplay = [];
+
+        if (query.length > 0) {
+            listToDisplay = allTests.filter(t => t.name.toLowerCase().includes(query));
+            toggleBtn.style.display = 'none';
+        } else {
+            toggleBtn.style.display = 'flex';
+            if (isViewAll) {
+                const selected = allTests.filter(t => selectedTests.has(t.name));
+                const unselected = allTests.filter(t => !selectedTests.has(t.name));
+                listToDisplay = [...selected, ...unselected];
+            } else {
+                const selected = allTests.filter(t => selectedTests.has(t.name));
+                const popular = allTests.filter(t => t.popular && !selectedTests.has(t.name));
+                listToDisplay = [...selected, ...popular];
+            }
+        }
+
+        if (listToDisplay.length === 0) {
+            container.innerHTML = '<p style="text-align:center; padding:16px; font-size:12.5px; color:var(--text-muted);">No tests found.</p>';
+            return;
+        }
+
+        listToDisplay.forEach(test => {
+            const isSelected = selectedTests.has(test.name);
+            const badgeClass = getVialBadgeClass(test.vial);
+            const card = document.createElement('div');
+            card.className = `test-card ${isSelected ? 'active' : ''}`;
+            card.onclick = () => toggleTestSelection(test.name, test.price);
+
+            card.innerHTML = `
+                <div class="test-card-left">
+                    <div class="test-card-icon"><i class="fa-solid ${isSelected ? 'fa-check' : 'fa-flask-vial'}"></i></div>
+                    <div class="test-card-info">
+                        <h4>${test.name}</h4>
+                        <div class="test-card-sub">
+                            <span class="vial-badge ${badgeClass}">${test.vial || 'NA'}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="test-card-right">
+                    <span class="price">₹${test.price.toLocaleString()}</span>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function toggleTestSelection(name, price) {
+        if (selectedTests.has(name)) {
+            selectedTests.delete(name);
+        } else {
+            selectedTests.set(name, price);
+        }
+        updateUI();
+    }
+
+    function updateUI() {
+        const count = selectedTests.size;
+        let total = 0;
+        selectedTests.forEach(p => total += p);
+
+        const bar = document.getElementById('checkoutBar');
+        if (count > 0) {
+            document.getElementById('selectedCountText').innerText = `${count} ${count === 1 ? 'Test' : 'Tests'} Selected`;
+            document.getElementById('totalPriceText').innerText = `Total: ₹${total.toLocaleString()}`;
+            bar.style.display = 'flex';
+        } else {
+            bar.style.display = 'none';
+        }
+
+        ['CBC', 'DIABETIC PROFILE', 'LIVER FUNCTION TEST'].forEach(pop => {
+            const btn = document.getElementById(`pop-${pop}`);
+            if (btn) {
+                btn.innerHTML = selectedTests.has(pop) ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-plus"></i>';
+            }
+        });
+
+        renderTests();
+    }
+
+    searchInput.addEventListener('input', function() {
+        renderTests();
+    });
+
+    function toggleViewAll() {
+        isViewAll = !isViewAll;
+        toggleBtn.innerHTML = isViewAll 
+            ? '<span>Show less tests</span> <i class="fa-solid fa-angle-up"></i>' 
+            : '<span>View all 156 tests</span> <i class="fa-solid fa-angle-down"></i>';
+        renderTests();
+    }
+
+    function scrollToTests() {
+        document.getElementById('testsSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openScheduleModal() {
+        if (selectedTests.size === 0) return;
+
+        let total = 0;
+        const testNames = Array.from(selectedTests.keys());
+        selectedTests.forEach(p => total += p);
+
+        document.getElementById('modalTestNames').innerText = testNames.length > 1 
+            ? `${testNames[0]} + ${testNames.length - 1} more` 
+            : testNames[0];
+
+        document.getElementById('modalPrice').innerText = `₹${total.toLocaleString()}`;
+        document.getElementById('scheduleModal').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    function closeScheduleModal() {
+        document.getElementById('scheduleModal').style.display = 'none';
+    }
+
+    function selectDatePill(element, val) {
+        document.querySelectorAll('.pill-btn').forEach(p => p.classList.remove('active'));
+        element.classList.add('active');
+        chosenDate = val;
+    }
+
+    function selectTimeSlot(element, slot) {
+        document.querySelectorAll('.slot-row').forEach(s => s.classList.remove('active'));
+        element.classList.add('active');
+        chosenSlot = slot;
+    }
+
+    // Backend Green API Integration
+    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBookingBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Booking in progress...';
+
+        const name = document.getElementById('patientName').value.trim();
+        const age = document.getElementById('patientAge').value.trim();
+        const sex = document.getElementById('patientSex').value;
+        const phone = document.getElementById('patientPhone').value.trim();
+        const address = document.getElementById('patientAddress').value.trim();
+        const referredBy = document.getElementById('referredBy').value.trim() || 'Self (নিজাববীয়াকৈ)';
+
+        let total = 0;
+        const testList = [];
+        selectedTests.forEach((price, tName) => {
+            total += price;
+            testList.push(`• ${tName} (₹${price})`);
+        });
+
+        const formattedMessage = `*📋 NEW HOME COLLECTION SCHEDULED*\n` +
+            `--------------------------------\n` +
+            `👤 *Patient Name:* ${name}\n` +
+            `🎂 *Age / Sex:* ${age} Yrs / ${sex}\n` +
+            `📞 *Phone:* ${phone}\n` +
+            `📍 *Pickup Address:* ${address}\n` +
+            `🩺 *Referred By:* ${referredBy}\n` +
+            `🗓 *Date:* ${chosenDate}\n` +
+            `⏰ *Time Slot:* ${chosenSlot}\n` +
+            `--------------------------------\n` +
+            `🧪 *Selected Tests (${selectedTests.size}):*\n${testList.join('\n')}\n` +
+            `--------------------------------\n` +
+            `💰 *Grand Total: ₹${total.toLocaleString()}*`;
+
+        try {
+            const response = await fetch('/api/book-test', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: formattedMessage })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                alert('ধন্যবাদ! আপোনাৰ তেজ সংগ্ৰহৰ অনুৰোধ সফলভাৱে পঠিওৱা হ’ল। অতি সোনকালে আমি যোগাযোগ কৰিম।');
+                document.getElementById('bookingForm').reset();
+                selectedTests.clear();
+                updateUI();
+                closeScheduleModal();
+            } else {
+                alert('মেছেজ পঠিওৱাত সমস্যা হৈছে: ' + (data.message || 'Error occurred'));
+            }
+        } catch (err) {
+            console.error(err);
+            alert('চাৰ্ভাৰৰ লগত সংযোগ নহ’ল! অনুগ্ৰহ কৰি পেজটো Refresh কৰক।');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Confirm home collection <i class="fa-solid fa-arrow-right"></i>';
+        }
+    });
+
+    renderTests();
+</script>
+
+</body>
+</html>
