@@ -1,647 +1,819 @@
 <!DOCTYPE html>
-<html lang="as">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouchumi Lab Test Blood Collection service</title>
+    <title>Mouchumi Lab Test Blood Collection service · Golaghat</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-page: #f0f4f8;
-            --card-bg: #ffffff;
-            --primary-blue: #0284c7;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --btn-green: #5ea828;
-            --footer-bg: #032b5f;
-            --active-border: #38d39f;
+            --bg-dark: #071924;
+            --card-bg: #0e2938;
+            --card-active: #143e52;
+            --border-color: #174359;
+            --cyan-primary: #38bdf8;
+            --cyan-accent: #0284c7;
+            --banner-gradient: linear-gradient(135deg, #0d7490 0%, #0891b2 50%, #06b6d4 100%);
+            --whatsapp-green: #25d366;
+            --slot-green: #0f3d35;
+            --slot-green-border: #10b981;
+            --text-white: #ffffff;
+            --text-muted: #8eb3c7;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-page); color: var(--text-dark); padding: 14px 12px 100px 12px; }
-        .container { max-width: 460px; margin: 0 auto; }
+        body { background-color: var(--bg-dark); color: var(--text-white); padding-bottom: 120px; }
+        .container { max-width: 480px; margin: 0 auto; padding: 16px; }
 
-        /* Card Section */
-        .section-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 14px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        /* Top Header */
+        .top-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .brand-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .brand-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #0284c7, #06b6d4);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; color: #fff;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
         }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 15px;
-            font-weight: 700;
-            color: #0f172a;
-        }
-        .card-title i { color: var(--primary-blue); font-size: 17px; }
-
-        /* Form Inputs */
-        .form-group { margin-bottom: 12px; }
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 6px;
-        }
-        .form-input {
-            width: 100%;
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 13px;
-            color: #1e293b;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .form-input:focus {
-            background: #fff;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
-        }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-        /* Search Input Box */
-        .search-box-wrap {
-            position: relative;
-            margin-bottom: 12px;
-        }
-        .search-box-wrap i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 14px;
-        }
-        .search-box-wrap input {
-            width: 100%;
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 11px 12px 11px 36px;
-            font-size: 13.5px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .search-box-wrap input:focus {
-            background: #fff;
-            border-color: var(--primary-blue);
+        .brand-text h4 { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
+        .brand-text p { font-size: 11px; color: var(--text-muted); }
+        .btn-bell {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+            font-size: 15px; cursor: pointer;
         }
 
-        /* Test Box Item */
-        .tests-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .test-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 14px;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-        .test-box.active {
-            background: #f0fdf4;
-            border-color: var(--active-border);
-        }
+        /* Hero Text */
+        .badge-tag { font-size: 11px; font-weight: 700; color: var(--cyan-primary); letter-spacing: 0.8px; margin-bottom: 6px; text-transform: uppercase; }
+        .hero-title { font-size: 30px; font-weight: 800; line-height: 1.15; margin-bottom: 6px; }
+        .hero-title span { color: var(--cyan-primary); }
+        .hero-sub { font-size: 13px; color: var(--text-muted); line-height: 1.4; margin-bottom: 18px; }
 
-        .test-box-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
+        /* Live Search Box */
+        .search-container {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 12px 16px;
+            display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+            position: sticky; top: 10px; z-index: 20; backdrop-filter: blur(12px);
         }
-        .custom-checkbox {
-            width: 19px;
-            height: 19px;
-            border: 1.5px solid #94a3b8;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            color: transparent;
-            background: #fff;
-            flex-shrink: 0;
+        .search-container input {
+            background: transparent; border: none; outline: none;
+            color: #fff; font-size: 14px; width: 100%;
         }
-        .test-box.active .custom-checkbox {
-            background: var(--btn-green);
-            border-color: var(--btn-green);
-            color: #fff;
-        }
-
-        .test-details {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-        .test-name {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: #1e293b;
-            line-height: 1.25;
-        }
-        .sub-details {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Badges */
-        .vial-badge {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-        .vial-violet { background: #f3e8ff; color: #9333ea; }
-        .vial-red { background: #fee2e2; color: #ef4444; }
-        .vial-blue { background: #e0f2fe; color: #0284c7; }
-        .vial-grey { background: #f1f5f9; color: #64748b; }
-        .vial-black { background: #334155; color: #ffffff; }
-        .vial-green { background: #dcfce7; color: #16a34a; }
-        .vial-na { background: #f8fafc; color: #94a3b8; border: 1px solid #e2e8f0; }
-
-        .test-price {
-            font-size: 14px;
-            font-weight: 800;
-            color: #0284c7;
-            margin-left: 10px;
+        .search-container input::placeholder { color: var(--text-muted); }
+        .key-badge {
+            background: var(--card-active); color: var(--cyan-primary);
+            font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 700;
             white-space: nowrap;
         }
 
-        /* Show All Toggle Button */
-        .btn-toggle-view {
-            width: 100%;
-            background: #f1f5f9;
-            color: #475569;
-            border: 1px dashed #cbd5e1;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 12.5px;
-            font-weight: 700;
-            margin-top: 10px;
-            cursor: pointer;
-            text-align: center;
+        /* Gradient Banner Card */
+        .hero-banner {
+            background: var(--banner-gradient);
+            border-radius: 20px; padding: 22px; margin-bottom: 24px;
+            position: relative; overflow: hidden;
         }
-        .btn-toggle-view:hover {
-            background: #e2e8f0;
+        .hero-banner::after {
+            content: "\f043"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; right: -15px; bottom: -25px; font-size: 140px;
+            color: rgba(255, 255, 255, 0.08); pointer-events: none;
+        }
+        .banner-chip { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .hero-banner h2 { font-size: 22px; font-weight: 800; line-height: 1.25; margin-bottom: 8px; }
+        .hero-banner p { font-size: 12.5px; opacity: 0.9; margin-bottom: 18px; line-height: 1.4; }
+        .btn-book-hero {
+            background: #ffffff; color: #071924; border: none;
+            padding: 10px 20px; border-radius: 22px; font-weight: 700; font-size: 13px;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
+        /* Section Headings */
+        .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .section-head h3 { font-size: 17px; font-weight: 800; }
+        .section-head a { font-size: 12px; color: var(--cyan-primary); text-decoration: none; font-weight: 700; }
+
+        /* Horizontal Popular Tests Scroll */
+        .popular-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 24px; scrollbar-width: none; }
+        .popular-scroll::-webkit-scrollbar { display: none; }
+        .popular-card {
+            min-width: 170px; background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .popular-card.active { border-color: var(--cyan-primary); background: var(--card-active); }
+        .pop-icon-box {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: rgba(56, 189, 248, 0.12); color: var(--cyan-primary);
+            display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 12px;
+        }
+        .pop-card-title { font-size: 13px; font-weight: 700; line-height: 1.3; margin-bottom: 4px; }
+        .pop-card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.3; }
+        .pop-card-foot { display: flex; align-items: center; justify-content: space-between; }
+        .pop-price { font-size: 14px; font-weight: 800; color: #fff; }
+        .pop-add-btn {
+            width: 26px; height: 26px; border-radius: 8px;
+            background: var(--card-active); color: var(--cyan-primary);
+            display: flex; align-items: center; justify-content: center; font-size: 12px;
+        }
+        .popular-card.active .pop-add-btn { background: var(--cyan-primary); color: #071924; }
+
+        /* Info Banner */
+        .select-info-bar {
+            background: rgba(56, 189, 248, 0.07); border: 1px dashed var(--border-color);
+            border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .select-info-bar-left { display: flex; align-items: center; gap: 10px; }
+        .select-info-bar-left i { color: var(--cyan-primary); font-size: 15px; }
+        .select-info-bar p { font-size: 12px; font-weight: 600; color: #e0f2fe; }
+        .select-info-bar span { font-size: 11px; color: var(--text-muted); }
+
+        /* Test List Item Card */
+        .test-card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 14px 16px; display: flex; align-items: center;
+            justify-content: space-between; margin-bottom: 10px; cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .test-card.active { border-color: var(--cyan-primary); background: var(--card-active); }
+        .test-card-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .test-card-icon {
+            width: 38px; height: 38px; border-radius: 10px;
+            background: rgba(56, 189, 248, 0.08); color: var(--cyan-primary);
+            display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
+        }
+        .test-card-info h4 { font-size: 13.5px; font-weight: 700; color: #fff; line-height: 1.25; }
+        .test-card-info p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+        .test-card-right { text-align: right; margin-left: 10px; }
+        .test-card-right .price { font-size: 14px; font-weight: 800; color: var(--cyan-primary); }
+
         /* Bottom Floating Bar */
-        .bottom-bar {
-            position: fixed;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 24px);
-            max-width: 440px;
-            background: var(--footer-bg);
-            border-radius: 14px;
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #fff;
-            box-shadow: 0 8px 24px rgba(3, 43, 95, 0.35);
-            z-index: 100;
+        .bottom-floating-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #0a2332; border-top: 1px solid var(--border-color);
+            padding: 12px 18px; display: none; justify-content: space-between; align-items: center;
+            z-index: 150; box-shadow: 0 -6px 20px rgba(0,0,0,0.4);
         }
-        .bottom-bar-left p {
-            font-size: 11px;
-            color: #93c5fd;
-            margin-bottom: 2px;
+        .bottom-floating-bar h4 { font-size: 14px; font-weight: 800; }
+        .bottom-floating-bar p { font-size: 12px; color: var(--cyan-primary); font-weight: 700; }
+        .btn-proceed {
+            background: var(--cyan-primary); color: #071924; border: none;
+            padding: 11px 22px; border-radius: 12px; font-size: 13.5px; font-weight: 800;
+            cursor: pointer; display: flex; align-items: center; gap: 6px;
         }
-        .bottom-bar-left h3 {
-            font-size: 17px;
-            font-weight: 800;
+
+        /* Floating WhatsApp */
+        .whatsapp-float {
+            position: fixed; bottom: 85px; right: 16px;
+            background: var(--whatsapp-green); color: #fff; padding: 9px 18px; border-radius: 30px;
+            display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700;
+            text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100;
         }
-        .btn-receipt {
-            background: var(--btn-green);
-            color: #ffffff;
-            border: none;
-            border-radius: 10px;
-            padding: 11px 18px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+
+        /* Modal: Schedule a home visit */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark); z-index: 200; overflow-y: auto; padding: 16px;
         }
-        .btn-receipt:active { transform: scale(0.97); }
+        .modal-inner { max-width: 480px; margin: 0 auto; padding-bottom: 40px; }
+        .modal-top-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .btn-back-circle {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .step-title { font-size: 11px; font-weight: 700; color: var(--cyan-primary); letter-spacing: 0.5px; text-transform: uppercase; }
+        .step-circle {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: #dff2f7; color: #071924; font-weight: 800; font-size: 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .modal-heading { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+
+        .service-loc-badge {
+            background: rgba(56, 189, 248, 0.08); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 8px 12px; font-size: 11.5px; color: var(--cyan-primary);
+            display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
+        }
+
+        .booking-summary-card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 14px; margin-bottom: 22px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .summary-left { display: flex; align-items: center; gap: 12px; }
+        .summary-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: rgba(56, 189, 248, 0.12); color: var(--cyan-primary);
+            display: flex; align-items: center; justify-content: center; font-size: 18px;
+        }
+        .summary-text p { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        .summary-text h4 { font-size: 14px; font-weight: 800; }
+        .summary-text span { font-size: 11px; color: var(--text-muted); }
+        .summary-price { font-size: 17px; font-weight: 800; color: var(--cyan-primary); }
+
+        /* Form Details */
+        .section-label { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+        .section-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
+        .input-group { margin-bottom: 14px; }
+        .input-group label { display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px; }
+        .custom-input {
+            width: 100%; background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 12px 14px; color: #fff; font-size: 13.5px; outline: none;
+        }
+        .custom-input:focus { border-color: var(--cyan-primary); }
+
+        /* Time / Date Selection Pills */
+        .pills-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+        .pill-btn {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 10px 6px; text-align: center;
+            font-size: 12.5px; font-weight: 700; color: #fff; cursor: pointer;
+        }
+        .pill-btn.active { background: var(--cyan-primary); color: #071924; border-color: var(--cyan-primary); }
+
+        .slot-row {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 12px 14px; display: flex; align-items: center;
+            justify-content: space-between; margin-bottom: 8px; cursor: pointer;
+        }
+        .slot-row.active {
+            background: var(--slot-green); border-color: var(--slot-green-border); color: #fff;
+        }
+        .slot-left { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; }
+        .slot-row i.fa-circle-check { display: none; color: #10b981; }
+        .slot-row.active i.fa-circle-check { display: block; }
+
+        /* Prescription Box */
+        .prescription-box {
+            background: var(--card-bg); border: 1px dashed var(--border-color);
+            border-radius: 14px; padding: 14px; display: flex; align-items: center;
+            justify-content: space-between; margin-top: 14px; margin-bottom: 20px; cursor: pointer;
+        }
+        .prescription-left { display: flex; align-items: center; gap: 12px; }
+        .pres-icon {
+            width: 38px; height: 38px; border-radius: 10px;
+            background: rgba(56, 189, 248, 0.1); color: var(--cyan-primary);
+            display: flex; align-items: center; justify-content: center; font-size: 16px;
+        }
+        .prescription-text h5 { font-size: 13px; font-weight: 700; }
+        .prescription-text p { font-size: 11px; color: var(--text-muted); }
+
+        .btn-confirm-all {
+            width: 100%; background: var(--cyan-primary); color: #071924;
+            border: none; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 800;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .security-badge { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<!-- HOME SCREEN -->
+<div class="container" id="homeView">
     
-    <!-- Patient Details Card -->
-    <div class="section-card">
-        <div class="card-header">
-            <div class="card-title">
-                <i class="fa-solid fa-user"></i> ৰোগীৰ বিৱৰণ (Patient Details)
+    <!-- Top Header -->
+    <div class="top-header">
+        <a href="#" class="brand-link">
+            <div class="brand-icon"><i class="fa-solid fa-droplet"></i></div>
+            <div class="brand-text">
+                <h4>Mouchumi Lab Test Blood Collection...</h4>
+                <p>Golaghat · At-home collection</p>
             </div>
-            <i class="fa-solid fa-rotate-right" style="color: var(--primary-blue); font-size: 14px; cursor: pointer;" onclick="document.getElementById('patientForm').reset()"></i>
-        </div>
-
-        <form id="patientForm">
-            <div class="form-group">
-                <label>Patient Full Name *</label>
-                <input type="text" id="patientName" class="form-input" placeholder="ৰোগীৰ সম্পূৰ্ণ নাম" required>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Age *</label>
-                    <input type="number" id="patientAge" class="form-input" placeholder="বয়স" required>
-                </div>
-                <div class="form-group">
-                    <label>Sex *</label>
-                    <select id="patientSex" class="form-input" required>
-                        <option value="Male" selected>Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Phone Number *</label>
-                <input type="tel" id="patientPhone" class="form-input" placeholder="ফোন নম্বৰ" required>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 0;">
-                <label>Address / Collection Location *</label>
-                <input type="text" id="patientAddress" class="form-input" placeholder="নমুনা সংগ্ৰহ কৰিবলগীয়া সম্পূৰ্ণ ঠিকনা" required>
-            </div>
-        </form>
+        </a>
+        <button class="btn-bell"><i class="fa-regular fa-bell"></i></button>
     </div>
 
-    <!-- Test Selection Card -->
-    <div class="section-card">
-        <div class="card-header" style="margin-bottom: 12px;">
-            <div class="card-title">
-                <i class="fa-solid fa-vial"></i> টেষ্ট বাচনি কৰক (Select Tests)
-            </div>
-        </div>
+    <!-- Hero Titles -->
+    <div class="badge-tag">YOUR HEALTH, HANDLED</div>
+    <h1 class="hero-title">The care you need,<br><span>right at home.</span></h1>
+    <p class="hero-sub">Safe, gentle sample collection from certified labs, whenever it suits you.</p>
 
-        <!-- Live Instant Search Box -->
-        <div class="search-box-wrap">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="testSearchInput" placeholder="টেষ্টৰ নাম বিচাৰক (e.g. CBC, Thyroid, KFT)..." autocomplete="off">
-        </div>
+    <!-- Sticky Live Search Bar -->
+    <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+        <input type="text" id="searchInput" placeholder="Search for a test or package...">
+        <span class="key-badge">⌘ K</span>
+    </div>
 
-        <!-- Dynamic Tests List (Box Format) -->
-        <div class="tests-list" id="testsContainer"></div>
-
-        <!-- Toggle Button for Full List -->
-        <button id="toggleBtn" class="btn-toggle-view" onclick="toggleViewAll()">
-            View All Tests (156) <i class="fa-solid fa-angle-down"></i>
+    <!-- Gradient Hero Banner -->
+    <div class="hero-banner">
+        <div class="banner-chip"><i class="fa-solid fa-house-chimney-medical"></i> HOME COLLECTION</div>
+        <h2>Reliable at-home<br>sample collection<br>in Golaghat.</h2>
+        <p>Safe, gentle collection from a trusted local team.</p>
+        <button class="btn-book-hero" onclick="scrollToTests()">
+            Book a test <i class="fa-solid fa-arrow-right"></i>
         </button>
     </div>
 
+    <!-- Popular Tests Section -->
+    <div class="section-head">
+        <div>
+            <h3>Popular tests</h3>
+            <p style="font-size: 11.5px; color: var(--text-muted);">Most booked this week</p>
+        </div>
+        <a href="#allTestsSection" onclick="scrollToTests()">View all</a>
+    </div>
+
+    <div class="popular-scroll">
+        <div class="popular-card" onclick="toggleTestSelection('CBC', 400)">
+            <div>
+                <div class="pop-icon-box"><i class="fa-solid fa-droplet"></i></div>
+                <h4 class="pop-card-title">Complete Blood Count (CBC)</h4>
+                <p class="pop-card-desc">Checks your overall health and counts cells.</p>
+            </div>
+            <div class="pop-card-foot">
+                <span class="pop-price">₹400</span>
+                <div class="pop-add-btn" id="pop-CBC"><i class="fa-solid fa-plus"></i></div>
+            </div>
+        </div>
+
+        <div class="popular-card" onclick="toggleTestSelection('DIABETIC PROFILE', 2500)">
+            <div>
+                <div class="pop-icon-box"><i class="fa-solid fa-chart-line"></i></div>
+                <h4 class="pop-card-title">Diabetes Panel</h4>
+                <p class="pop-card-desc">Track blood sugar and long-term HbA1c.</p>
+            </div>
+            <div class="pop-card-foot">
+                <span class="pop-price">₹2,500</span>
+                <div class="pop-add-btn" id="pop-DIABETIC PROFILE"><i class="fa-solid fa-plus"></i></div>
+            </div>
+        </div>
+
+        <div class="popular-card" onclick="toggleTestSelection('LIVER FUNCTION TEST', 800)">
+            <div>
+                <div class="pop-icon-box"><i class="fa-solid fa-flask"></i></div>
+                <h4 class="pop-card-title">Liver Function Test</h4>
+                <p class="pop-card-desc">Bilirubin, SGOT, SGPT & protein fractions.</p>
+            </div>
+            <div class="pop-card-foot">
+                <span class="pop-price">₹800</span>
+                <div class="pop-add-btn" id="pop-LIVER FUNCTION TEST"><i class="fa-solid fa-plus"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Tests Header & Notice -->
+    <div class="section-head" id="allTestsSection">
+        <div>
+            <h3>All tests & prices</h3>
+            <p style="font-size: 11.5px; color: var(--text-muted);">156 tests from certified lab list</p>
+        </div>
+        <span style="font-size:12px; color:var(--cyan-primary); font-weight:700;">Featured</span>
+    </div>
+
+    <div class="select-info-bar">
+        <div class="select-info-bar-left">
+            <i class="fa-solid fa-square-check"></i>
+            <div>
+                <p>Mark tests for one booking</p>
+                <span>Tap any test to add or remove</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- All 156 Tests Container -->
+    <div id="testsContainer"></div>
+
 </div>
 
-<!-- Bottom Floating Checkout Bar -->
-<div class="bottom-bar">
-    <div class="bottom-bar-left">
-        <p>Selected: <span id="countDisplay">0</span> Tests</p>
-        <h3 id="totalDisplay">Total: ₹0</h3>
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/916000219209" target="_blank" class="whatsapp-float">
+    <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> Chat
+</a>
+
+<!-- Bottom Floating Multi-Test Bar -->
+<div class="bottom-floating-bar" id="checkoutBar">
+    <div>
+        <h4 id="selectedCountText">0 Tests Selected</h4>
+        <p id="totalPriceText">Total: ₹0</p>
     </div>
-    <button class="btn-receipt" onclick="proceedBooking()">
-        Booking Receipt
+    <button class="btn-proceed" onclick="openScheduleModal()">
+        Book Now <i class="fa-solid fa-arrow-right"></i>
     </button>
 </div>
 
+<!-- SCHEDULE HOME VISIT MODAL (Exact match with Step 1 of 1 Screenshots) -->
+<div class="modal" id="scheduleModal">
+    <div class="modal-inner">
+        <div class="modal-top-nav">
+            <button class="btn-back-circle" onclick="closeScheduleModal()"><i class="fa-solid fa-arrow-left"></i></button>
+            <div class="step-title">STEP 1 OF 1</div>
+            <div class="step-circle">1</div>
+        </div>
+
+        <h2 class="modal-heading">Schedule a home visit</h2>
+
+        <div class="service-loc-badge">
+            <i class="fa-solid fa-location-dot"></i> Mouchumi Lab Test Blood Collection service · Golaghat
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="booking-summary-card">
+            <div class="summary-left">
+                <div class="summary-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div class="summary-text">
+                    <p>YOU'RE BOOKING</p>
+                    <h4 id="modalTestNames">Select Tests</h4>
+                    <span>Home collection included</span>
+                </div>
+            </div>
+            <div class="summary-price" id="modalPrice">₹0</div>
+        </div>
+
+        <form id="bookingForm">
+            <h3 class="section-label">Your details</h3>
+            <p class="section-sub">So our phlebotomist knows who to meet.</p>
+
+            <div class="input-group">
+                <label>Full name *</label>
+                <input type="text" id="patientName" class="custom-input" placeholder="e.g. Aanya Sharma" required>
+            </div>
+
+            <div class="input-group">
+                <label>Phone number *</label>
+                <input type="tel" id="patientPhone" class="custom-input" placeholder="+91 98765 43210" required>
+            </div>
+
+            <div class="input-group">
+                <label>Pickup address *</label>
+                <input type="text" id="patientAddress" class="custom-input" placeholder="Flat, building, street and locality" required>
+            </div>
+
+            <h3 class="section-label" style="margin-top: 18px;">Choose a time</h3>
+            <p class="section-sub">Fasting? We recommend the morning slots.</p>
+
+            <!-- Date Pills -->
+            <div class="pills-row">
+                <div class="pill-btn" onclick="selectDatePill(this, 'Today')">Today</div>
+                <div class="pill-btn active" onclick="selectDatePill(this, 'Tomorrow')">Tomorrow</div>
+                <div class="pill-btn" onclick="selectDatePill(this, 'Next Day')" id="thirdDatePill">Wed, 19 Aug</div>
+            </div>
+
+            <!-- Time Slots -->
+            <div class="slot-row active" onclick="selectTimeSlot(this, '7:00 – 9:00 AM')">
+                <div class="slot-left"><i class="fa-regular fa-clock"></i> 7:00 – 9:00 AM (Fasting)</div>
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="slot-row" onclick="selectTimeSlot(this, '9:00 – 11:00 AM')">
+                <div class="slot-left"><i class="fa-regular fa-clock"></i> 9:00 – 11:00 AM</div>
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="slot-row" onclick="selectTimeSlot(this, '4:00 – 6:00 PM')">
+                <div class="slot-left"><i class="fa-regular fa-clock"></i> 4:00 – 6:00 PM</div>
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <!-- Prescription Upload Section -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+                <h4 style="font-size:14px; font-weight:800;">Have a prescription?</h4>
+                <span style="font-size:10px; font-weight:700; color:var(--text-muted); background:var(--card-bg); padding:2px 6px; border-radius:4px;">OPTIONAL</span>
+            </div>
+            <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Optional, but helpful if you're unsure.</p>
+
+            <div class="prescription-box" onclick="document.getElementById('rxFile').click()">
+                <div class="prescription-left">
+                    <div class="pres-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <div class="prescription-text">
+                        <h5 id="rxFileName">Upload a prescription</h5>
+                        <p>Choose from your photos or files</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="color:var(--text-muted); font-size:13px;"></i>
+                <input type="file" id="rxFile" style="display:none" onchange="handleRxUpload(this)">
+            </div>
+
+            <button type="submit" class="btn-confirm-all">
+                Confirm home collection <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <div class="security-badge">
+                <i class="fa-solid fa-lock"></i> Your details are encrypted and private.
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
-    // Complete 156 Tests Database
-    const testData = [
-        { name: "CBC", price: 400, vial: "VIOLET", popular: true },
-        { name: "LIVER FUNCTION TEST", price: 800, vial: "RED", popular: true },
-        { name: "KFT (WITH 3 PARA ELECTROLYTE)", price: 1100, vial: "RED", popular: true },
-        { name: "LIPID PROFILE", price: 800, vial: "RED", popular: true },
-        { name: "THYROID PROFILE, TOTAL", price: 700, vial: "RED", popular: true },
-        { name: "HbA1C", price: 600, vial: "VIOLET", popular: true },
-        { name: "FASTING PLASMA GLUCOSE (FBS)", price: 50, vial: "GREY", popular: true },
-        { name: "VITAMIN D", price: 1700, vial: "RED", popular: true },
-        { name: "ABO, Rh GROUPING", price: 100, vial: "VIOLET" },
-        { name: "ABSOLUTE EOSINOPHIL COUNT", price: 150, vial: "VIOLET" },
-        { name: "ABSOLUTE LYMPHOCYTE COUNT", price: 150, vial: "VIOLET" },
-        { name: "ABSOLUTE MONOCYTE COUNT", price: 150, vial: "VIOLET" },
-        { name: "ABSOLUTE NEUTROPHIL COUNT", price: 150, vial: "VIOLET" },
-        { name: "ADA - TBM", price: 750, vial: "RED" },
-        { name: "Albumin", price: 100, vial: "RED" },
-        { name: "Allergy Profile", price: 1200, vial: "VIOLET & RED" },
-        { name: "AMH", price: 2300, vial: "RED" },
-        { name: "AMMONIA", price: 1000, vial: "VIOLET" },
-        { name: "ANTENATAL CHECK UP (ANC)", price: 2900, vial: "GREY, VIOLET & RED" },
-        { name: "ANTI CCP", price: 1600, vial: "RED" },
-        { name: "ANTI TPO", price: 2000, vial: "RED" },
-        { name: "ANTINUCLEAR ANTI BODY (ANA)", price: 1000, vial: "RED" },
-        { name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: 4000, vial: "RED" },
-        { name: "APTT", price: 500, vial: "BLUE" },
-        { name: "ASO titre (By Immunoturbidity)", price: 500, vial: "RED" },
-        { name: "BAND CELL", price: 150, vial: "VIOLET" },
-        { name: "Beta HCG, Serum", price: 900, vial: "RED" },
-        { name: "BIOPSY- Small Tissue", price: 800, vial: "NA" },
-        { name: "BIOPSY- Medium Tissue", price: 1000, vial: "NA" },
-        { name: "BIOPSY- Large Tissue", price: 1200, vial: "NA" },
-        { name: "BIOPSY- Extra Large Tissue", price: 2000, vial: "NA" },
-        { name: "BLEEDING TIME / CLOTTING TIME (BT / CT)", price: 50, vial: "NA" },
-        { name: "BLOOD UREA", price: 200, vial: "RED" },
-        { name: "BUN", price: 150, vial: "RED" },
-        { name: "CPK MB", price: 1350, vial: "RED" },
-        { name: "CRP (TITRE) immunoturbidity", price: 450, vial: "RED" },
-        { name: "CA 125", price: 1600, vial: "RED" },
-        { name: "CHOLESTEROL TOTAL", price: 200, vial: "RED" },
-        { name: "COAGULATION PROFILE", price: 1200, vial: "BLUE" },
-        { name: "CSF ANALYSIS", price: 550, vial: "NA" },
-        { name: "DENGUE, Serology Test", price: 900, vial: "RED" },
-        { name: "DIABETIC PROFILE", price: 2500, vial: "GREY, VIOLET" },
-        { name: "Differential Leucocyte Count (D.L.C)", price: 150, vial: "VIOLET" },
-        { name: "DIRECT COOMBS TEST", price: 250, vial: "RED" },
-        { name: "DIRECT/INDIRECT BILIRUBIN", price: 150, vial: "RED" },
-        { name: "eGFR", price: 500, vial: "RED" },
-        { name: "ELECTROLYTE 3 (THREE) PARAMETERS", price: 600, vial: "RED" },
-        { name: "ESR", price: 100, vial: "BLACK" },
-        { name: "FERRITIN", price: 1000, vial: "RED" },
-        { name: "FERTILITY PROFILE", price: 1500, vial: "RED" },
-        { name: "FERTILITY PROFILE (MALE)", price: 2400, vial: "RED" },
-        { name: "FSH", price: 650, vial: "RED" },
-        { name: "FT3", price: 600, vial: "RED" },
-        { name: "FT4", price: 600, vial: "RED" },
-        { name: "FUNGAL SMEAR", price: 250, vial: "NA" },
-        { name: "G6PD", price: 600, vial: "VIOLET" },
-        { name: "GAMMA G. T. (GGT)", price: 400, vial: "RED" },
-        { name: "GCT WITH 75 GM GLUCOSE", price: 150, vial: "GREY" },
-        { name: "GLUCOSE TOLERENCE TEST", price: 400, vial: "GREY" },
-        { name: "GRAM STAIN", price: 150, vial: "VIOLET" },
-        { name: "H D L CHOLESTEROL", price: 350, vial: "RED" },
-        { name: "HAEMOGLOBIN (Hb)", price: 100, vial: "VIOLET" },
-        { name: "Hb TYPING", price: 1400, vial: "VIOLET" },
-        { name: "HEPATITIS A / HAV (SCREENING)", price: 600, vial: "RED" },
-        { name: "HEPATITIS B SURFACE AG (HBsAg)", price: 400, vial: "RED" },
-        { name: "HEPATITIS C (SCREENING)", price: 400, vial: "RED" },
-        { name: "HEPATITIS E (SCREENING)", price: 600, vial: "RED" },
-        { name: "HEPATITIS PANEL", price: 3500, vial: "RED" },
-        { name: "HIV (I & II) SCREENING", price: 350, vial: "RED" },
-        { name: "IMMATURE CELL", price: 150, vial: "VIOLET" },
-        { name: "INDIRECT COOMBS TEST", price: 1100, vial: "RED" },
-        { name: "IRON", price: 500, vial: "RED" },
-        { name: "IRON & TIBC", price: 750, vial: "RED" },
-        { name: "IRON & UIBC", price: 750, vial: "RED" },
-        { name: "IRON PROFILE", price: 1500, vial: "RED" },
-        { name: "KOH TEST FOR SKIN & NAILS", price: 300, vial: "NA" },
-        { name: "LDH", price: 650, vial: "RED" },
-        { name: "Leptospira (IgM/IgG)", price: 600, vial: "RED" },
-        { name: "LH", price: 650, vial: "RED" },
-        { name: "LIPASE", price: 500, vial: "RED" },
-        { name: "M.P. By Slide Method / PBF FOR MP", price: 250, vial: "VIOLET" },
-        { name: "MALARIA PF/PV CARD RAPID TEST", price: 250, vial: "VIOLET" },
-        { name: "MALIGNANT CELL", price: 550, vial: "VIOLET" },
-        { name: "MICROALBUMIN, Spot Urine", price: 600, vial: "NA" },
-        { name: "NT PRO BNP", price: 1750, vial: "RED" },
-        { name: "PBS FOR CELL MORPHOLOGY", price: 250, vial: "VIOLET" },
-        { name: "PLATELET COUNT", price: 100, vial: "VIOLET" },
-        { name: "PLEURAL FLUID ANALYSIS: PHYSICAL, CHEMICAL AND MICROSCOPIC", price: 850, vial: "PF" },
-        { name: "PLEURAL FLUID ANALYSIS: CYTOLOGICAL", price: 500, vial: "PF" },
-        { name: "PLEURAL FLUID ANALYSIS: ADA", price: 650, vial: "PF" },
-        { name: "PLEURAL FLUID ANALYSIS: LH", price: 400, vial: "PF" },
-        { name: "POST PRANDIAL PLASMA GLUCOSE (PPBS)", price: 50, vial: "GREY" },
-        { name: "PROLACTIN", price: 900, vial: "RED" },
-        { name: "PROTHROMBIN TIME (PT INR)", price: 400, vial: "BLUE" },
-        { name: "PSA", price: 1050, vial: "RED" },
-        { name: "QUANTI FERON", price: 1800, vial: "GREEN" },
-        { name: "QUANTITATIVE HBsAg", price: 600, vial: "RED" },
-        { name: "QUANTITATIVE HCV", price: 600, vial: "RED" },
-        { name: "QUANTITATIVE HIV", price: 600, vial: "RED" },
-        { name: "R.A FACTOR", price: 250, vial: "RED" },
-        { name: "RANDOM PLASMA GLUCOSE (RBS)", price: 100, vial: "GREY" },
-        { name: "RETICULOCYTE COUNT", price: 300, vial: "VIOLET" },
-        { name: "Rh ANTIBODY TITRE", price: 650, vial: "VIOLET" },
-        { name: "ROUTINE EXAM.OF BLOOD", price: 300, vial: "VIOLET" },
-        { name: "Scrub typhus (IgM/IgG)", price: 500, vial: "RED" },
-        { name: "SGOT / AST", price: 150, vial: "RED" },
-        { name: "SGPT / ALT", price: 150, vial: "RED" },
-        { name: "SEMEN ANALYSIS", price: 500, vial: "NA" },
-        { name: "Sepsis Screen", price: 800, vial: "VIOLET & RED" },
-        { name: "SERUM ALK. PHOSPHATASE", price: 200, vial: "RED" },
-        { name: "SERUM AMYLASE", price: 450, vial: "RED" },
-        { name: "SERUM BILIRUBIN, TOTAL", price: 150, vial: "RED" },
-        { name: "SERUM CALCIUM", price: 250, vial: "RED" },
-        { name: "SERUM C-PEPTIDE", price: 1000, vial: "RED" },
-        { name: "SERUM CHLORIDE", price: 250, vial: "RED" },
-        { name: "SERUM CREATININE", price: 150, vial: "RED" },
-        { name: "SERUM IgE", price: 900, vial: "RED" },
-        { name: "SERUM MAGNESIUM", price: 500, vial: "RED" },
-        { name: "SERUM PHOSPHATE", price: 350, vial: "RED" },
-        { name: "SERUM PHOSPHORUS", price: 500, vial: "RED" },
-        { name: "SERUM POTASSIUM (K)", price: 250, vial: "RED" },
-        { name: "SERUM SODIUM (Na)", price: 250, vial: "RED" },
-        { name: "SPUTUM AFB (Z.N. STAIN)", price: 250, vial: "NA" },
-        { name: "Sputum AFB Culture", price: 1100, vial: "NA" },
-        { name: "STOOL for Culture and Sensitivity", price: 600, vial: "NA" },
-        { name: "STOOL FOR OCCULT BLOOD", price: 150, vial: "NA" },
-        { name: "STOOL R E", price: 150, vial: "NA" },
-        { name: "T3", price: 400, vial: "RED" },
-        { name: "T4", price: 400, vial: "RED" },
-        { name: "TESTOSTEORNE-FREE", price: 2600, vial: "RED" },
-        { name: "TESTOSTERONE - TOTAL", price: 900, vial: "RED" },
-        { name: "TORCH PANEL (10 PROFILE)", price: 3000, vial: "RED" },
-        { name: "TOTAL PROTEIN & FRACTION", price: 300, vial: "RED" },
-        { name: "TOTAL R B C COUNT", price: 100, vial: "VIOLET" },
-        { name: "TOTAL W B C COUNT (T C)", price: 100, vial: "VIOLET" },
-        { name: "TOXO TEST (IgM & IgG)", price: 1500, vial: "RED" },
-        { name: "TRIGLYCERIDE", price: 250, vial: "RED" },
-        { name: "TROPONIN I TEST", price: 1250, vial: "RED" },
-        { name: "TROPONIN T TEST", price: 1300, vial: "RED" },
-        { name: "TSH", price: 400, vial: "RED" },
-        { name: "TYPHIDOT", price: 350, vial: "RED" },
-        { name: "URIC ACID", price: 150, vial: "RED" },
-        { name: "Urine Albumin", price: 100, vial: "NA" },
-        { name: "URINE CULTURE", price: 350, vial: "NA" },
-        { name: "URINE FOR ACR", price: 600, vial: "NA" },
-        { name: "URINE PREGNANCY TEST / beta HCG", price: 150, vial: "NA" },
-        { name: "URINE PROTEIN 24 HOURS", price: 350, vial: "NA" },
-        { name: "URINE R.E.", price: 150, vial: "NA" },
-        { name: "Urine Sugar", price: 100, vial: "NA" },
-        { name: "VDRL KIT", price: 400, vial: "RED" },
-        { name: "Vitamin A", price: 4000, vial: "RED" },
-        { name: "Vitamin B12", price: 1500, vial: "RED" },
-        { name: "Vitamin C", price: 3500, vial: "RED" },
-        { name: "Vitamin E", price: 2500, vial: "RED" },
-        { name: "Vitamin K", price: 4500, vial: "RED" },
-        { name: "WIDAL TEST", price: 250, vial: "RED" }
+    // All 156 Tests from Official Lab Price List
+    const allTests = [
+        { name: "ABO, Rh GROUPING", price: 100 },
+        { name: "ABSOLUTE EOSINOPHIL COUNT", price: 150 },
+        { name: "ABSOLUTE LYMPHOCYTE COUNT", price: 150 },
+        { name: "ABSOLUTE MONOCYTE COUNT", price: 150 },
+        { name: "ABSOLUTE NEUTROPHIL COUNT", price: 150 },
+        { name: "ADA - TBM", price: 750 },
+        { name: "Albumin", price: 100 },
+        { name: "Allergy Profile", price: 1200 },
+        { name: "AMH", price: 2300 },
+        { name: "AMMONIA", price: 1000 },
+        { name: "ANTENATAL CHECK UP (ANC)", price: 2900 },
+        { name: "ANTI CCP", price: 1600 },
+        { name: "ANTI TPO", price: 2000 },
+        { name: "ANTINUCLEAR ANTI BODY (ANA)", price: 1000 },
+        { name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: 4000 },
+        { name: "APTT", price: 500 },
+        { name: "ASO titre (By Immunoturbidity)", price: 500 },
+        { name: "BAND CELL", price: 150 },
+        { name: "Beta HCG, Serum", price: 900 },
+        { name: "BIOPSY- Small Tissue", price: 800 },
+        { name: "BIOPSY- Medium Tissue", price: 1000 },
+        { name: "BIOPSY- Large Tissue", price: 1200 },
+        { name: "BIOPSY- Extra Large Tissue", price: 2000 },
+        { name: "BLEEDING TIME / CLOTTING TIME (BT / CT)", price: 50 },
+        { name: "BLOOD UREA", price: 200 },
+        { name: "BUN", price: 150 },
+        { name: "CPK MB", price: 1350 },
+        { name: "CRP (TITRE) immunoturbidity", price: 450 },
+        { name: "CA 125", price: 1600 },
+        { name: "CBC", price: 400 },
+        { name: "CHOLESTEROL TOTAL", price: 200 },
+        { name: "COAGULATION PROFILE", price: 1200 },
+        { name: "CSF ANALYSIS", price: 550 },
+        { name: "DENGUE, Serology Test", price: 900 },
+        { name: "DIABETIC PROFILE", price: 2500 },
+        { name: "Differential Leucocyte Count (D.L.C)", price: 150 },
+        { name: "DIRECT COOMBS TEST", price: 250 },
+        { name: "DIRECT/INDIRECT BILIRUBIN", price: 150 },
+        { name: "eGFR", price: 500 },
+        { name: "ELECTROLYTE 3 (THREE) PARAMETERS", price: 600 },
+        { name: "ESR", price: 100 },
+        { name: "FASTING PLASMA GLUCOSE (FBS)", price: 50 },
+        { name: "FERRITIN", price: 1000 },
+        { name: "FERTILITY PROFILE", price: 1500 },
+        { name: "FERTILITY PROFILE (MALE)", price: 2400 },
+        { name: "FSH", price: 650 },
+        { name: "FT3", price: 600 },
+        { name: "FT4", price: 600 },
+        { name: "FUNGAL SMEAR", price: 250 },
+        { name: "G6PD", price: 600 },
+        { name: "GAMMA G. T. (GGT)", price: 400 },
+        { name: "GCT WITH 75 GM GLUCOSE", price: 150 },
+        { name: "GLUCOSE TOLERENCE TEST", price: 400 },
+        { name: "GRAM STAIN", price: 150 },
+        { name: "H D L CHOLESTEROL", price: 350 },
+        { name: "HAEMOGLOBIN (Hb)", price: 100 },
+        { name: "Hb TYPING", price: 1400 },
+        { name: "HbA1C", price: 600 },
+        { name: "HEPATITIS A / HAV (SCREENING)", price: 600 },
+        { name: "HEPATITIS B SURFACE AG (HBsAg)", price: 400 },
+        { name: "HEPATITIS C (SCREENING)", price: 400 },
+        { name: "HEPATITIS E (SCREENING)", price: 600 },
+        { name: "HEPATITIS PANEL", price: 3500 },
+        { name: "HIV (I & II) SCREENING", price: 350 },
+        { name: "IMMATURE CELL", price: 150 },
+        { name: "INDIRECT COOMBS TEST", price: 1100 },
+        { name: "IRON", price: 500 },
+        { name: "IRON & TIBC", price: 750 },
+        { name: "IRON & UIBC", price: 750 },
+        { name: "IRON PROFILE", price: 1500 },
+        { name: "KFT (WITH 3 PARA ELECTROLYTE)", price: 1100 },
+        { name: "KOH TEST FOR SKIN & NAILS", price: 300 },
+        { name: "LDH", price: 650 },
+        { name: "Leptospira (IgM/IgG)", price: 600 },
+        { name: "LH", price: 650 },
+        { name: "LIPASE", price: 500 },
+        { name: "LIPID PROFILE", price: 800 },
+        { name: "LIVER FUNCTION TEST", price: 800 },
+        { name: "M.P. By Slide Method / PBF FOR MP", price: 250 },
+        { name: "MALARIA PF/PV CARD RAPID TEST", price: 250 },
+        { name: "MALIGNANT CELL", price: 550 },
+        { name: "MICROALBUMIN, Spot Urine", price: 600 },
+        { name: "NT PRO BNP", price: 1750 },
+        { name: "PBS FOR CELL MORPHOLOGY", price: 250 },
+        { name: "PLATELET COUNT", price: 100 },
+        { name: "PLEURAL FLUID ANALYSIS: PHYSICAL, CHEMICAL AND MICROSCOPIC", price: 850 },
+        { name: "PLEURAL FLUID ANALYSIS: CYTOLOGICAL", price: 500 },
+        { name: "PLEURAL FLUID ANALYSIS: ADA", price: 650 },
+        { name: "PLEURAL FLUID ANALYSIS: LH", price: 400 },
+        { name: "POST PRANDIAL PLASMA GLUCOSE (PPBS)", price: 50 },
+        { name: "PROLACTIN", price: 900 },
+        { name: "PROTHROMBIN TIME (PT INR)", price: 400 },
+        { name: "PSA", price: 1050 },
+        { name: "QUANTI FERON", price: 1800 },
+        { name: "QUANTITATIVE HBsAg", price: 600 },
+        { name: "QUANTITATIVE HCV", price: 600 },
+        { name: "QUANTITATIVE HIV", price: 600 },
+        { name: "R.A FACTOR", price: 250 },
+        { name: "RANDOM PLASMA GLUCOSE (RBS)", price: 100 },
+        { name: "RETICULOCYTE COUNT", price: 300 },
+        { name: "Rh ANTIBODY TITRE", price: 650 },
+        { name: "ROUTINE EXAM.OF BLOOD", price: 300 },
+        { name: "Scrub typhus (IgM/IgG)", price: 500 },
+        { name: "SGOT / AST", price: 150 },
+        { name: "SGPT / ALT", price: 150 },
+        { name: "SEMEN ANALYSIS", price: 500 },
+        { name: "Sepsis Screen", price: 800 },
+        { name: "SERUM ALK. PHOSPHATASE", price: 200 },
+        { name: "SERUM AMYLASE", price: 450 },
+        { name: "SERUM BILIRUBIN, TOTAL", price: 150 },
+        { name: "SERUM CALCIUM", price: 250 },
+        { name: "SERUM C-PEPTIDE", price: 1000 },
+        { name: "SERUM CHLORIDE", price: 250 },
+        { name: "SERUM CREATININE", price: 150 },
+        { name: "SERUM IgE", price: 900 },
+        { name: "SERUM MAGNESIUM", price: 500 },
+        { name: "SERUM PHOSPHATE", price: 350 },
+        { name: "SERUM PHOSPHORUS", price: 500 },
+        { name: "SERUM POTASSIUM (K)", price: 250 },
+        { name: "SERUM SODIUM (Na)", price: 250 },
+        { name: "SPUTUM AFB (Z.N. STAIN)", price: 250 },
+        { name: "Sputum AFB Culture", price: 1100 },
+        { name: "STOOL for Culture and Sensitivity", price: 600 },
+        { name: "STOOL FOR OCCULT BLOOD", price: 150 },
+        { name: "STOOL R E", price: 150 },
+        { name: "T3", price: 400 },
+        { name: "T4", price: 400 },
+        { name: "TESTOSTEORNE-FREE", price: 2600 },
+        { name: "TESTOSTERONE - TOTAL", price: 900 },
+        { name: "THYROID PROFILE, TOTAL", price: 700 },
+        { name: "TORCH PANEL (10 PROFILE)", price: 3000 },
+        { name: "TOTAL PROTEIN & FRACTION", price: 300 },
+        { name: "TOTAL R B C COUNT", price: 100 },
+        { name: "TOTAL W B C COUNT (T C)", price: 100 },
+        { name: "TOXO TEST (IgM & IgG)", price: 1500 },
+        { name: "TRIGLYCERIDE", price: 250 },
+        { name: "TROPONIN I TEST", price: 1250 },
+        { name: "TROPONIN T TEST", price: 1300 },
+        { name: "TSH", price: 400 },
+        { name: "TYPHIDOT", price: 350 },
+        { name: "URIC ACID", price: 150 },
+        { name: "Urine Albumin", price: 100 },
+        { name: "URINE CULTURE", price: 350 },
+        { name: "URINE FOR ACR", price: 600 },
+        { name: "URINE PREGNANCY TEST / beta HCG", price: 150 },
+        { name: "URINE PROTEIN 24 HOURS", price: 350 },
+        { name: "URINE R.E.", price: 150 },
+        { name: "Urine Sugar", price: 100 },
+        { name: "VDRL KIT", price: 400 },
+        { name: "Vitamin A", price: 4000 },
+        { name: "Vitamin B12", price: 1500 },
+        { name: "Vitamin C", price: 3500 },
+        { name: "VITAMIN D", price: 1700 },
+        { name: "Vitamin E", price: 2500 },
+        { name: "Vitamin K", price: 4500 },
+        { name: "WIDAL TEST", price: 250 }
     ];
 
-    let selectedMap = new Map();
-    let isViewAll = false;
+    let selectedTests = new Map();
+    let chosenDate = "Tomorrow";
+    let chosenSlot = "7:00 – 9:00 AM (Fasting)";
     const container = document.getElementById('testsContainer');
-    const toggleBtn = document.getElementById('toggleBtn');
-    const searchInput = document.getElementById('testSearchInput');
 
-    function getVialBadgeClass(vial) {
-        const v = vial.toUpperCase();
-        if (v.includes('VIOLET')) return 'vial-violet';
-        if (v.includes('RED')) return 'vial-red';
-        if (v.includes('BLUE')) return 'vial-blue';
-        if (v.includes('GREY')) return 'vial-grey';
-        if (v.includes('BLACK')) return 'vial-black';
-        if (v.includes('GREEN')) return 'vial-green';
-        return 'vial-na';
-    }
-
-    function renderTests() {
-        const query = searchInput.value.toLowerCase().trim();
+    function renderTests(tests) {
         container.innerHTML = '';
-
-        let listToDisplay = [];
-
-        if (query.length > 0) {
-            // Instant Search Filter: Matches appear immediately on top
-            listToDisplay = testData.filter(t => t.name.toLowerCase().includes(query));
-            toggleBtn.style.display = 'none';
-        } else {
-            toggleBtn.style.display = 'block';
-            if (isViewAll) {
-                // Pin selected tests to top when viewing all
-                const selectedList = testData.filter(t => selectedMap.has(t.name));
-                const unselectedList = testData.filter(t => !selectedMap.has(t.name));
-                listToDisplay = [...selectedList, ...unselectedList];
-            } else {
-                // Show selected tests + top popular tests (limited compact view)
-                const selectedList = testData.filter(t => selectedMap.has(t.name));
-                const popularList = testData.filter(t => t.popular && !selectedMap.has(t.name));
-                listToDisplay = [...selectedList, ...popularList];
-            }
-        }
-
-        if (listToDisplay.length === 0) {
-            container.innerHTML = '<div style="text-align:center; padding:18px; color:#94a3b8; font-size:13px;">কোনো টেষ্ট পোৱা নগ’ল</div>';
+        if (tests.length === 0) {
+            container.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">No tests found.</p>';
             return;
         }
 
-        listToDisplay.forEach(item => {
-            const isChecked = selectedMap.has(item.name);
-            const badgeClass = getVialBadgeClass(item.vial);
-            
-            const div = document.createElement('div');
-            div.className = `test-box ${isChecked ? 'active' : ''}`;
-            div.onclick = () => toggleSelection(item);
+        tests.forEach(test => {
+            const isSelected = selectedTests.has(test.name);
+            const card = document.createElement('div');
+            card.className = `test-card ${isSelected ? 'active' : ''}`;
+            card.onclick = () => toggleTestSelection(test.name, test.price);
 
-            div.innerHTML = `
-                <div class="test-box-left">
-                    <div class="custom-checkbox">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <div class="test-details">
-                        <span class="test-name">${item.name}</span>
-                        <div class="sub-details">
-                            <span class="vial-badge ${badgeClass}">${item.vial}</span>
-                        </div>
+            card.innerHTML = `
+                <div class="test-card-left">
+                    <div class="test-card-icon"><i class="fa-solid fa-flask-vial"></i></div>
+                    <div class="test-card-info">
+                        <h4>${test.name}</h4>
+                        <p>Home collection available</p>
                     </div>
                 </div>
-                <div class="test-price">₹${item.price}</div>
+                <div class="test-card-right">
+                    <span class="price">₹${test.price.toLocaleString()}</span>
+                </div>
             `;
-            container.appendChild(div);
+            container.appendChild(card);
         });
     }
 
-    function toggleSelection(item) {
-        if (selectedMap.has(item.name)) {
-            selectedMap.delete(item.name);
+    function toggleTestSelection(name, price) {
+        if (selectedTests.has(name)) {
+            selectedTests.delete(name);
         } else {
-            selectedMap.set(item.name, item.price);
+            selectedTests.set(name, price);
         }
-        updateBottomBar();
-        renderTests();
+        updateUI();
     }
 
-    function updateBottomBar() {
-        const count = selectedMap.size;
-        let sum = 0;
-        selectedMap.forEach(p => sum += p);
+    function updateUI() {
+        const count = selectedTests.size;
+        let total = 0;
+        selectedTests.forEach(p => total += p);
 
-        document.getElementById('countDisplay').innerText = count;
-        document.getElementById('totalDisplay').innerText = `Total: ₹${sum.toLocaleString()}`;
+        // Update Bottom Bar
+        const bar = document.getElementById('checkoutBar');
+        if (count > 0) {
+            document.getElementById('selectedCountText').innerText = `${count} ${count === 1 ? 'Test' : 'Tests'} Selected`;
+            document.getElementById('totalPriceText').innerText = `Total: ₹${total.toLocaleString()}`;
+            bar.style.display = 'flex';
+        } else {
+            bar.style.display = 'none';
+        }
+
+        // Update Popular buttons
+        ['CBC', 'DIABETIC PROFILE', 'LIVER FUNCTION TEST'].forEach(pop => {
+            const btn = document.getElementById(`pop-${pop}`);
+            if (btn) {
+                btn.innerHTML = selectedTests.has(pop) ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-plus"></i>';
+            }
+        });
+
+        // Re-render search results
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const filtered = allTests.filter(t => t.name.toLowerCase().includes(query));
+        renderTests(filtered);
     }
 
-    function toggleViewAll() {
-        isViewAll = !isViewAll;
-        toggleBtn.innerHTML = isViewAll 
-            ? 'Show Less <i class="fa-solid fa-angle-up"></i>' 
-            : 'View All Tests (156) <i class="fa-solid fa-angle-down"></i>';
-        renderTests();
-    }
-
-    // Instant Search Input Event
-    searchInput.addEventListener('input', function() {
-        renderTests();
+    // Instant Search
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase().trim();
+        const filtered = allTests.filter(t => t.name.toLowerCase().includes(query));
+        renderTests(filtered);
     });
 
-    // WhatsApp Receipt Trigger
-    function proceedBooking() {
+    function scrollToTests() {
+        document.getElementById('allTestsSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Modal Operations
+    function openScheduleModal() {
+        if (selectedTests.size === 0) return;
+
+        let total = 0;
+        const testNames = Array.from(selectedTests.keys());
+        selectedTests.forEach(p => total += p);
+
+        document.getElementById('modalTestNames').innerText = testNames.length > 1 
+            ? `${testNames[0]} + ${testNames.length - 1} more` 
+            : testNames[0];
+
+        document.getElementById('modalPrice').innerText = `₹${total.toLocaleString()}`;
+        document.getElementById('scheduleModal').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    function closeScheduleModal() {
+        document.getElementById('scheduleModal').style.display = 'none';
+    }
+
+    function selectDatePill(element, val) {
+        document.querySelectorAll('.pill-btn').forEach(p => p.classList.remove('active'));
+        element.classList.add('active');
+        chosenDate = val;
+    }
+
+    function selectTimeSlot(element, slot) {
+        document.querySelectorAll('.slot-row').forEach(s => s.classList.remove('active'));
+        element.classList.add('active');
+        chosenSlot = slot;
+    }
+
+    function handleRxUpload(input) {
+        if (input.files && input.files[0]) {
+            document.getElementById('rxFileName').innerText = input.files[0].name;
+        }
+    }
+
+    // Form Submission & WhatsApp Order Trigger
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
         const name = document.getElementById('patientName').value.trim();
-        const age = document.getElementById('patientAge').value.trim();
-        const sex = document.getElementById('patientSex').value;
         const phone = document.getElementById('patientPhone').value.trim();
         const address = document.getElementById('patientAddress').value.trim();
 
-        if (!name || !age || !phone || !address) {
-            alert('অনুগ্ৰহ কৰি ৰোগীৰ সকলো তথ্য পূৰণ কৰক (Please fill all patient details)');
-            return;
-        }
-
-        if (selectedMap.size === 0) {
-            alert('অনুগ্ৰহ কৰি অন্ততঃ এটা টেষ্ট বাচনি কৰক (Please select at least 1 test)');
-            return;
-        }
-
         let total = 0;
         const testList = [];
-        selectedMap.forEach((price, test) => {
+        selectedTests.forEach((price, tName) => {
             total += price;
-            testList.push(`• ${test} (₹${price})`);
+            testList.push(`• ${tName} (₹${price})`);
         });
 
-        const message = `*📋 NEW LAB TEST BOOKING RECEIPT*%0A` +
+        const message = `*📋 NEW HOME COLLECTION SCHEDULED*%0A` +
             `--------------------------------%0A` +
-            `👤 *Patient:* ${name}%0A` +
-            `🎂 *Age / Sex:* ${age} Yrs / ${sex}%0A` +
+            `👤 *Name:* ${name}%0A` +
             `📞 *Phone:* ${phone}%0A` +
-            `📍 *Address:* ${address}%0A` +
+            `📍 *Pickup Address:* ${address}%0A` +
+            `🗓 *Date:* ${chosenDate}%0A` +
+            `⏰ *Time Slot:* ${chosenSlot}%0A` +
             `--------------------------------%0A` +
-            `🧪 *Selected Tests (${selectedMap.size}):*%0A${testList.join('%0A')}%0A` +
+            `🧪 *Selected Tests (${selectedTests.size}):*%0A${testList.join('%0A')}%0A` +
             `--------------------------------%0A` +
-            `💰 *Grand Total: ₹${total}*`;
+            `💰 *Grand Total: ₹${total.toLocaleString()}*`;
 
         window.open(`https://wa.me/916000219209?text=${message}`, '_blank');
-    }
+        closeScheduleModal();
+    });
 
-    // Initial compact view
-    renderTests();
+    // Initial render
+    renderTests(allTests);
 </script>
 
 </body>
