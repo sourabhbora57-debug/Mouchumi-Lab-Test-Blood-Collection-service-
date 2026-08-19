@@ -4,9 +4,9 @@ const https = require('https');
 const PORT = process.env.PORT || 3000;
 
 // Green API Credentials
-const ID_INSTANCE = '710722713374';
-const API_TOKEN = 'ba66c849c53047ce98200faea718e7e9ff228978d1df4ad9aa';
-const TARGET_CHAT_ID = '916000219209@c.us';
+const ID_INSTANCE = process.env.GREEN_API_ID || '710722713374';
+const API_TOKEN = process.env.GREEN_API_TOKEN || 'ba66c849c53047ce98200faea718e7e9ff228978d1df4ad9aa';
+const TARGET_CHAT_ID = process.env.TARGET_CHAT_ID || '916000219209@c.us';
 
 const HTML_PAGE = `<!DOCTYPE html>
 <html lang="en">
@@ -50,7 +50,6 @@ const HTML_PAGE = `<!DOCTYPE html>
             flex-direction: column;
         }
 
-        /* Top Header */
         .top-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo-box { display: flex; align-items: center; gap: 12px; }
         .logo-icon { width: 42px; height: 42px; background: linear-gradient(135deg, #0284c7, #0d9488); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 12px rgba(2,132,199,0.3); }
@@ -58,14 +57,12 @@ const HTML_PAGE = `<!DOCTYPE html>
         .logo-text p { font-size: 11px; color: var(--accent-cyan); }
         .notif-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--card-dark); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
 
-        /* View Section */
         .view-section { padding: 16px 20px 10px; flex: 1; }
         .badge-tag { color: var(--accent-cyan); font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
         .hero-title { font-size: 28px; font-weight: 800; line-height: 1.15; margin-bottom: 8px; letter-spacing: -0.5px; }
         .hero-title span { color: var(--accent-cyan); }
         .hero-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 18px; }
 
-        /* Banner */
         .banner-card { background: linear-gradient(135deg, #0369a1 0%, #0f766e 100%); border-radius: 18px; padding: 18px; margin-bottom: 20px; position: relative; overflow: hidden; }
         .banner-card::after { content: '💧'; position: absolute; right: -10px; bottom: -15px; font-size: 90px; opacity: 0.15; pointer-events: none; }
         .banner-tag { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: #bae6fd; margin-bottom: 6px; }
@@ -73,30 +70,25 @@ const HTML_PAGE = `<!DOCTYPE html>
         .banner-card p { font-size: 12px; color: #e0f2fe; margin-bottom: 12px; max-width: 80%; }
         .banner-btn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: #0f172a; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; border: none; cursor: pointer; }
 
-        /* Dedicated Tests Card Container */
         .tests-main-container { background: #0c1d2e; border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .tests-header-area { margin-bottom: 12px; }
         .tests-header-area h3 { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 2px; }
         .tests-header-area p { font-size: 12px; color: var(--text-muted); }
 
-        /* Test Box Attached Search */
         .test-search-wrapper { position: relative; margin-bottom: 14px; }
         .test-search-wrapper input { width: 100%; padding: 13px 14px 13px 42px; background: var(--input-bg); border: 1.5px solid var(--accent-cyan); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
         .test-search-wrapper input::placeholder { color: #64748b; }
         .test-search-icon { position: absolute; left: 14px; top: 14px; color: var(--accent-cyan); }
 
-        /* Scrollable Tests List */
         .tests-scroll-view { max-height: 440px; overflow-y: auto; padding-right: 4px; scroll-behavior: smooth; display: flex; flex-direction: column; gap: 10px; }
         .tests-scroll-view::-webkit-scrollbar { width: 4px; }
         .tests-scroll-view::-webkit-scrollbar-thumb { background: #1e3d5f; border-radius: 10px; }
 
-        /* Test Card */
         .test-item-card { background: linear-gradient(145deg, #10263c 0%, #0d1f30 100%); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; }
         .test-item-card.selected { border-color: var(--accent-cyan); background: linear-gradient(145deg, #153856 0%, #0e2942 100%); box-shadow: 0 4px 15px rgba(2,132,199,0.2); }
         .test-left-content { max-width: 68%; }
         .test-title { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.35; margin-bottom: 4px; }
         
-        /* Vial Badges */
         .vial-pill { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; }
         .vial-violet { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
         .vial-red { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
@@ -124,6 +116,31 @@ const HTML_PAGE = `<!DOCTYPE html>
         .input-wrap { position: relative; }
         .input-wrap input, .input-wrap textarea, .input-wrap select { width: 100%; padding: 14px 14px 14px 42px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
         .input-wrap .field-icon { position: absolute; left: 14px; top: 15px; color: var(--text-muted); }
+
+        /* File Upload Box */
+        .file-upload-box {
+            border: 2px dashed var(--border-color);
+            background: var(--input-bg);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+        .file-upload-box:hover { border-color: var(--accent-cyan); }
+        .file-upload-box input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+        .upload-icon { font-size: 24px; margin-bottom: 4px; display: block; }
+        .upload-text { font-size: 13px; font-weight: 600; color: var(--accent-cyan); }
+        .upload-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+        .file-name-preview { font-size: 12px; color: #10b981; font-weight: 700; margin-top: 8px; word-break: break-all; display: none; }
 
         .pills-group { display: flex; gap: 8px; margin-bottom: 12px; }
         .pill-btn { flex: 1; padding: 12px 8px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-muted); font-size: 13px; font-weight: 600; text-align: center; cursor: pointer; }
@@ -154,16 +171,13 @@ const HTML_PAGE = `<!DOCTYPE html>
         .success-card { background: #0c1f31; border: 1px solid #10b981; border-radius: 20px; padding: 30px 20px; text-align: center; max-width: 400px; width: 100%; box-shadow: 0 10px 30px rgba(16,185,129,0.2); }
         .success-icon { width: 65px; height: 65px; background: rgba(16,185,129,0.15); border: 2px solid #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; color: #10b981; }
 
-        /* Floating Bars */
         .floating-cart { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 440px; background: #0369a1; border-radius: 16px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; }
         .cart-info h4 { font-size: 15px; font-weight: 800; color: #fff; }
         .cart-info p { font-size: 12px; color: #bae6fd; }
         .cart-next-btn { background: #fff; color: #0369a1; border: none; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; }
 
-        /* Floating WhatsApp adjusted so it never covers bottom links */
         .wa-float { position: fixed; bottom: 85px; right: 20px; background: #22c55e; color: #fff; padding: 10px 16px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 16px rgba(34,197,94,0.4); z-index: 99; }
 
-        /* Highlighted and Fully Visible Footer */
         .app-footer { background: #040d17; border-top: 2px solid var(--border-color); padding: 24px 20px 30px; text-align: center; margin-top: auto; }
         .footer-brand { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 4px; }
         .footer-tagline { font-size: 12px; color: var(--accent-cyan); margin-bottom: 16px; }
@@ -183,9 +197,7 @@ const HTML_PAGE = `<!DOCTYPE html>
 </head>
 <body>
     <div class="app-container">
-        <!-- Main Content View -->
         <div>
-            <!-- Top App Header -->
             <div class="top-nav">
                 <div class="logo-box">
                     <div class="logo-icon">💧</div>
@@ -210,7 +222,6 @@ const HTML_PAGE = `<!DOCTYPE html>
                     <button class="banner-btn" onclick="focusSearch()">Select Tests ➔</button>
                 </div>
 
-                <!-- Dedicated Tests Section with Attached Search -->
                 <div class="tests-main-container" id="testBoxContainer">
                     <div class="tests-header-area">
                         <h3>All 156 Tests & Packages</h3>
@@ -299,6 +310,18 @@ const HTML_PAGE = `<!DOCTYPE html>
                         </div>
                     </div>
 
+                    <!-- Doctor Prescription File Upload -->
+                    <div class="form-group">
+                        <label>Doctor's Prescription (Optional)</label>
+                        <div class="file-upload-box">
+                            <input type="file" id="custPrescription" accept="image/*,application/pdf" onchange="handleFileChange(this)">
+                            <span class="upload-icon">📄</span>
+                            <span class="upload-text">Upload Prescription Photo/PDF</span>
+                            <div class="upload-sub">Supports JPG, PNG, PDF (Max 5MB)</div>
+                            <div id="filePreview" class="file-name-preview"></div>
+                        </div>
+                    </div>
+
                     <div style="margin-top: 15px; margin-bottom: 8px;">
                         <label style="font-weight: 700; color: #fff; font-size: 14px;">Choose a date</label>
                         <div class="pills-group" style="margin-top: 8px;">
@@ -329,7 +352,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Details Review & Confirmation Modal -->
+        <!-- Review Modal -->
         <div id="reviewModal" class="modal-overlay">
             <div class="modal-content">
                 <div class="modal-header">
@@ -356,6 +379,10 @@ const HTML_PAGE = `<!DOCTYPE html>
                     <div class="review-row">
                         <span class="review-label">Doctor</span>
                         <span class="review-val" id="revDoctor">--</span>
+                    </div>
+                    <div class="review-row">
+                        <span class="review-label">Prescription</span>
+                        <span class="review-val" id="revPrescription" style="color: #38bdf8;">None</span>
                     </div>
                     <div class="review-row">
                         <span class="review-label">Schedule</span>
@@ -389,7 +416,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Distinctly Visible Bottom Footer Section -->
+        <!-- Footer Section -->
         <footer class="app-footer">
             <div class="footer-brand">Mouchumi Lab Test Blood Collection service</div>
             <div class="footer-tagline">Quality Diagnostic Care At Your Doorstep • Golaghat</div>
@@ -425,14 +452,12 @@ const HTML_PAGE = `<!DOCTYPE html>
             <button class="cart-next-btn" onclick="goToBooking()">Schedule Visit ➔</button>
         </div>
 
-        <!-- Floating WhatsApp -->
         <a href="https://wa.me/916000219209" target="_blank" class="wa-float">
             <span>💬</span> Chat
         </a>
     </div>
 
     <script>
-        // Official Price List Database (156 Tests)
         const ALL_TESTS = [
             { id: 1, name: "ABO, Rh GROUPING", price: 100, vial: "VIOLET" },
             { id: 2, name: "ABSOLUTE EOSINOPHIL COUNT", price: 150, vial: "VIOLET" },
@@ -596,6 +621,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         let selectedDate = "Today";
         let selectedSlot = "7:00 – 9:00 AM";
         let pendingPayload = null;
+        let prescriptionFile = null;
 
         function getVialClass(vial) {
             vial = vial.toUpperCase();
@@ -715,6 +741,34 @@ const HTML_PAGE = `<!DOCTYPE html>
             selectedSlot = slot;
         }
 
+        function handleFileChange(input) {
+            const file = input.files[0];
+            const preview = document.getElementById('filePreview');
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size exceeds 5MB limit. Please choose a smaller file.');
+                    input.value = '';
+                    prescriptionFile = null;
+                    preview.style.display = 'none';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    prescriptionFile = {
+                        name: file.name,
+                        type: file.type,
+                        base64: e.target.result.split(',')[1]
+                    };
+                    preview.innerText = '📎 ' + file.name;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                prescriptionFile = null;
+                preview.style.display = 'none';
+            }
+        }
+
         document.getElementById('scheduleForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const total = selectedTests.reduce((sum, t) => sum + t.price, 0);
@@ -729,7 +783,8 @@ const HTML_PAGE = `<!DOCTYPE html>
                 date: selectedDate,
                 timeSlot: selectedSlot,
                 testsList: selectedTests.map(t => t.name + ' (₹' + t.price + ')').join(', '),
-                grandTotal: total
+                grandTotal: total,
+                prescription: prescriptionFile
             };
 
             document.getElementById('revName').innerText = pendingPayload.patientName;
@@ -737,6 +792,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById('revPhone').innerText = pendingPayload.phone;
             document.getElementById('revAddress').innerText = pendingPayload.address;
             document.getElementById('revDoctor').innerText = pendingPayload.referredBy;
+            document.getElementById('revPrescription').innerText = prescriptionFile ? prescriptionFile.name : 'None';
             document.getElementById('revSchedule').innerText = pendingPayload.date + ' (' + pendingPayload.timeSlot + ')';
             document.getElementById('revTests').innerText = selectedTests.map(t => t.name).join(', ');
             document.getElementById('revTotal').innerText = '₹' + total;
@@ -780,6 +836,8 @@ const HTML_PAGE = `<!DOCTYPE html>
         function dismissSuccess() {
             document.getElementById('successScreen').style.display = 'none';
             selectedTests = [];
+            prescriptionFile = null;
+            document.getElementById('filePreview').style.display = 'none';
             document.getElementById('scheduleForm').reset();
             showHomeView();
             applyFilter();
@@ -789,6 +847,37 @@ const HTML_PAGE = `<!DOCTYPE html>
     </script>
 </body>
 </html>`;
+
+function sendGreenApiRequest(path, payload) {
+    return new Promise((resolve, reject) => {
+        const postData = JSON.stringify(payload);
+        const options = {
+            hostname: 'api.green-api.com',
+            path: path,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(postData)
+            }
+        };
+
+        const apiReq = https.request(options, (apiRes) => {
+            let apiResponse = '';
+            apiRes.on('data', chunk => { apiResponse += chunk; });
+            apiRes.on('end', () => {
+                try {
+                    resolve(JSON.parse(apiResponse));
+                } catch {
+                    resolve({ raw: apiResponse });
+                }
+            });
+        });
+
+        apiReq.on('error', (e) => reject(e));
+        apiReq.write(postData);
+        apiReq.end();
+    });
+}
 
 const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -810,10 +899,10 @@ const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url === '/send-booking') {
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
-        req.on('end', () => {
+        req.on('end', async () => {
             try {
                 const data = JSON.parse(body);
-                const { patientName, age, sex, phone, address, referredBy, testsList, grandTotal, date, timeSlot } = data;
+                const { patientName, age, sex, phone, address, referredBy, testsList, grandTotal, date, timeSlot, prescription } = data;
 
                 const message = `*📋 NEW HOME COLLECTION SCHEDULED*\n` +
                     `--------------------------------\n` +
@@ -827,43 +916,37 @@ const server = http.createServer((req, res) => {
                     `--------------------------------\n` +
                     `🧪 *Selected Tests:*\n${testsList || 'N/A'}\n` +
                     `--------------------------------\n` +
-                    `💰 *Grand Total: ₹${grandTotal || 0}*`;
+                    `💰 *Grand Total: ₹${grandTotal || 0}*` +
+                    (prescription ? `\n📎 *Prescription Attached:* ${prescription.name}` : '');
 
-                const postData = JSON.stringify({
-                    chatId: TARGET_CHAT_ID,
-                    message: message
-                });
+                let responseResult = {};
 
-                const options = {
-                    hostname: 'api.green-api.com',
-                    path: `/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`,
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Content-Length': Buffer.byteLength(postData)
-                    }
-                };
+                if (prescription && prescription.base64) {
+                    // হোৱাটছএপত প্ৰেচক্ৰিপশ্বন ফাইল আৰু কেপশ্বন প্ৰেৰণ
+                    const filePath = `/waInstance${ID_INSTANCE}/sendFileByUpload/${API_TOKEN}`;
+                    const filePayload = {
+                        chatId: TARGET_CHAT_ID,
+                        fileName: prescription.name || 'Prescription.jpg',
+                        caption: message,
+                        file: prescription.base64
+                    };
+                    responseResult = await sendGreenApiRequest(filePath, filePayload);
+                } else {
+                    // কেৱল মেছেজ প্ৰেৰণ
+                    const msgPath = `/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`;
+                    const msgPayload = {
+                        chatId: TARGET_CHAT_ID,
+                        message: message
+                    };
+                    responseResult = await sendGreenApiRequest(msgPath, msgPayload);
+                }
 
-                const apiReq = https.request(options, (apiRes) => {
-                    let apiResponse = '';
-                    apiRes.on('data', chunk => { apiResponse += chunk; });
-                    apiRes.on('end', () => {
-                        res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ success: true, greenApiResponse: JSON.parse(apiResponse || '{}') }));
-                    });
-                });
-
-                apiReq.on('error', (e) => {
-                    res.writeHead(500, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: e.message }));
-                });
-
-                apiReq.write(postData);
-                apiReq.end();
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, greenApiResponse: responseResult }));
 
             } catch (err) {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Invalid JSON payload' }));
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: err.message }));
             }
         });
     } else {
