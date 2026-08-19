@@ -1,67 +1,54 @@
-    // Green API Backend Integration Form Trigger
-    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+const express = require('express');
+const path = require('path');
 
-        const submitBtn = document.getElementById('submitBookingBtn');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Booking in progress...';
+const app = express();
+app.use(express.json());
 
-        const name = document.getElementById('patientName').value.trim();
-        const age = document.getElementById('patientAge').value.trim();
-        const sex = document.getElementById('patientSex').value;
-        const phone = document.getElementById('patientPhone').value.trim();
-        const address = document.getElementById('patientAddress').value.trim();
-        
-        // Referred By মান সংগ্ৰহ (খালী থাকিলে 'Self' হ'ব)
-        const referredBy = document.getElementById('referredBy').value.trim() || 'Self (নিজাববীয়াকৈ)';
+// Frontend ফাইলসমূহ (HTML/CSS/JS) থকা folder চাৰ্ভ কৰিবলৈ
+app.use(express.static(path.join(__dirname, 'public'))); // যদি ফাইলবোৰ public ফোল্ডাৰত আছে
 
-        let total = 0;
-        const testList = [];
-        selectedTests.forEach((price, tName) => {
-            total += price;
-            testList.push(`• ${tName} (₹${price})`);
+// Green API Credentials (Render Environment Variables ৰ পৰা ল'ব)
+const ID_INSTANCE = process.env.GREEN_API_ID_INSTANCE;
+const API_TOKEN_INSTANCE = process.env.GREEN_API_TOKEN_INSTANCE;
+const ADMIN_PHONE = process.env.ADMIN_PHONE || '916000219209'; // যিটো নম্বৰত জাননী যাব
+
+// Booking Endpoint
+app.post('/api/book-test', async (req, res) => {
+    try {
+        const { message } = req.body;
+
+        if (!message) {
+            return res.status(400).json({ success: false, message: 'Message content is missing.' });
+        }
+
+        // Green API SendMessage URL
+        const greenApiUrl = `https://api.green-api.com/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN_INSTANCE}`;
+
+        const payload = {
+            chatId: `${ADMIN_PHONE}@c.us`,
+            message: message
+        };
+
+        const apiResponse = await fetch(greenApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         });
 
-        const formattedMessage = `*📋 NEW HOME COLLECTION SCHEDULED*\n` +
-            `--------------------------------\n` +
-            `👤 *Patient Name:* ${name}\n` +
-            `🎂 *Age / Sex:* ${age} Yrs / ${sex}\n` +
-            `📞 *Phone:* ${phone}\n` +
-            `📍 *Pickup Address:* ${address}\n` +
-            `🩺 *Referred By:* ${referredBy}\n` +
-            `🗓 *Date:* ${chosenDate}\n` +
-            `⏰ *Time Slot:* ${chosenSlot}\n` +
-            `--------------------------------\n` +
-            `🧪 *Selected Tests (${selectedTests.size}):*\n${testList.join('\n')}\n` +
-            `--------------------------------\n` +
-            `💰 *Grand Total: ₹${total.toLocaleString()}*`;
+        const data = await apiResponse.json();
 
-        try {
-            const response = await fetch('/api/book-test', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    patientPhone: phone,
-                    message: formattedMessage
-                })
-            });
-
-            const data = await response.json();
-
-            if (response.ok && data.success) {
-                alert('ধন্যবাদ! আপোনাৰ তেজ সংগ্ৰহৰ অনুৰোধ সফলভাৱে পঠিওৱা হ’ল। অতি সোনকালে আমি যোগাযোগ কৰিম।');
-                document.getElementById('bookingForm').reset();
-                selectedTests.clear();
-                updateUI();
-                closeScheduleModal();
-            } else {
-                alert('Error: ' + (data.message || 'মেছেজ পঠিওৱাত সমস্যা হৈছে।'));
-            }
-        } catch (err) {
-            console.error(err);
-            alert('চাৰ্ভাৰৰ লগত সংযোগ স্থাপন নহ’ল! অনুগ্ৰহ কৰি Render Settings পৰীক্ষা কৰক।');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Confirm home collection <i class="fa-solid fa-arrow-right"></i>';
+        if (apiResponse.ok && data.idMessage) {
+            return res.status(200).json({ success: true, messageId: data.idMessage });
+        } else {
+            return res.status(500).json({ success: false, message: 'Green API error' });
         }
-    });
+    } catch (error) {
+        console.error('Error sending message:', error);
+        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
