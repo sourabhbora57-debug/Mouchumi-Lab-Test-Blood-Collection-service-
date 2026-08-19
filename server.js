@@ -4,36 +4,35 @@ const path = require('path');
 const app = express();
 
 app.use(express.json());
-app.use(express.static(__dirname));
+
+// public ফোল্ডাৰটো static ফাইলৰ বাবে serve কৰা হৈছে
+app.use(express.static(path.join(__dirname, 'public')));
 
 const idInstance = process.env.GREEN_API_INSTANCE_ID;
 const apiTokenInstance = process.env.GREEN_API_TOKEN;
-
-// আপোনাৰ WhatsApp নম্বৰ (য’ত বুকিঙৰ এলাৰ্ট যাব)
 const ADMIN_PHONE = "916000219209";
 
-// ৱেবচাইটৰ Homepage লোড কৰা
+// public/index.html ফাইলটো Homepage হিচাপে লোড কৰা
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Green API দ্বাৰা বুকিং মেছেজ পঠোৱা
+// Green API বুকিং API
 app.post('/api/book-test', async (req, res) => {
     const { patientPhone, message } = req.body;
 
     if (!idInstance || !apiTokenInstance) {
-        console.error("Environment variables missing!");
         return res.status(500).json({ 
             success: false, 
-            message: 'Green API Credentials missing in Render Environment Variables.' 
+            message: 'Green API Credentials missing in Render Environment.' 
         });
     }
 
     const greenApiUrl = `https://api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`;
 
     try {
-        // ১. ব্যৱসায়ৰ নম্বৰলৈ মেছেজ পঠোৱা
-        const adminRes = await fetch(greenApiUrl, {
+        // ১. ব্যৱসায়ৰ WhatsApp নম্বৰলৈ মেছেজ
+        await fetch(greenApiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -42,9 +41,7 @@ app.post('/api/book-test', async (req, res) => {
             })
         });
 
-        const adminData = await adminRes.json();
-
-        // ২. ৰোগীৰ নম্বৰলৈ স্বয়ংক্ৰিয় Confirmation পঠোৱা
+        // ২. ৰোগীৰ নম্বৰলৈ স্বয়ংক্ৰিয় Confirmation
         let cleanPatientPhone = (patientPhone || "").replace(/[^0-9]/g, '');
         if (cleanPatientPhone.length === 10) {
             cleanPatientPhone = '91' + cleanPatientPhone;
@@ -61,9 +58,9 @@ app.post('/api/book-test', async (req, res) => {
             });
         }
 
-        return res.json({ success: true, data: adminData });
+        return res.json({ success: true });
     } catch (error) {
-        console.error('Green API Call Error:', error);
+        console.error('Green API Error:', error);
         return res.status(500).json({ success: false, message: error.message });
     }
 });
