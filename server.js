@@ -13,7 +13,7 @@ const HTML_PAGE = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mouchumi Lab Test Blood Collection - Golaghat</title>
+    <title>Mouchumi Lab Test Blood Collection Service - Golaghat</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -31,19 +31,19 @@ const HTML_PAGE = `<!DOCTYPE html>
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-dark); color: var(--text-main); padding-bottom: 90px; }
+        body { background-color: var(--bg-dark); color: var(--text-main); padding-bottom: 100px; }
         .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg-dark); position: relative; }
 
         /* Top Header */
-        .top-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; }
+        .top-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo-box { display: flex; align-items: center; gap: 12px; }
         .logo-icon { width: 42px; height: 42px; background: linear-gradient(135deg, #0284c7, #0d9488); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 12px rgba(2,132,199,0.3); }
-        .logo-text h3 { font-size: 15px; font-weight: 700; color: #fff; line-height: 1.2; }
-        .logo-text p { font-size: 12px; color: var(--text-muted); }
-        .notif-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--card-dark); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
+        .logo-text h3 { font-size: 14.5px; font-weight: 800; color: #fff; line-height: 1.2; }
+        .logo-text p { font-size: 11px; color: var(--accent-cyan); }
+        .notif-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--card-dark); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
 
         /* View Section */
-        .view-section { padding: 0 20px; }
+        .view-section { padding: 16px 20px 0; }
         .badge-tag { color: var(--accent-cyan); font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
         .hero-title { font-size: 28px; font-weight: 800; line-height: 1.15; margin-bottom: 8px; letter-spacing: -0.5px; }
         .hero-title span { color: var(--accent-cyan); }
@@ -74,7 +74,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         .tests-scroll-view::-webkit-scrollbar { width: 4px; }
         .tests-scroll-view::-webkit-scrollbar-thumb { background: #1e3d5f; border-radius: 10px; }
 
-        /* Modern Premium Test Card */
+        /* Test Card */
         .test-item-card { background: linear-gradient(145deg, #10263c 0%, #0d1f30 100%); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; }
         .test-item-card.selected { border-color: var(--accent-cyan); background: linear-gradient(145deg, #153856 0%, #0e2942 100%); box-shadow: 0 4px 15px rgba(2,132,199,0.2); }
         .test-left-content { max-width: 68%; }
@@ -145,17 +145,34 @@ const HTML_PAGE = `<!DOCTYPE html>
         .cart-next-btn { background: #fff; color: #0369a1; border: none; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; }
 
         .wa-float { position: fixed; bottom: 85px; right: 20px; background: #22c55e; color: #fff; padding: 10px 16px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 16px rgba(34,197,94,0.3); z-index: 99; }
+
+        /* Footer Section */
+        .app-footer { background: #050e17; border-top: 1px solid var(--border-color); padding: 24px 20px 30px; text-align: center; margin-top: 20px; }
+        .footer-brand { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 6px; letter-spacing: -0.2px; }
+        .footer-tagline { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+        
+        .footer-contact-box { background: #0a1b2a; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
+        .contact-label { font-size: 11px; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+        .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .phone-badge { color: #fff; text-decoration: none; font-size: 13px; font-weight: 700; background: #132d47; padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
+
+        .footer-social-links { display: flex; justify-content: center; gap: 10px; margin-bottom: 16px; }
+        .social-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 10px; font-size: 12px; font-weight: 700; text-decoration: none; color: #fff; }
+        .social-google { background: #1e3a5f; border: 1px solid #38bdf8; }
+        .social-fb { background: #1877f2; }
+
+        .copyright-text { font-size: 11px; color: #64748b; }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Header -->
+        <!-- Top App Header -->
         <div class="top-nav">
             <div class="logo-box">
                 <div class="logo-icon">💧</div>
                 <div class="logo-text">
-                    <h3>Mouchumi Lab Test</h3>
-                    <p>Golaghat • At-home collection</p>
+                    <h3>Mouchumi Lab Test Blood Collection service</h3>
+                    <p>Golaghat • At-home certified sample collection</p>
                 </div>
             </div>
             <div class="notif-btn">🔔</div>
@@ -174,7 +191,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                 <button class="banner-btn" onclick="focusSearch()">Select Tests ➔</button>
             </div>
 
-            <!-- Dedicated Tests Section with Top Search Bar -->
+            <!-- Dedicated Tests Section with Attached Search -->
             <div class="tests-main-container" id="testBoxContainer">
                 <div class="tests-header-area">
                     <h3>All 156 Tests & Packages</h3>
@@ -340,7 +357,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Success Message Screen -->
+        <!-- Success Dialog -->
         <div id="successScreen" class="success-overlay">
             <div class="success-card">
                 <div class="success-icon">✓</div>
@@ -352,6 +369,33 @@ const HTML_PAGE = `<!DOCTYPE html>
             </div>
         </div>
 
+        <!-- Fixed Footer Section -->
+        <footer class="app-footer">
+            <div class="footer-brand">Mouchumi Lab Test Blood Collection service</div>
+            <div class="footer-tagline">Quality Diagnostic Care At Your Doorstep • Golaghat</div>
+
+            <div class="footer-contact-box">
+                <div class="contact-label">📞 Call / Helpline Numbers</div>
+                <div class="contact-links">
+                    <a href="tel:6000219209" class="phone-badge">📞 6000219209</a>
+                    <a href="tel:6900862973" class="phone-badge">📞 6900862973</a>
+                </div>
+            </div>
+
+            <div class="footer-social-links">
+                <a href="https://www.google.com/search?kgmid=%2Fg%2F11z3b65pfx&hl=en-IN&q=Mouchumi%20Lab%20Test%20Blood%20Collection%20Service&shem=epsd1%2Cltae%2Crimspwouoe&shndl=30&source=sh%2Fx%2Floc%2Fosrp%2Fm1%2F4&kgs=77a96a992d41c88b" target="_blank" class="social-btn social-google">
+                    🌐 Google Listing
+                </a>
+                <a href="https://www.facebook.com/share/1Bv1KmUsSt/" target="_blank" class="social-btn social-fb">
+                    📘 Facebook Page
+                </a>
+            </div>
+
+            <div class="copyright-text">
+                © 2026 Mouchumi Lab Test Blood Collection service. All rights reserved.
+            </div>
+        </footer>
+
         <!-- Floating Cart Footer -->
         <div id="cartBar" class="floating-cart" style="display: none;">
             <div class="cart-info">
@@ -361,7 +405,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             <button class="cart-next-btn" onclick="goToBooking()">Schedule Visit ➔</button>
         </div>
 
-        <!-- WhatsApp Chat -->
+        <!-- Floating WhatsApp -->
         <a href="https://wa.me/916000219209" target="_blank" class="wa-float">
             <span>💬</span> Chat
         </a>
@@ -604,7 +648,6 @@ const HTML_PAGE = `<!DOCTYPE html>
             let filtered = ALL_TESTS;
             if (val) {
                 filtered = ALL_TESTS.filter(t => t.name.toLowerCase().includes(val) || t.vial.toLowerCase().includes(val));
-                // Scroll page and internal box to make the test immediately visible at top
                 document.getElementById('testBoxContainer').scrollIntoView({ behavior: 'smooth' });
                 document.getElementById('testsContainer').scrollTop = 0;
             }
@@ -652,7 +695,6 @@ const HTML_PAGE = `<!DOCTYPE html>
             selectedSlot = slot;
         }
 
-        // Form Submit -> Opens Review Modal First
         document.getElementById('scheduleForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const total = selectedTests.reduce((sum, t) => sum + t.price, 0);
@@ -670,7 +712,6 @@ const HTML_PAGE = `<!DOCTYPE html>
                 grandTotal: total
             };
 
-            // Populate Review Modal
             document.getElementById('revName').innerText = pendingPayload.patientName;
             document.getElementById('revAgeSex').innerText = pendingPayload.age + ' Yrs / ' + pendingPayload.sex;
             document.getElementById('revPhone').innerText = pendingPayload.phone;
@@ -687,7 +728,6 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById('reviewModal').style.display = 'none';
         }
 
-        // Final Confirm & Submit
         async function submitFinalBooking() {
             if (!pendingPayload) return;
             const btn = document.getElementById('confirmFinalBtn');
