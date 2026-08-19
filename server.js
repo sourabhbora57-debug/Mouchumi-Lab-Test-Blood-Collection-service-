@@ -1,44 +1,68 @@
 const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
 const path = require('path');
 
 const app = express();
-app.use(express.json());
-app.use(cors());
-app.use(express.static(path.join(__dirname, 'public')));
 
-const ID_INSTANCE = process.env.GREEN_API_INSTANCE_ID || '710722713374';
-const API_TOKEN = process.env.GREEN_API_TOKEN;
-const ADMIN_PHONE = process.env.ADMIN_PHONE || '916000219209@c.us';
+app.use(express.json());
+app.use(express.static(path.join(__dirname)));
+
+const idInstance = process.env.GREEN_API_INSTANCE_ID;
+const apiTokenInstance = process.env.GREEN_API_TOKEN;
+
+// আপোনাৰ নম্বৰ (য’ত বুকিঙৰ এলাৰ্ট যাব)
+const ADMIN_PHONE = "916000219209";
 
 app.post('/api/book-test', async (req, res) => {
-    const { name, age, sex, phone, testName, address, date } = req.body;
+    const { patientPhone, message } = req.body;
 
-    if (!name || !phone || !testName || !address) {
-        return res.status(400).json({ success: false, message: 'সকলো তথ্য পূৰণ কৰক।' });
+    if (!idInstance || !apiTokenInstance) {
+        console.error("Environment variables missing!");
+        return res.status(500).json({ 
+            success: false, 
+            message: 'Green API Credentials missing in Render Environment Variables.' 
+        });
     }
 
-    const message = `🩺 *নতুন Blood Test বুকিং!* 🩺\n\n` +
-                    `👤 *নাম:* ${name}\n` +
-                    `🎂 *বয়স (Age):* ${age || 'N/A'}\n` +
-                    `⚧ *লিংগ (Sex):* ${sex || 'N/A'}\n` +
-                    `📞 *ফোন:* ${phone}\n` +
-                    `🧪 *টেষ্ট:* ${testName}\n` +
-                    `📍 *ঠিকনা:* ${address}\n` +
-                    `📅 *তাৰিখ:* ${date || 'ASAP'}`;
+    const greenApiUrl = `https://api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`;
 
     try {
-        const url = `https://7107.api.greenapi.com/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`;
-        await axios.post(url, { chatId: ADMIN_PHONE, message: message });
-        return res.status(200).json({ success: true, message: 'বুকিং সফল হৈছে।' });
+        // ১. Admin WhatsApp নম্বৰলৈ Booking Notification পঠোৱা
+        const adminRes = await fetch(greenApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chatId: `${ADMIN_PHONE}@c.us`,
+                message: message
+            })
+        });
+
+        const adminData = await adminRes.json();
+
+        // ২. ৰোগীৰ WhatsApp নম্বৰলৈ স্বয়ংক্ৰিয় Confirmation পঠোৱা
+        let cleanPatientPhone = (patientPhone || "").replace(/[^0-9]/g, '');
+        if (cleanPatientPhone.length === 10) {
+            cleanPatientPhone = '91' + cleanPatientPhone;
+        }
+
+        if (cleanPatientPhone.length >= 12) {
+            await fetch(greenApiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chatId: `${cleanPatientPhone}@c.us`,
+                    message: `নমস্কাৰ! Mouchumi Lab Test Blood Collection service-ত আপোনাৰ অনুৰোধ লাভ কৰা হৈছে। আমাৰ দলৰ ফালৰ পৰা অতি সোনকালে যোগাযোগ কৰা হ'ব।\n\n${message}`
+                })
+            });
+        }
+
+        return res.json({ success: true, data: adminData });
     } catch (error) {
-        console.error('Green-API Error:', error.response ? error.response.data : error.message);
-        return res.status(500).json({ success: false, message: 'মেছেজ পঠোৱাত সমস্যা হৈছে।' });
+        console.error('Green API Call Error:', error);
+        return res.status(500).json({ success: false, message: error.message });
     }
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`চাৰ্ভাৰ চলি আছে: http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
