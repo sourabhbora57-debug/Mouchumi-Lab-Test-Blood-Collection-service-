@@ -119,43 +119,7 @@
             margin-bottom: 18px;
         }
 
-        /* Search Input */
-        .search-box {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-            position: sticky;
-            top: 12px;
-            z-index: 30;
-            backdrop-filter: blur(12px);
-        }
-        .search-box input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #ffffff;
-            font-size: 14px;
-            width: 100%;
-        }
-        .search-box input::placeholder {
-            color: var(--text-muted);
-        }
-        .search-badge {
-            background: var(--card-active);
-            color: var(--cyan-primary);
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        /* Banner Card */
+        /* Hero Banner */
         .banner-card {
             background: var(--banner-gradient);
             border-radius: 20px;
@@ -210,24 +174,6 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-        }
-
-        /* Section Headings */
-        .section-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-        .section-head h3 {
-            font-size: 17px;
-            font-weight: 800;
-        }
-        .section-head a {
-            font-size: 12px;
-            color: var(--cyan-primary);
-            text-decoration: none;
-            font-weight: 700;
         }
 
         /* Popular Tests Scroll */
@@ -308,16 +254,74 @@
             color: #061723;
         }
 
-        /* Test Box Card */
-        .test-card {
-            background: var(--card-bg);
+        /* Dedicated Tests Box Container */
+        .tests-box-wrapper {
+            background: #091e2b;
             border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 14px 16px;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+        }
+
+        .tests-box-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 14px;
+        }
+        .tests-box-header h3 {
+            font-size: 16px;
+            font-weight: 800;
+        }
+        .tests-box-header span {
+            font-size: 12px;
+            color: var(--cyan-primary);
+            font-weight: 700;
+        }
+
+        /* Instant Search Box Inside Container */
+        .search-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 11px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 13.5px;
+            width: 100%;
+        }
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+        .search-badge {
+            background: var(--card-active);
+            color: var(--cyan-primary);
+            font-size: 10.5px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* Test Card Item */
+        .test-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
             cursor: pointer;
             transition: all 0.15s ease;
         }
@@ -328,19 +332,19 @@
         .test-card-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex: 1;
         }
         .test-card-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
             background: rgba(56, 189, 248, 0.08);
             color: var(--cyan-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 14px;
             flex-shrink: 0;
         }
         .test-card.active .test-card-icon {
@@ -348,22 +352,41 @@
             color: #061723;
         }
         .test-card-info h4 {
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 700;
             color: #ffffff;
             line-height: 1.25;
         }
-        .test-card-info p {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 2px;
+        .test-card-sub {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 3px;
         }
+
+        /* Vial Colour Badges */
+        .vial-badge {
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .vial-violet { background: rgba(168, 85, 247, 0.18); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+        .vial-red { background: rgba(239, 68, 68, 0.18); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+        .vial-blue { background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+        .vial-grey { background: rgba(148, 163, 184, 0.18); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.4); }
+        .vial-black { background: rgba(15, 23, 42, 0.6); color: #ffffff; border: 1px solid #334155; }
+        .vial-green { background: rgba(34, 197, 94, 0.18); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
+        .vial-na { background: rgba(100, 116, 139, 0.1); color: var(--text-muted); border: 1px solid rgba(100, 116, 139, 0.2); }
+
         .test-card-right {
             text-align: right;
             margin-left: 10px;
         }
         .test-card-right .price {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 800;
             color: var(--cyan-primary);
         }
@@ -374,17 +397,16 @@
             background: var(--card-bg);
             border: 1px dashed var(--card-border);
             color: var(--cyan-primary);
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 13px;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 12.5px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            margin-top: 10px;
-            margin-bottom: 14px;
+            margin-top: 8px;
         }
 
         /* Bottom Floating Multi-Test Bar */
@@ -652,44 +674,6 @@
             display: block;
         }
 
-        /* Prescription Box */
-        .prescription-box {
-            background: var(--card-bg);
-            border: 1px dashed var(--card-border);
-            border-radius: 14px;
-            padding: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 14px;
-            margin-bottom: 20px;
-            cursor: pointer;
-        }
-        .prescription-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .pres-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--cyan-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-        .prescription-text h5 {
-            font-size: 13px;
-            font-weight: 700;
-        }
-        .prescription-text p {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
         .btn-confirm-all {
             width: 100%;
             background: var(--cyan-primary);
@@ -705,16 +689,6 @@
             justify-content: center;
             gap: 8px;
             margin-top: 15px;
-        }
-        .security-badge {
-            text-align: center;
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
     </style>
 </head>
@@ -739,13 +713,6 @@
     <h1 class="hero-title">The care you need,<br><span>right at home.</span></h1>
     <p class="hero-sub">Safe, gentle sample collection from certified labs, whenever it suits you.</p>
 
-    <!-- Instant Live Search Bar -->
-    <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
-        <input type="text" id="searchInput" placeholder="Search for a test or package..." autocomplete="off">
-        <span class="search-badge">⌘ K</span>
-    </div>
-
     <!-- Gradient Hero Banner -->
     <div class="banner-card">
         <div class="banner-tag"><i class="fa-solid fa-house-chimney-medical"></i> HOME COLLECTION</div>
@@ -762,7 +729,6 @@
             <h3>Popular tests</h3>
             <p style="font-size: 11.5px; color: var(--text-muted);">Most booked this week</p>
         </div>
-        <a href="#testsSection" onclick="showAllTestsView()">View all</a>
     </div>
 
     <div class="popular-scroll">
@@ -803,22 +769,28 @@
         </div>
     </div>
 
-    <!-- All Tests List Header -->
-    <div class="section-head" id="testsSection">
-        <div>
-            <h3>All tests & prices</h3>
-            <p style="font-size: 11.5px; color: var(--text-muted);">156 tests from certified lab list</p>
+    <!-- Tests Search & Selection Container Box -->
+    <div class="tests-box-wrapper" id="testsSection">
+        <div class="tests-box-header">
+            <h3>Select Tests & Packages</h3>
+            <span>156 Tests</span>
         </div>
-        <span style="font-size:12px; color:var(--cyan-primary); font-weight:700;">Featured</span>
+
+        <!-- Instant Live Search Bar Inside Box -->
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+            <input type="text" id="searchInput" placeholder="Search test name (e.g. CBC, Thyroid, KFT)..." autocomplete="off">
+            <span class="search-badge">Instant</span>
+        </div>
+
+        <!-- Dynamic Tests List -->
+        <div id="testsContainer"></div>
+
+        <!-- Show More / Less Button -->
+        <button id="toggleAllBtn" class="btn-toggle-all" onclick="toggleViewAll()">
+            <span>View all 156 tests</span> <i class="fa-solid fa-angle-down"></i>
+        </button>
     </div>
-
-    <!-- Dynamic Tests List (Box Format) -->
-    <div id="testsContainer"></div>
-
-    <!-- Show More / Less Button -->
-    <button id="toggleAllBtn" class="btn-toggle-all" onclick="toggleViewAll()">
-        <span>View all 156 tests</span> <i class="fa-solid fa-angle-down"></i>
-    </button>
 
 </div>
 
@@ -907,216 +879,193 @@
                 <i class="fa-solid fa-circle-check"></i>
             </div>
 
-            <!-- Optional Prescription Upload -->
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
-                <h4 style="font-size:14px; font-weight:800;">Have a prescription?</h4>
-                <span style="font-size:10px; font-weight:700; color:var(--text-muted); background:var(--card-bg); padding:2px 6px; border-radius:4px;">OPTIONAL</span>
-            </div>
-            <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Optional, but helpful if you're unsure.</p>
-
-            <div class="prescription-box" onclick="document.getElementById('rxFile').click()">
-                <div class="prescription-left">
-                    <div class="pres-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                    <div class="prescription-text">
-                        <h5 id="rxFileName">Upload a prescription</h5>
-                        <p id="rxFileSub">Choose from your photos or files</p>
-                    </div>
-                </div>
-                <i class="fa-solid fa-chevron-right" style="color:var(--text-muted); font-size:13px;"></i>
-                <input type="file" id="rxFile" accept="image/*,.pdf" style="display:none" onchange="handleRxUpload(this)">
-            </div>
-
             <button type="submit" class="btn-confirm-all">
                 Confirm home collection <i class="fa-solid fa-arrow-right"></i>
             </button>
-
-            <div class="security-badge">
-                <i class="fa-solid fa-lock"></i> Your details are encrypted and private.
-            </div>
         </form>
     </div>
 </div>
 
 <script>
-    // Complete 156 Tests Database
+    // Complete 156 Tests Database with Vial Colours from PDF
     const allTests = [
-        { name: "CBC", price: 400, popular: true },
-        { name: "LIVER FUNCTION TEST", price: 800, popular: true },
-        { name: "KFT (WITH 3 PARA ELECTROLYTE)", price: 1100, popular: true },
-        { name: "LIPID PROFILE", price: 800, popular: true },
-        { name: "THYROID PROFILE, TOTAL", price: 700, popular: true },
-        { name: "HbA1C", price: 600, popular: true },
-        { name: "FASTING PLASMA GLUCOSE (FBS)", price: 50, popular: true },
-        { name: "VITAMIN D", price: 1700, popular: true },
-        { name: "ABO, Rh GROUPING", price: 100 },
-        { name: "ABSOLUTE EOSINOPHIL COUNT", price: 150 },
-        { name: "ABSOLUTE LYMPHOCYTE COUNT", price: 150 },
-        { name: "ABSOLUTE MONOCYTE COUNT", price: 150 },
-        { name: "ABSOLUTE NEUTROPHIL COUNT", price: 150 },
-        { name: "ADA - TBM", price: 750 },
-        { name: "Albumin", price: 100 },
-        { name: "Allergy Profile", price: 1200 },
-        { name: "AMH", price: 2300 },
-        { name: "AMMONIA", price: 1000 },
-        { name: "ANTENATAL CHECK UP (ANC)", price: 2900 },
-        { name: "ANTI CCP", price: 1600 },
-        { name: "ANTI TPO", price: 2000 },
-        { name: "ANTINUCLEAR ANTI BODY (ANA)", price: 1000 },
-        { name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: 4000 },
-        { name: "APTT", price: 500 },
-        { name: "ASO titre (By Immunoturbidity)", price: 500 },
-        { name: "BAND CELL", price: 150 },
-        { name: "Beta HCG, Serum", price: 900 },
-        { name: "BIOPSY- Small Tissue", price: 800 },
-        { name: "BIOPSY- Medium Tissue", price: 1000 },
-        { name: "BIOPSY- Large Tissue", price: 1200 },
-        { name: "BIOPSY- Extra Large Tissue", price: 2000 },
-        { name: "BLEEDING TIME / CLOTTING TIME (BT / CT)", price: 50 },
-        { name: "BLOOD UREA", price: 200 },
-        { name: "BUN", price: 150 },
-        { name: "CPK MB", price: 1350 },
-        { name: "CRP (TITRE) immunoturbidity", price: 450 },
-        { name: "CA 125", price: 1600 },
-        { name: "CHOLESTEROL TOTAL", price: 200 },
-        { name: "COAGULATION PROFILE", price: 1200 },
-        { name: "CSF ANALYSIS", price: 550 },
-        { name: "DENGUE, Serology Test", price: 900 },
-        { name: "DIABETIC PROFILE", price: 2500 },
-        { name: "Differential Leucocyte Count (D.L.C)", price: 150 },
-        { name: "DIRECT COOMBS TEST", price: 250 },
-        { name: "DIRECT/INDIRECT BILIRUBIN", price: 150 },
-        { name: "eGFR", price: 500 },
-        { name: "ELECTROLYTE 3 (THREE) PARAMETERS", price: 600 },
-        { name: "ESR", price: 100 },
-        { name: "FERRITIN", price: 1000 },
-        { name: "FERTILITY PROFILE", price: 1500 },
-        { name: "FERTILITY PROFILE (MALE)", price: 2400 },
-        { name: "FSH", price: 650 },
-        { name: "FT3", price: 600 },
-        { name: "FT4", price: 600 },
-        { name: "FUNGAL SMEAR", price: 250 },
-        { name: "G6PD", price: 600 },
-        { name: "GAMMA G. T. (GGT)", price: 400 },
-        { name: "GCT WITH 75 GM GLUCOSE", price: 150 },
-        { name: "GLUCOSE TOLERENCE TEST", price: 400 },
-        { name: "GRAM STAIN", price: 150 },
-        { name: "H D L CHOLESTEROL", price: 350 },
-        { name: "HAEMOGLOBIN (Hb)", price: 100 },
-        { name: "Hb TYPING", price: 1400 },
-        { name: "HEPATITIS A / HAV (SCREENING)", price: 600 },
-        { name: "HEPATITIS B SURFACE AG (HBsAg)", price: 400 },
-        { name: "HEPATITIS C (SCREENING)", price: 400 },
-        { name: "HEPATITIS E (SCREENING)", price: 600 },
-        { name: "HEPATITIS PANEL", price: 3500 },
-        { name: "HIV (I & II) SCREENING", price: 350 },
-        { name: "IMMATURE CELL", price: 150 },
-        { name: "INDIRECT COOMBS TEST", price: 1100 },
-        { name: "IRON", price: 500 },
-        { name: "IRON & TIBC", price: 750 },
-        { name: "IRON & UIBC", price: 750 },
-        { name: "IRON PROFILE", price: 1500 },
-        { name: "KOH TEST FOR SKIN & NAILS", price: 300 },
-        { name: "LDH", price: 650 },
-        { name: "Leptospira (IgM/IgG)", price: 600 },
-        { name: "LH", price: 650 },
-        { name: "LIPASE", price: 500 },
-        { name: "M.P. By Slide Method / PBF FOR MP", price: 250 },
-        { name: "MALARIA PF/PV CARD RAPID TEST", price: 250 },
-        { name: "MALIGNANT CELL", price: 550 },
-        { name: "MICROALBUMIN, Spot Urine", price: 600 },
-        { name: "NT PRO BNP", price: 1750 },
-        { name: "PBS FOR CELL MORPHOLOGY", price: 250 },
-        { name: "PLATELET COUNT", price: 100 },
-        { name: "PLEURAL FLUID ANALYSIS: PHYSICAL, CHEMICAL AND MICROSCOPIC", price: 850 },
-        { name: "PLEURAL FLUID ANALYSIS: CYTOLOGICAL", price: 500 },
-        { name: "PLEURAL FLUID ANALYSIS: ADA", price: 650 },
-        { name: "PLEURAL FLUID ANALYSIS: LH", price: 400 },
-        { name: "POST PRANDIAL PLASMA GLUCOSE (PPBS)", price: 50 },
-        { name: "PROLACTIN", price: 900 },
-        { name: "PROTHROMBIN TIME (PT INR)", price: 400 },
-        { name: "PSA", price: 1050 },
-        { name: "QUANTI FERON", price: 1800 },
-        { name: "QUANTITATIVE HBsAg", price: 600 },
-        { name: "QUANTITATIVE HCV", price: 600 },
-        { name: "QUANTITATIVE HIV", price: 600 },
-        { name: "R.A FACTOR", price: 250 },
-        { name: "RANDOM PLASMA GLUCOSE (RBS)", price: 100 },
-        { name: "RETICULOCYTE COUNT", price: 300 },
-        { name: "Rh ANTIBODY TITRE", price: 650 },
-        { name: "ROUTINE EXAM.OF BLOOD", price: 300 },
-        { name: "Scrub typhus (IgM/IgG)", price: 500 },
-        { name: "SGOT / AST", price: 150 },
-        { name: "SGPT / ALT", price: 150 },
-        { name: "SEMEN ANALYSIS", price: 500 },
-        { name: "Sepsis Screen", price: 800 },
-        { name: "SERUM ALK. PHOSPHATASE", price: 200 },
-        { name: "SERUM AMYLASE", price: 450 },
-        { name: "SERUM BILIRUBIN, TOTAL", price: 150 },
-        { name: "SERUM CALCIUM", price: 250 },
-        { name: "SERUM C-PEPTIDE", price: 1000 },
-        { name: "SERUM CHLORIDE", price: 250 },
-        { name: "SERUM CREATININE", price: 150 },
-        { name: "SERUM IgE", price: 900 },
-        { name: "SERUM MAGNESIUM", price: 500 },
-        { name: "SERUM PHOSPHATE", price: 350 },
-        { name: "SERUM PHOSPHORUS", price: 500 },
-        { name: "SERUM POTASSIUM (K)", price: 250 },
-        { name: "SERUM SODIUM (Na)", price: 250 },
-        { name: "SPUTUM AFB (Z.N. STAIN)", price: 250 },
-        { name: "Sputum AFB Culture", price: 1100 },
-        { name: "STOOL for Culture and Sensitivity", price: 600 },
-        { name: "STOOL FOR OCCULT BLOOD", price: 150 },
-        { name: "STOOL R E", price: 150 },
-        { name: "T3", price: 400 },
-        { name: "T4", price: 400 },
-        { name: "TESTOSTEORNE-FREE", price: 2600 },
-        { name: "TESTOSTERONE - TOTAL", price: 900 },
-        { name: "TORCH PANEL (10 PROFILE)", price: 3000 },
-        { name: "TOTAL PROTEIN & FRACTION", price: 300 },
-        { name: "TOTAL R B C COUNT", price: 100 },
-        { name: "TOTAL W B C COUNT (T C)", price: 100 },
-        { name: "TOXO TEST (IgM & IgG)", price: 1500 },
-        { name: "TRIGLYCERIDE", price: 250 },
-        { name: "TROPONIN I TEST", price: 1250 },
-        { name: "TROPONIN T TEST", price: 1300 },
-        { name: "TSH", price: 400 },
-        { name: "TYPHIDOT", price: 350 },
-        { name: "URIC ACID", price: 150 },
-        { name: "Urine Albumin", price: 100 },
-        { name: "URINE CULTURE", price: 350 },
-        { name: "URINE FOR ACR", price: 600 },
-        { name: "URINE PREGNANCY TEST / beta HCG", price: 150 },
-        { name: "URINE PROTEIN 24 HOURS", price: 350 },
-        { name: "URINE R.E.", price: 150 },
-        { name: "Urine Sugar", price: 100 },
-        { name: "VDRL KIT", price: 400 },
-        { name: "Vitamin A", price: 4000 },
-        { name: "Vitamin B12", price: 1500 },
-        { name: "Vitamin C", price: 3500 },
-        { name: "Vitamin E", price: 2500 },
-        { name: "Vitamin K", price: 4500 },
-        { name: "WIDAL TEST", price: 250 }
+        { name: "CBC", price: 400, vial: "VIOLET", popular: true },
+        { name: "LIVER FUNCTION TEST", price: 800, vial: "RED", popular: true },
+        { name: "KFT (WITH 3 PARA ELECTROLYTE)", price: 1100, vial: "RED", popular: true },
+        { name: "LIPID PROFILE", price: 800, vial: "RED", popular: true },
+        { name: "THYROID PROFILE, TOTAL", price: 700, vial: "RED", popular: true },
+        { name: "HbA1C", price: 600, vial: "VIOLET", popular: true },
+        { name: "FASTING PLASMA GLUCOSE (FBS)", price: 50, vial: "GREY", popular: true },
+        { name: "VITAMIN D", price: 1700, vial: "RED", popular: true },
+        { name: "ABO, Rh GROUPING", price: 100, vial: "VIOLET" },
+        { name: "ABSOLUTE EOSINOPHIL COUNT", price: 150, vial: "VIOLET" },
+        { name: "ABSOLUTE LYMPHOCYTE COUNT", price: 150, vial: "VIOLET" },
+        { name: "ABSOLUTE MONOCYTE COUNT", price: 150, vial: "VIOLET" },
+        { name: "ABSOLUTE NEUTROPHIL COUNT", price: 150, vial: "VIOLET" },
+        { name: "ADA - TBM", price: 750, vial: "RED" },
+        { name: "Albumin", price: 100, vial: "RED" },
+        { name: "Allergy Profile", price: 1200, vial: "VIOLET & RED" },
+        { name: "AMH", price: 2300, vial: "RED" },
+        { name: "AMMONIA", price: 1000, vial: "VIOLET" },
+        { name: "ANTENATAL CHECK UP (ANC)", price: 2900, vial: "GREY, VIOLET & RED" },
+        { name: "ANTI CCP", price: 1600, vial: "RED" },
+        { name: "ANTI TPO", price: 2000, vial: "RED" },
+        { name: "ANTINUCLEAR ANTI BODY (ANA)", price: 1000, vial: "RED" },
+        { name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: 4000, vial: "RED" },
+        { name: "APTT", price: 500, vial: "BLUE" },
+        { name: "ASO titre (By Immunoturbidity)", price: 500, vial: "RED" },
+        { name: "BAND CELL", price: 150, vial: "VIOLET" },
+        { name: "Beta HCG, Serum", price: 900, vial: "RED" },
+        { name: "BIOPSY- Small Tissue", price: 800, vial: "NA" },
+        { name: "BIOPSY- Medium Tissue", price: 1000, vial: "NA" },
+        { name: "BIOPSY- Large Tissue", price: 1200, vial: "NA" },
+        { name: "BIOPSY- Extra Large Tissue", price: 2000, vial: "NA" },
+        { name: "BLEEDING TIME / CLOTTING TIME (BT / CT)", price: 50, vial: "NA" },
+        { name: "BLOOD UREA", price: 200, vial: "RED" },
+        { name: "BUN", price: 150, vial: "RED" },
+        { name: "CPK MB", price: 1350, vial: "RED" },
+        { name: "CRP (TITRE) immunoturbidity", price: 450, vial: "RED" },
+        { name: "CA 125", price: 1600, vial: "RED" },
+        { name: "CHOLESTEROL TOTAL", price: 200, vial: "RED" },
+        { name: "COAGULATION PROFILE", price: 1200, vial: "BLUE" },
+        { name: "CSF ANALYSIS", price: 550, vial: "NA" },
+        { name: "DENGUE, Serology Test", price: 900, vial: "RED" },
+        { name: "DIABETIC PROFILE", price: 2500, vial: "GREY, VIOLET" },
+        { name: "Differential Leucocyte Count (D.L.C)", price: 150, vial: "VIOLET" },
+        { name: "DIRECT COOMBS TEST", price: 250, vial: "RED" },
+        { name: "DIRECT/INDIRECT BILIRUBIN", price: 150, vial: "RED" },
+        { name: "eGFR", price: 500, vial: "RED" },
+        { name: "ELECTROLYTE 3 (THREE) PARAMETERS", price: 600, vial: "RED" },
+        { name: "ESR", price: 100, vial: "BLACK" },
+        { name: "FERRITIN", price: 1000, vial: "RED" },
+        { name: "FERTILITY PROFILE", price: 1500, vial: "RED" },
+        { name: "FERTILITY PROFILE (MALE)", price: 2400, vial: "RED" },
+        { name: "FSH", price: 650, vial: "RED" },
+        { name: "FT3", price: 600, vial: "RED" },
+        { name: "FT4", price: 600, vial: "RED" },
+        { name: "FUNGAL SMEAR", price: 250, vial: "NA" },
+        { name: "G6PD", price: 600, vial: "VIOLET" },
+        { name: "GAMMA G. T. (GGT)", price: 400, vial: "RED" },
+        { name: "GCT WITH 75 GM GLUCOSE", price: 150, vial: "GREY" },
+        { name: "GLUCOSE TOLERENCE TEST", price: 400, vial: "GREY" },
+        { name: "GRAM STAIN", price: 150, vial: "VIOLET" },
+        { name: "H D L CHOLESTEROL", price: 350, vial: "RED" },
+        { name: "HAEMOGLOBIN (Hb)", price: 100, vial: "VIOLET" },
+        { name: "Hb TYPING", price: 1400, vial: "VIOLET" },
+        { name: "HEPATITIS A / HAV (SCREENING)", price: 600, vial: "RED" },
+        { name: "HEPATITIS B SURFACE AG (HBsAg)", price: 400, vial: "RED" },
+        { name: "HEPATITIS C (SCREENING)", price: 400, vial: "RED" },
+        { name: "HEPATITIS E (SCREENING)", price: 600, vial: "RED" },
+        { name: "HEPATITIS PANEL", price: 3500, vial: "RED" },
+        { name: "HIV (I & II) SCREENING", price: 350, vial: "RED" },
+        { name: "IMMATURE CELL", price: 150, vial: "VIOLET" },
+        { name: "INDIRECT COOMBS TEST", price: 1100, vial: "RED" },
+        { name: "IRON", price: 500, vial: "RED" },
+        { name: "IRON & TIBC", price: 750, vial: "RED" },
+        { name: "IRON & UIBC", price: 750, vial: "RED" },
+        { name: "IRON PROFILE", price: 1500, vial: "RED" },
+        { name: "KOH TEST FOR SKIN & NAILS", price: 300, vial: "NA" },
+        { name: "LDH", price: 650, vial: "RED" },
+        { name: "Leptospira (IgM/IgG)", price: 600, vial: "RED" },
+        { name: "LH", price: 650, vial: "RED" },
+        { name: "LIPASE", price: 500, vial: "RED" },
+        { name: "M.P. By Slide Method / PBF FOR MP", price: 250, vial: "VIOLET" },
+        { name: "MALARIA PF/PV CARD RAPID TEST", price: 250, vial: "VIOLET" },
+        { name: "MALIGNANT CELL", price: 550, vial: "VIOLET" },
+        { name: "MICROALBUMIN, Spot Urine", price: 600, vial: "NA" },
+        { name: "NT PRO BNP", price: 1750, vial: "RED" },
+        { name: "PBS FOR CELL MORPHOLOGY", price: 250, vial: "VIOLET" },
+        { name: "PLATELET COUNT", price: 100, vial: "VIOLET" },
+        { name: "PLEURAL FLUID ANALYSIS: PHYSICAL, CHEMICAL AND MICROSCOPIC", price: 850, vial: "PF" },
+        { name: "PLEURAL FLUID ANALYSIS: CYTOLOGICAL", price: 500, vial: "PF" },
+        { name: "PLEURAL FLUID ANALYSIS: ADA", price: 650, vial: "PF" },
+        { name: "PLEURAL FLUID ANALYSIS: LH", price: 400, vial: "PF" },
+        { name: "POST PRANDIAL PLASMA GLUCOSE (PPBS)", price: 50, vial: "GREY" },
+        { name: "PROLACTIN", price: 900, vial: "RED" },
+        { name: "PROTHROMBIN TIME (PT INR)", price: 400, vial: "BLUE" },
+        { name: "PSA", price: 1050, vial: "RED" },
+        { name: "QUANTI FERON", price: 1800, vial: "GREEN" },
+        { name: "QUANTITATIVE HBsAg", price: 600, vial: "RED" },
+        { name: "QUANTITATIVE HCV", price: 600, vial: "RED" },
+        { name: "QUANTITATIVE HIV", price: 600, vial: "RED" },
+        { name: "R.A FACTOR", price: 250, vial: "RED" },
+        { name: "RANDOM PLASMA GLUCOSE (RBS)", price: 100, vial: "GREY" },
+        { name: "RETICULOCYTE COUNT", price: 300, vial: "VIOLET" },
+        { name: "Rh ANTIBODY TITRE", price: 650, vial: "VIOLET" },
+        { name: "ROUTINE EXAM.OF BLOOD", price: 300, vial: "VIOLET" },
+        { name: "Scrub typhus (IgM/IgG)", price: 500, vial: "RED" },
+        { name: "SGOT / AST", price: 150, vial: "RED" },
+        { name: "SGPT / ALT", price: 150, vial: "RED" },
+        { name: "SEMEN ANALYSIS", price: 500, vial: "NA" },
+        { name: "Sepsis Screen", price: 800, vial: "VIOLET & RED" },
+        { name: "SERUM ALK. PHOSPHATASE", price: 200, vial: "RED" },
+        { name: "SERUM AMYLASE", price: 450, vial: "RED" },
+        { name: "SERUM BILIRUBIN, TOTAL", price: 150, vial: "RED" },
+        { name: "SERUM CALCIUM", price: 250, vial: "RED" },
+        { name: "SERUM C-PEPTIDE", price: 1000, vial: "RED" },
+        { name: "SERUM CHLORIDE", price: 250, vial: "RED" },
+        { name: "SERUM CREATININE", price: 150, vial: "RED" },
+        { name: "SERUM IgE", price: 900, vial: "RED" },
+        { name: "SERUM MAGNESIUM", price: 500, vial: "RED" },
+        { name: "SERUM PHOSPHATE", price: 350, vial: "RED" },
+        { name: "SERUM PHOSPHORUS", price: 500, vial: "RED" },
+        { name: "SERUM POTASSIUM (K)", price: 250, vial: "RED" },
+        { name: "SERUM SODIUM (Na)", price: 250, vial: "RED" },
+        { name: "SPUTUM AFB (Z.N. STAIN)", price: 250, vial: "NA" },
+        { name: "Sputum AFB Culture", price: 1100, vial: "NA" },
+        { name: "STOOL for Culture and Sensitivity", price: 600, vial: "NA" },
+        { name: "STOOL FOR OCCULT BLOOD", price: 150, vial: "NA" },
+        { name: "STOOL R E", price: 150, vial: "NA" },
+        { name: "T3", price: 400, vial: "RED" },
+        { name: "T4", price: 400, vial: "RED" },
+        { name: "TESTOSTEORNE-FREE", price: 2600, vial: "RED" },
+        { name: "TESTOSTERONE - TOTAL", price: 900, vial: "RED" },
+        { name: "THYROID PROFILE, TOTAL", price: 700, vial: "RED" },
+        { name: "TORCH PANEL (10 PROFILE)", price: 3000, vial: "RED" },
+        { name: "TOTAL PROTEIN & FRACTION", price: 300, vial: "RED" },
+        { name: "TOTAL R B C COUNT", price: 100, vial: "VIOLET" },
+        { name: "TOTAL W B C COUNT (T C)", price: 100, vial: "VIOLET" },
+        { name: "TOXO TEST (IgM & IgG)", price: 1500, vial: "RED" },
+        { name: "TRIGLYCERIDE", price: 250, vial: "RED" },
+        { name: "TROPONIN I TEST", price: 1250, vial: "RED" },
+        { name: "TROPONIN T TEST", price: 1300, vial: "RED" },
+        { name: "TSH", price: 400, vial: "RED" },
+        { name: "TYPHIDOT", price: 350, vial: "RED" },
+        { name: "URIC ACID", price: 150, vial: "RED" },
+        { name: "Urine Albumin", price: 100, vial: "NA" },
+        { name: "URINE CULTURE", price: 350, vial: "NA" },
+        { name: "URINE FOR ACR", price: 600, vial: "NA" },
+        { name: "URINE PREGNANCY TEST / beta HCG", price: 150, vial: "NA" },
+        { name: "URINE PROTEIN 24 HOURS", price: 350, vial: "NA" },
+        { name: "URINE R.E.", price: 150, vial: "NA" },
+        { name: "Urine Sugar", price: 100, vial: "NA" },
+        { name: "VDRL KIT", price: 400, vial: "RED" },
+        { name: "Vitamin A", price: 4000, vial: "RED" },
+        { name: "Vitamin B12", price: 1500, vial: "RED" },
+        { name: "Vitamin C", price: 3500, vial: "RED" },
+        { name: "Vitamin E", price: 2500, vial: "RED" },
+        { name: "Vitamin K", price: 4500, vial: "RED" },
+        { name: "WIDAL TEST", price: 250, vial: "RED" }
     ];
 
     let selectedTests = new Map();
     let isViewAll = false;
     let chosenDate = "Tomorrow";
     let chosenSlot = "7:00 – 9:00 AM (Fasting)";
-    let uploadedFileName = "";
 
     const container = document.getElementById('testsContainer');
     const toggleBtn = document.getElementById('toggleAllBtn');
     const searchInput = document.getElementById('searchInput');
 
-    // Dynamic 3rd day date calculation
-    const nextTwoDays = new Date();
-    nextTwoDays.setDate(nextTwoDays.getDate() + 2);
-    const dayName = nextTwoDays.toLocaleDateString('en-US', { weekday: 'short' });
-    const dayDate = nextTwoDays.getDate();
-    const monthName = nextTwoDays.toLocaleDateString('en-US', { month: 'short' });
-    const thirdPill = document.getElementById('thirdDatePill');
-    if (thirdPill) {
-        thirdPill.innerText = `${dayName}, ${dayDate} ${monthName}`;
+    function getVialBadgeClass(vial) {
+        const v = (vial || "").toUpperCase();
+        if (v.includes('VIOLET')) return 'vial-violet';
+        if (v.includes('RED')) return 'vial-red';
+        if (v.includes('BLUE')) return 'vial-blue';
+        if (v.includes('GREY')) return 'vial-grey';
+        if (v.includes('BLACK')) return 'vial-black';
+        if (v.includes('GREEN')) return 'vial-green';
+        return 'vial-na';
     }
 
     function renderTests() {
@@ -1126,7 +1075,7 @@
         let listToDisplay = [];
 
         if (query.length > 0) {
-            // Instant Live Search
+            // Instant Live Search: Matched tests appear right on top
             listToDisplay = allTests.filter(t => t.name.toLowerCase().includes(query));
             toggleBtn.style.display = 'none';
         } else {
@@ -1143,12 +1092,13 @@
         }
 
         if (listToDisplay.length === 0) {
-            container.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">No tests found.</p>';
+            container.innerHTML = '<p style="text-align:center; padding:16px; font-size:12.5px; color:var(--text-muted);">No tests found.</p>';
             return;
         }
 
         listToDisplay.forEach(test => {
             const isSelected = selectedTests.has(test.name);
+            const badgeClass = getVialBadgeClass(test.vial);
             const card = document.createElement('div');
             card.className = `test-card ${isSelected ? 'active' : ''}`;
             card.onclick = () => toggleTestSelection(test.name, test.price);
@@ -1158,7 +1108,9 @@
                     <div class="test-card-icon"><i class="fa-solid ${isSelected ? 'fa-check' : 'fa-flask-vial'}"></i></div>
                     <div class="test-card-info">
                         <h4>${test.name}</h4>
-                        <p>Home collection available</p>
+                        <div class="test-card-sub">
+                            <span class="vial-badge ${badgeClass}">${test.vial || 'NA'}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="test-card-right">
@@ -1204,7 +1156,7 @@
         renderTests();
     }
 
-    // Search Listener
+    // Instant Search Listener
     searchInput.addEventListener('input', function() {
         renderTests();
     });
@@ -1217,18 +1169,11 @@
         renderTests();
     }
 
-    function showAllTestsView() {
-        isViewAll = true;
-        toggleBtn.innerHTML = '<span>Show less tests</span> <i class="fa-solid fa-angle-up"></i>';
-        scrollToTests();
-        renderTests();
-    }
-
     function scrollToTests() {
         document.getElementById('testsSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Modal Operations
+    // Schedule Modal Operations
     function openScheduleModal() {
         if (selectedTests.size === 0) return;
 
@@ -1261,14 +1206,6 @@
         chosenSlot = slot;
     }
 
-    function handleRxUpload(input) {
-        if (input.files && input.files[0]) {
-            uploadedFileName = input.files[0].name;
-            document.getElementById('rxFileName').innerText = uploadedFileName;
-            document.getElementById('rxFileSub').innerText = 'File attached successfully';
-        }
-    }
-
     // WhatsApp Booking Trigger
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -1284,19 +1221,14 @@
             testList.push(`• ${tName} (₹${price})`);
         });
 
-        let message = `*📋 NEW HOME COLLECTION SCHEDULED*%0A` +
+        const message = `*📋 NEW HOME COLLECTION SCHEDULED*%0A` +
             `--------------------------------%0A` +
             `👤 *Name:* ${name}%0A` +
             `📞 *Phone:* ${phone}%0A` +
             `📍 *Pickup Address:* ${address}%0A` +
             `🗓 *Date:* ${chosenDate}%0A` +
-            `⏰ *Time Slot:* ${chosenSlot}%0A`;
-
-        if (uploadedFileName) {
-            message += `📎 *Prescription:* ${uploadedFileName} (Attached)%0A`;
-        }
-
-        message += `--------------------------------%0A` +
+            `⏰ *Time Slot:* ${chosenSlot}%0A` +
+            `--------------------------------%0A` +
             `🧪 *Selected Tests (${selectedTests.size}):*%0A${testList.join('%0A')}%0A` +
             `--------------------------------%0A` +
             `💰 *Grand Total: ₹${total.toLocaleString()}*`;
@@ -1305,7 +1237,7 @@
         closeScheduleModal();
     });
 
-    // Initial render
+    // Initial compact render
     renderTests();
 </script>
 
