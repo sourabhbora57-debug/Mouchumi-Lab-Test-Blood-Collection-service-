@@ -1,12 +1,8 @@
 {
-  "name": "mouchumi-lab-test-blood-collection",
+  "name": "lab-test-server",
   "version": "1.0.0",
-  "description": "Blood collection booking app with Green API WhatsApp integration",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.19.2"
   }
 }
