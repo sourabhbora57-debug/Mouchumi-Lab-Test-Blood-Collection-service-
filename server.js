@@ -60,7 +60,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '        .tests-scroll-view { max-height: 440px; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-right: 4px; display: flex; flex-direction: column; gap: 10px; }\n' +
 '        .tests-scroll-view::-webkit-scrollbar { width: 4px; }\n' +
 '        .tests-scroll-view::-webkit-scrollbar-thumb { background: #1e3d5f; border-radius: 10px; }\n' +
-'        .test-item-card { background: linear-gradient(145deg, #10263c 0%, #0d1f30 100%); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; cursor: pointer; }\n' +
+'        .test-item-card { background: linear-gradient(145deg, #10263c 0%, #0d1f30 100%); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; cursor: pointer; user-select: none; }\n' +
 '        .test-item-card.selected { border-color: var(--accent-cyan); background: linear-gradient(145deg, #153856 0%, #0e2942 100%); box-shadow: 0 4px 15px rgba(2,132,199,0.2); }\n' +
 '        .test-left-content { max-width: 68%; pointer-events: none; }\n' +
 '        .test-title { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.35; margin-bottom: 4px; }\n' +
@@ -75,7 +75,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '        .vial-na { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid #475569; }\n' +
 '        .test-right-content { text-align: right; min-width: 80px; }\n' +
 '        .test-cost { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 6px; pointer-events: none; }\n' +
-'        .add-action-btn { background: #081726; border: 1px solid #1e3d5f; color: var(--accent-cyan); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; width: 100%; transition: 0.2s; }\n' +
+'        .add-action-btn { background: #081726; border: 1px solid #1e3d5f; color: var(--accent-cyan); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; width: 100%; transition: 0.2s; pointer-events: none; }\n' +
 '        .add-action-btn.active-btn { background: var(--accent-cyan); color: #04121e; border-color: var(--accent-cyan); }\n' +
 '        .booking-view { display: none; padding: 0 20px 30px; }\n' +
 '        .nav-back-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; margin-bottom: 12px; }\n' +
@@ -558,7 +558,9 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                const card = document.createElement("div");\n' +
 '                card.id = "test-card-" + test.id;\n' +
 '                card.className = "test-item-card" + (isSelected ? " selected" : "");\n' +
+'                card.setAttribute("onmousedown", "event.preventDefault()");\n' +
 '                card.onclick = function(e) {\n' +
+'                    e.preventDefault();\n' +
 '                    toggleTest(test.id);\n' +
 '                };\n' +
 '                card.innerHTML = \'<div class="test-left-content"><div class="test-title">\' + test.name + \'</div><span class="vial-pill \' + vialCls + \'">● \' + test.vial + \'</span></div><div class="test-right-content"><div class="test-cost">₹\' + test.price + \'</div><button type="button" class="add-action-btn \' + (isSelected ? "active-btn" : "") + \'" id="btn-test-\' + test.id + \'">\' + (isSelected ? "Added ✓" : "+ Add") + \'</button></div>\';\n' +
@@ -590,6 +592,10 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                }\n' +
 '            }\n' +
 '            updateCart();\n' +
+'            const searchInput = document.getElementById("searchInput");\n' +
+'            if (document.activeElement === searchInput || searchInput.value.length > 0) {\n' +
+'                searchInput.focus();\n' +
+'            }\n' +
 '        }\n' +
 '        function updateCart() {\n' +
 '            const cartBar = document.getElementById("cartBar");\n' +
