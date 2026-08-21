@@ -843,7 +843,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                 date: fullDateString,
                 timeSlot: selectedSlot,
                 testCount: selectedTests.length,
-                testsList: selectedTests.map((t, idx) => (idx + 1) + '. ' + t.name + ' (₹' + t.price + ')').join('\\n'),
+                testsList: selectedTests.map((t, idx) => `  ▫️ ${idx + 1}. ${t.name} — *₹${t.price}*`).join('\n'),
                 testCost: testCost,
                 collectionCharge: charge,
                 grandTotal: total,
@@ -960,7 +960,7 @@ function sendGreenApiFile(chatId, fileName, base64Data) {
         
         const headerBuf = Buffer.from(header, 'utf8');
         const footerBuf = Buffer.from(footer, 'utf8');
-        const payloadLength = headerBuf.length + fileBuffer.length + footerBuf.length;
+        const totalPayload = Buffer.concat([headerBuf, fileBuffer, footerBuf]);
 
         const options = {
             hostname: 'api.green-api.com',
@@ -968,7 +968,7 @@ function sendGreenApiFile(chatId, fileName, base64Data) {
             method: 'POST',
             headers: {
                 'Content-Type': `multipart/form-data; boundary=${boundary}`,
-                'Content-Length': payloadLength
+                'Content-Length': totalPayload.length
             }
         };
 
@@ -985,9 +985,7 @@ function sendGreenApiFile(chatId, fileName, base64Data) {
         });
 
         apiReq.on('error', (e) => reject(e));
-        apiReq.write(headerBuf);
-        apiReq.write(fileBuffer);
-        apiReq.write(footerBuf);
+        apiReq.write(totalPayload);
         apiReq.end();
     });
 }
@@ -1010,32 +1008,85 @@ const server = http.createServer((req, res) => {
     }
 
     if (req.method === 'POST' && req.url === '/send-booking') {
-        let body = '';
-        req.on('data', chunk => { body += chunk.toString(); });
+        const chunks = [];
+        let totalSize = 0;
+        const MAX_SIZE = 10 * 1024 * 1024;
+
+        req.on('data', chunk => {
+            totalSize += chunk.length;
+            if (totalSize > MAX_SIZE) {
+                res.writeHead(413, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: 'Payload too large' }));
+                req.destroy();
+                return;
+            }
+            chunks.push(chunk);
+        });
+
         req.on('end', async () => {
             try {
-                const data = JSON.parse(body);
+                const rawBody = Buffer.concat(chunks).toString('utf8');
+                const data = JSON.parse(rawBody);
                 const { patientName, age, sex, phone, address, referredBy, testCount, testsList, testCost, collectionCharge, grandTotal, date, timeSlot, prescription } = data;
 
-                const message = `*MOUCHUMI LAB TEST BLOOD COLLECTION SERVICE*\n` +
-                    `*Home Collection Booking Confirm*\n` +
-                    `═══════════════════════════\n` +
-                    `👤 *Patient Name:* ${patientName || 'N/A'}\n` +
-                    `🎂 *Age / Sex:* ${age || ''} Yrs / ${sex || ''}\n` +
-                    `📞 *Phone:* ${phone || 'N/A'}\n` +
-                    `📍 *Pickup Address:* ${address || 'N/A'}\n` +
-                    `🩺 *Referred By:* ${referredBy || 'Self'}\n` +
-                    `🗓 *Booking Date:* ${date || 'N/A'}\n` +
-                    `⏰ *Time Slot:* ${timeSlot || 'N/A'}\n` +
-                    `═══════════════════════════\n` +
-                    `🧪 *Total Tests:* ${testCount || 0}\n` +
-                    `*Selected Tests:*\n${testsList || 'N/A'}\n` +
-                    `───────────────────────────\n` +
-                    `💵 *Tests Cost:* ₹${testCost || 0}\n` +
-                    `🚗 *Collection Charge:* ₹${collectionCharge || 0}\n` +
-                    `💰 *Grand Total: ₹${grandTotal || 0}*\n` +
-                    `═══════════════════════════` +
-                    (prescription ? `\n📎 *Prescription Attached:* ${prescription.name}` : '');
+                // Create Live IST Timestamp and Unique Booking ID
+                const now = new Date();
+                const bookingDateTime = now.toLocaleString('en-IN', {
+                    timeZone: 'Asia/Kolkata',
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+                const bookingId = 'MLB-' + Date.now().toString().slice(-6);
+
+                // Professional Premium Invoice Receipt Message
+                const message = 
+`╔════════════════════════════════════╗
+      *MOUCHUMI LAB TEST COLLECTION*
+     _At-Home Certified Diagnostic Care_
+          📍 Golaghat, Assam
+╚════════════════════════════════════╝
+
+🧾 *OFFICIAL BOOKING RECEIPT*
+────────────────────────────────────
+🔖 *Booking ID :* \`${bookingId}\`
+⏱ *Booked On   :* ${bookingDateTime}
+📊 *Status      :* *CONFIRMED (Active)*
+
+👤 *PATIENT INFORMATION*
+────────────────────────────────────
+▫️ *Name     :* ${patientName || 'N/A'}
+▫️ *Age/Sex  :* ${age || 'N/A'} Yrs / ${sex || 'N/A'}
+▫️ *Phone    :* +91 ${phone || 'N/A'}
+▫️ *Address  :* ${address || 'N/A'}
+▫️ *Ref. By  :* ${referredBy || 'Self'}
+
+📅 *COLLECTION SCHEDULE*
+────────────────────────────────────
+▫️ *Visit Date :* ${date || 'N/A'}
+▫️ *Time Slot  :* ${timeSlot || 'N/A'}
+
+🧪 *SELECTED TESTS (${testCount || 0})*
+────────────────────────────────────
+${testsList || '  ▫️ General Test'}
+
+💵 *PAYMENT BREAKDOWN*
+────────────────────────────────────
+▫️ Tests Subtotal     : ₹${testCost || 0}
+▫️ Collection Charge : ₹${collectionCharge || 0}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 *GRAND TOTAL        : ₹${grandTotal || 0}*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${prescription ? `📎 *Prescription :* ${prescription.name}\n` : ''}
+📌 *Instructions for Patient:*
+  • Keep 8–10 hrs fasting if glucose/lipid test is scheduled.
+  • Our phlebotomist will arrive with sterilized, sealed kits.
+
+📞 *Helpline / Support:* 6000219209 / 6900862973
+_Thank you for choosing Mouchumi Lab Test Service!_`;
 
                 const msgPath = `/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`;
                 const msgPayload = {
@@ -1045,7 +1096,6 @@ const server = http.createServer((req, res) => {
                 
                 const responseResult = await sendGreenApiRequest(msgPath, msgPayload);
 
-                // Send prescription file via Green API if uploaded
                 if (prescription && prescription.base64) {
                     await sendGreenApiFile(TARGET_CHAT_ID, prescription.name, prescription.base64);
                 }
