@@ -117,7 +117,6 @@ const HTML_PAGE = `<!DOCTYPE html>
         .input-wrap input, .input-wrap textarea, .input-wrap select { width: 100%; padding: 14px 14px 14px 42px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
         .input-wrap .field-icon { position: absolute; left: 14px; top: 15px; color: var(--text-muted); }
 
-        /* File Upload Box */
         .file-upload-box {
             border: 2px dashed var(--border-color);
             background: var(--input-bg);
@@ -155,8 +154,9 @@ const HTML_PAGE = `<!DOCTYPE html>
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: none; align-items: flex-end; justify-content: center; z-index: 1000; }
         .modal-content { background: #0e2235; border: 1px solid var(--border-color); border-radius: 24px 24px 0 0; width: 100%; max-width: 480px; padding: 24px 20px; max-height: 85vh; overflow-y: auto; }
         .modal-header { text-align: center; margin-bottom: 18px; }
-        .modal-header h3 { font-size: 19px; font-weight: 800; color: #fff; }
-        .modal-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+        .modal-brand { font-size: 14px; font-weight: 800; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .modal-header h3 { font-size: 18px; font-weight: 800; color: #fff; }
+        .modal-header p { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
         .review-box { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; margin-bottom: 18px; }
         .review-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 8px; }
         .review-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
@@ -302,7 +302,6 @@ const HTML_PAGE = `<!DOCTYPE html>
                         </div>
                     </div>
 
-                    <!-- Customizable Collection Charge -->
                     <div class="form-group">
                         <label>Home Collection Charge (₹)</label>
                         <div class="input-wrap">
@@ -319,7 +318,6 @@ const HTML_PAGE = `<!DOCTYPE html>
                         </div>
                     </div>
 
-                    <!-- Doctor Prescription File Upload -->
                     <div class="form-group">
                         <label>Doctor's Prescription (Optional)</label>
                         <div class="file-upload-box">
@@ -365,6 +363,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         <div id="reviewModal" class="modal-overlay">
             <div class="modal-content">
                 <div class="modal-header">
+                    <div class="modal-brand">MOUCHUMI LAB TEST BLOOD COLLECTION SERVICE</div>
                     <h3>📋 Review Booking Details</h3>
                     <p>Please check your details before final submission</p>
                 </div>
@@ -635,10 +634,31 @@ const HTML_PAGE = `<!DOCTYPE html>
         ];
 
         let selectedTests = [];
-        let selectedDate = "Today";
+        let selectedDateType = "Today";
         let selectedSlot = "7:00 – 9:00 AM";
         let pendingPayload = null;
         let prescriptionFile = null;
+
+        function formatDateString(type) {
+            const now = new Date();
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            
+            if (type === 'Today') {
+                const d = now.getDate();
+                const m = months[now.getMonth()];
+                const y = now.getFullYear();
+                return 'Today (' + d + ' ' + m + ' ' + y + ')';
+            } else if (type === 'Tomorrow') {
+                const tmrw = new Date(now);
+                tmrw.setDate(tmrw.getDate() + 1);
+                const d = tmrw.getDate();
+                const m = months[tmrw.getMonth()];
+                const y = tmrw.getFullYear();
+                return 'Tomorrow (' + d + ' ' + m + ' ' + y + ')';
+            } else {
+                return 'Upcoming Date';
+            }
+        }
 
         function getCollectionCharge() {
             const val = document.getElementById('custCollectionCharge');
@@ -762,7 +782,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         function selectDate(elem, val) {
             document.querySelectorAll('.pill-btn').forEach(p => p.classList.remove('active'));
             elem.classList.add('active');
-            selectedDate = val;
+            selectedDateType = val;
         }
 
         function selectTime(elem, slot) {
@@ -808,6 +828,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
             const charge = getCollectionCharge();
             const total = testCost + charge;
+            const fullDateString = formatDateString(selectedDateType);
             
             pendingPayload = {
                 patientName: document.getElementById('custName').value,
@@ -816,7 +837,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                 phone: document.getElementById('custPhone').value,
                 address: document.getElementById('custAddress').value,
                 referredBy: document.getElementById('custDoctor').value || 'Self',
-                date: selectedDate,
+                date: fullDateString,
                 timeSlot: selectedSlot,
                 testCount: selectedTests.length,
                 testsList: selectedTests.map((t, idx) => (idx + 1) + '. ' + t.name + ' (₹' + t.price + ')').join('\\n'),
@@ -832,7 +853,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById('revAddress').innerText = pendingPayload.address;
             document.getElementById('revDoctor').innerText = pendingPayload.referredBy;
             document.getElementById('revPrescription').innerText = prescriptionFile ? prescriptionFile.name : 'None';
-            document.getElementById('revSchedule').innerText = pendingPayload.date + ' (' + pendingPayload.timeSlot + ')';
+            document.getElementById('revSchedule').innerText = pendingPayload.date + ' [' + pendingPayload.timeSlot + ']';
             document.getElementById('revTests').innerText = selectedTests.map(t => t.name).join(', ');
             document.getElementById('revTestCost').innerText = '₹' + testCost;
             document.getElementById('revCollectionCharge').innerText = '₹' + charge;
@@ -954,7 +975,7 @@ const server = http.createServer((req, res) => {
                     `📞 *Phone:* ${phone || 'N/A'}\n` +
                     `📍 *Pickup Address:* ${address || 'N/A'}\n` +
                     `🩺 *Referred By:* ${referredBy || 'Self'}\n` +
-                    `🗓 *Date:* ${date || 'N/A'}\n` +
+                    `🗓 *Booking Date:* ${date || 'N/A'}\n` +
                     `⏰ *Time Slot:* ${timeSlot || 'N/A'}\n` +
                     `═══════════════════════════\n` +
                     `🧪 *Total Tests:* ${testCount || 0}\n` +
@@ -966,25 +987,13 @@ const server = http.createServer((req, res) => {
                     `═══════════════════════════` +
                     (prescription ? `\n📎 *Prescription Attached:* ${prescription.name}` : '');
 
-                let responseResult = {};
-
-                if (prescription && prescription.base64) {
-                    const filePath = `/waInstance${ID_INSTANCE}/sendFileByUpload/${API_TOKEN}`;
-                    const filePayload = {
-                        chatId: TARGET_CHAT_ID,
-                        fileName: prescription.name || 'Prescription.jpg',
-                        caption: message,
-                        file: prescription.base64
-                    };
-                    responseResult = await sendGreenApiRequest(filePath, filePayload);
-                } else {
-                    const msgPath = `/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`;
-                    const msgPayload = {
-                        chatId: TARGET_CHAT_ID,
-                        message: message
-                    };
-                    responseResult = await sendGreenApiRequest(msgPath, msgPayload);
-                }
+                const msgPath = `/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`;
+                const msgPayload = {
+                    chatId: TARGET_CHAT_ID,
+                    message: message
+                };
+                
+                const responseResult = await sendGreenApiRequest(msgPath, msgPayload);
 
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ success: true, greenApiResponse: responseResult }));
