@@ -57,12 +57,12 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '        .test-search-wrapper input { width: 100%; padding: 13px 14px 13px 42px; background: var(--input-bg); border: 1.5px solid var(--accent-cyan); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }\n' +
 '        .test-search-wrapper input::placeholder { color: #64748b; }\n' +
 '        .test-search-icon { position: absolute; left: 14px; top: 14px; color: var(--accent-cyan); }\n' +
-'        .tests-scroll-view { max-height: 440px; overflow-y: auto; padding-right: 4px; scroll-behavior: smooth; display: flex; flex-direction: column; gap: 10px; }\n' +
+'        .tests-scroll-view { max-height: 440px; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-right: 4px; display: flex; flex-direction: column; gap: 10px; }\n' +
 '        .tests-scroll-view::-webkit-scrollbar { width: 4px; }\n' +
 '        .tests-scroll-view::-webkit-scrollbar-thumb { background: #1e3d5f; border-radius: 10px; }\n' +
-'        .test-item-card { background: linear-gradient(145deg, #10263c 0%, #0d1f30 100%); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; }\n' +
+'        .test-item-card { background: linear-gradient(145deg, #10263c 0%, #0d1f30 100%); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; cursor: pointer; }\n' +
 '        .test-item-card.selected { border-color: var(--accent-cyan); background: linear-gradient(145deg, #153856 0%, #0e2942 100%); box-shadow: 0 4px 15px rgba(2,132,199,0.2); }\n' +
-'        .test-left-content { max-width: 68%; }\n' +
+'        .test-left-content { max-width: 68%; pointer-events: none; }\n' +
 '        .test-title { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.35; margin-bottom: 4px; }\n' +
 '        .vial-pill { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; }\n' +
 '        .vial-violet { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }\n' +
@@ -74,7 +74,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '        .vial-pkg { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.5); }\n' +
 '        .vial-na { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid #475569; }\n' +
 '        .test-right-content { text-align: right; min-width: 80px; }\n' +
-'        .test-cost { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 6px; }\n' +
+'        .test-cost { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 6px; pointer-events: none; }\n' +
 '        .add-action-btn { background: #081726; border: 1px solid #1e3d5f; color: var(--accent-cyan); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; width: 100%; transition: 0.2s; }\n' +
 '        .add-action-btn.active-btn { background: var(--accent-cyan); color: #04121e; border-color: var(--accent-cyan); }\n' +
 '        .booking-view { display: none; padding: 0 20px 30px; }\n' +
@@ -237,6 +237,17 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                        </div>\n' +
 '                    </div>\n' +
 '                    <div class="form-group">\n' +
+'                        <label>Payment Mode *</label>\n' +
+'                        <div class="input-wrap">\n' +
+'                            <span class="field-icon">💳</span>\n' +
+'                            <select id="custPaymentMode" required style="padding-left: 36px;">\n' +
+'                                <option value="Unpaid / Not Paid">Unpaid / Not Paid</option>\n' +
+'                                <option value="Cash">Cash</option>\n' +
+'                                <option value="UPI">UPI</option>\n' +
+'                            </select>\n' +
+'                        </div>\n' +
+'                    </div>\n' +
+'                    <div class="form-group">\n' +
 '                        <label>Doctor Referral (Optional)</label>\n' +
 '                        <div class="input-wrap">\n' +
 '                            <span class="field-icon">🩺</span>\n' +
@@ -293,6 +304,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                    <div class="review-row"><span class="review-label">Phone</span><span class="review-val" id="revPhone">--</span></div>\n' +
 '                    <div class="review-row"><span class="review-label">Address</span><span class="review-val" id="revAddress">--</span></div>\n' +
 '                    <div class="review-row"><span class="review-label">Doctor</span><span class="review-val" id="revDoctor">--</span></div>\n' +
+'                    <div class="review-row"><span class="review-label">Payment Mode</span><span class="review-val" id="revPayment" style="color: #38bdf8;">--</span></div>\n' +
 '                    <div class="review-row"><span class="review-label">Prescription</span><span class="review-val" id="revPrescription" style="color: #38bdf8;">None</span></div>\n' +
 '                    <div class="review-row"><span class="review-label">Schedule</span><span class="review-val" id="revSchedule">--</span></div>\n' +
 '                    <div class="review-row"><span class="review-label">Selected Tests</span><span class="review-val" id="revTests" style="color: var(--accent-cyan);">--</span></div>\n' +
@@ -544,17 +556,40 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                const isSelected = selectedTests.some(t => t.id === test.id);\n' +
 '                const vialCls = getVialClass(test.vial);\n' +
 '                const card = document.createElement("div");\n' +
+'                card.id = "test-card-" + test.id;\n' +
 '                card.className = "test-item-card" + (isSelected ? " selected" : "");\n' +
-'                card.innerHTML = \'<div class="test-left-content"><div class="test-title">\' + test.name + \'</div><span class="vial-pill \' + vialCls + \'">● \' + test.vial + \'</span></div><div class="test-right-content"><div class="test-cost">₹\' + test.price + \'</div><button class="add-action-btn \' + (isSelected ? "active-btn" : "") + \'" onclick="toggleTest(\' + test.id + \')">\' + (isSelected ? "Added ✓" : "+ Add") + \'</button></div>\';\n' +
+'                card.onclick = function(e) {\n' +
+'                    toggleTest(test.id);\n' +
+'                };\n' +
+'                card.innerHTML = \'<div class="test-left-content"><div class="test-title">\' + test.name + \'</div><span class="vial-pill \' + vialCls + \'">● \' + test.vial + \'</span></div><div class="test-right-content"><div class="test-cost">₹\' + test.price + \'</div><button type="button" class="add-action-btn \' + (isSelected ? "active-btn" : "") + \'" id="btn-test-\' + test.id + \'">\' + (isSelected ? "Added ✓" : "+ Add") + \'</button></div>\';\n' +
 '                container.appendChild(card);\n' +
 '            });\n' +
 '        }\n' +
 '        function toggleTest(id) {\n' +
 '            const test = ALL_TESTS.find(t => t.id === id);\n' +
 '            const index = selectedTests.findIndex(t => t.id === id);\n' +
-'            if (index > -1) { selectedTests.splice(index, 1); } else { selectedTests.push(test); }\n' +
+'            let isNowSelected = false;\n' +
+'            if (index > -1) {\n' +
+'                selectedTests.splice(index, 1);\n' +
+'                isNowSelected = false;\n' +
+'            } else {\n' +
+'                selectedTests.push(test);\n' +
+'                isNowSelected = true;\n' +
+'            }\n' +
+'            const card = document.getElementById("test-card-" + id);\n' +
+'            const btn = document.getElementById("btn-test-" + id);\n' +
+'            if (card && btn) {\n' +
+'                if (isNowSelected) {\n' +
+'                    card.classList.add("selected");\n' +
+'                    btn.classList.add("active-btn");\n' +
+'                    btn.innerText = "Added ✓";\n' +
+'                } else {\n' +
+'                    card.classList.remove("selected");\n' +
+'                    btn.classList.remove("active-btn");\n' +
+'                    btn.innerText = "+ Add";\n' +
+'                }\n' +
+'            }\n' +
 '            updateCart();\n' +
-'            applyFilter();\n' +
 '        }\n' +
 '        function updateCart() {\n' +
 '            const cartBar = document.getElementById("cartBar");\n' +
@@ -581,8 +616,6 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            let filtered = ALL_TESTS;\n' +
 '            if (val) {\n' +
 '                filtered = ALL_TESTS.filter(t => t.name.toLowerCase().includes(val) || t.vial.toLowerCase().includes(val));\n' +
-'                document.getElementById("testBoxContainer").scrollIntoView({ behavior: "smooth" });\n' +
-'                document.getElementById("testsContainer").scrollTop = 0;\n' +
 '            }\n' +
 '            renderTests(filtered);\n' +
 '        }\n' +
@@ -648,6 +681,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            const charge = getCollectionCharge();\n' +
 '            const total = testCost + charge;\n' +
 '            const fullDateString = formatDateString(selectedDateType);\n' +
+'            const paymentMode = document.getElementById("custPaymentMode").value;\n' +
 '            pendingPayload = {\n' +
 '                patientName: document.getElementById("custName").value,\n' +
 '                age: document.getElementById("custAge").value,\n' +
@@ -655,6 +689,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                phone: document.getElementById("custPhone").value,\n' +
 '                address: document.getElementById("custAddress").value,\n' +
 '                referredBy: document.getElementById("custDoctor").value || "Self",\n' +
+'                paymentMode: paymentMode,\n' +
 '                date: fullDateString,\n' +
 '                timeSlot: selectedSlot,\n' +
 '                testCount: selectedTests.length,\n' +
@@ -669,6 +704,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            document.getElementById("revPhone").innerText = pendingPayload.phone;\n' +
 '            document.getElementById("revAddress").innerText = pendingPayload.address;\n' +
 '            document.getElementById("revDoctor").innerText = pendingPayload.referredBy;\n' +
+'            document.getElementById("revPayment").innerText = pendingPayload.paymentMode;\n' +
 '            document.getElementById("revPrescription").innerText = prescriptionFile ? prescriptionFile.name : "None";\n' +
 '            document.getElementById("revSchedule").innerText = pendingPayload.date + " [" + pendingPayload.timeSlot + "]";\n' +
 '            document.getElementById("revTests").innerText = selectedTests.map(t => t.name).join(", ");\n' +
@@ -834,7 +870,11 @@ const server = http.createServer((req, res) => {
             try {
                 const rawBody = Buffer.concat(chunks).toString('utf8');
                 const data = JSON.parse(rawBody);
-                const { patientName, age, sex, phone, address, referredBy, testCount, testsList, testCost, collectionCharge, grandTotal, date, timeSlot, prescription } = data;
+                const { 
+                    patientName, age, sex, phone, address, referredBy, 
+                    paymentMode, testCount, testsList, testCost, 
+                    collectionCharge, grandTotal, date, timeSlot, prescription 
+                } = data;
 
                 const now = new Date();
                 const bookingDateTime = now.toLocaleString('en-IN', {
@@ -875,6 +915,7 @@ const server = http.createServer((req, res) => {
                     '• Tests Subtotal: ₹' + (testCost || 0) + '\n' +
                     '• Home Collection: ₹' + (collectionCharge || 0) + '\n' +
                     '• *Grand Total: ₹' + (grandTotal || 0) + '*\n' +
+                    '• *Payment Mode:* ' + (paymentMode || 'Unpaid / Not Paid') + '\n' +
                     '─────────────────────────\n' +
                     (prescription ? ('📎 *Prescription:* ' + prescription.name + '\n\n') : '') +
                     '📌 *Instructions:*\n' +
