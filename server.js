@@ -392,6 +392,14 @@ const HTML_PAGE = `<!DOCTYPE html>
                         <span class="review-label">Selected Tests</span>
                         <span class="review-val" id="revTests" style="color: var(--accent-cyan);">--</span>
                     </div>
+                    <div class="review-row">
+                        <span class="review-label">Tests Price</span>
+                        <span class="review-val" id="revTestCost">₹0</span>
+                    </div>
+                    <div class="review-row">
+                        <span class="review-label">Home Collection Charge</span>
+                        <span class="review-val" style="color: #10b981;">₹100</span>
+                    </div>
                     <div class="review-row" style="margin-top: 6px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1);">
                         <span class="review-label" style="font-size: 15px; font-weight: 800; color: #fff;">Grand Total</span>
                         <span class="review-val" id="revTotal" style="font-size: 16px; font-weight: 800; color: #38bdf8;">₹0</span>
@@ -458,6 +466,8 @@ const HTML_PAGE = `<!DOCTYPE html>
     </div>
 
     <script>
+        const COLLECTION_CHARGE = 100; // Home collection fee
+
         const ALL_TESTS = [
             { id: 1, name: "ABO, Rh GROUPING", price: 100, vial: "VIOLET" },
             { id: 2, name: "ABSOLUTE EOSINOPHIL COUNT", price: 150, vial: "VIOLET" },
@@ -572,7 +582,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             { id: 111, name: "SERUM CALCIUM", price: 250, vial: "RED" },
             { id: 112, name: "SERUM C-PEPTIDE", price: 1000, vial: "RED" },
             { id: 113, name: "SERUM CHLORIDE", price: 250, vial: "RED" },
-            { id: 114, name: "SERUM CREATININE", price: 150, vial: "RED" },
+            { id: 114, name: "SERUM CREATININE", price: 200, vial: "RED" },
             { id: 115, name: "SERUM IgE", price: 900, vial: "RED" },
             { id: 116, name: "SERUM MAGNESIUM", price: 500, vial: "RED" },
             { id: 117, name: "SERUM PHOSPHATE", price: 350, vial: "RED" },
@@ -649,7 +659,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                 const vialCls = getVialClass(test.vial);
                 const card = document.createElement('div');
                 card.className = 'test-item-card' + (isSelected ? ' selected' : '');
-                card.innerHTML = \`
+                card.innerHTML = `
                     <div class="test-left-content">
                         <div class="test-title">\${test.name}</div>
                         <span class="vial-pill \${vialCls}">● \${test.vial}</span>
@@ -660,7 +670,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                             \${isSelected ? 'Added ✓' : '+ Add'}
                         </button>
                     </div>
-                \`;
+                `;
                 container.appendChild(card);
             });
         }
@@ -679,11 +689,13 @@ const HTML_PAGE = `<!DOCTYPE html>
 
         function updateCart() {
             const cartBar = document.getElementById('cartBar');
-            const total = selectedTests.reduce((sum, t) => sum + t.price, 0);
+            const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
+            const grandTotal = selectedTests.length > 0 ? (testCost + COLLECTION_CHARGE) : 0;
+            
             if (selectedTests.length > 0) {
                 cartBar.style.display = 'flex';
-                document.getElementById('cartTotalText').innerText = '₹' + total;
-                document.getElementById('cartItemsText').innerText = selectedTests.length + ' test' + (selectedTests.length > 1 ? 's' : '') + ' selected';
+                document.getElementById('cartTotalText').innerText = '₹' + grandTotal;
+                document.getElementById('cartItemsText').innerText = selectedTests.length + ' test' + (selectedTests.length > 1 ? 's' : '') + ' (+₹100 Coll.)';
             } else {
                 cartBar.style.display = 'none';
             }
@@ -713,9 +725,10 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById('bookingView').style.display = 'block';
             document.getElementById('cartBar').style.display = 'none';
 
-            const total = selectedTests.reduce((sum, t) => sum + t.price, 0);
+            const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
+            const grandTotal = testCost + COLLECTION_CHARGE;
             document.getElementById('bookingSelectedSummary').innerText = selectedTests.map(t => t.name).join(', ');
-            document.getElementById('bookingTotalSummary').innerText = '₹' + total;
+            document.getElementById('bookingTotalSummary').innerText = '₹' + grandTotal;
             window.scrollTo(0,0);
         }
 
@@ -771,7 +784,8 @@ const HTML_PAGE = `<!DOCTYPE html>
 
         document.getElementById('scheduleForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const total = selectedTests.reduce((sum, t) => sum + t.price, 0);
+            const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
+            const total = testCost + COLLECTION_CHARGE;
             
             pendingPayload = {
                 patientName: document.getElementById('custName').value,
@@ -782,7 +796,10 @@ const HTML_PAGE = `<!DOCTYPE html>
                 referredBy: document.getElementById('custDoctor').value || 'Self',
                 date: selectedDate,
                 timeSlot: selectedSlot,
-                testsList: selectedTests.map(t => t.name + ' (₹' + t.price + ')').join(', '),
+                testCount: selectedTests.length,
+                testsList: selectedTests.map((t, idx) => `${idx + 1}. ${t.name} (₹${t.price})`).join('\n'),
+                testCost: testCost,
+                collectionCharge: COLLECTION_CHARGE,
                 grandTotal: total,
                 prescription: prescriptionFile
             };
@@ -795,6 +812,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById('revPrescription').innerText = prescriptionFile ? prescriptionFile.name : 'None';
             document.getElementById('revSchedule').innerText = pendingPayload.date + ' (' + pendingPayload.timeSlot + ')';
             document.getElementById('revTests').innerText = selectedTests.map(t => t.name).join(', ');
+            document.getElementById('revTestCost').innerText = '₹' + testCost;
             document.getElementById('revTotal').innerText = '₹' + total;
 
             document.getElementById('reviewModal').style.display = 'flex';
@@ -902,10 +920,11 @@ const server = http.createServer((req, res) => {
         req.on('end', async () => {
             try {
                 const data = JSON.parse(body);
-                const { patientName, age, sex, phone, address, referredBy, testsList, grandTotal, date, timeSlot, prescription } = data;
+                const { patientName, age, sex, phone, address, referredBy, testCount, testsList, testCost, collectionCharge, grandTotal, date, timeSlot, prescription } = data;
 
-                const message = `*📋 NEW HOME COLLECTION SCHEDULED*\n` +
-                    `--------------------------------\n` +
+                const message = `*MOUCHUMI LAB TEST BLOOD COLLECTION SERVICE*\n` +
+                    `*Home Collection Booking Confirm*\n` +
+                    `═══════════════════════════\n` +
                     `👤 *Patient Name:* ${patientName || 'N/A'}\n` +
                     `🎂 *Age / Sex:* ${age || ''} Yrs / ${sex || ''}\n` +
                     `📞 *Phone:* ${phone || 'N/A'}\n` +
@@ -913,16 +932,20 @@ const server = http.createServer((req, res) => {
                     `🩺 *Referred By:* ${referredBy || 'Self'}\n` +
                     `🗓 *Date:* ${date || 'N/A'}\n` +
                     `⏰ *Time Slot:* ${timeSlot || 'N/A'}\n` +
-                    `--------------------------------\n` +
-                    `🧪 *Selected Tests:*\n${testsList || 'N/A'}\n` +
-                    `--------------------------------\n` +
-                    `💰 *Grand Total: ₹${grandTotal || 0}*` +
+                    `═══════════════════════════\n` +
+                    `🧪 *Total Tests:* ${testCount || 0}\n` +
+                    `*Selected Tests:*\n${testsList || 'N/A'}\n` +
+                    `───────────────────────────\n` +
+                    `💵 *Tests Cost:* ₹${testCost || 0}\n` +
+                    `🚗 *Collection Charge:* ₹${collectionCharge || 100}\n` +
+                    `💰 *Grand Total: ₹${grandTotal || 0}*\n` +
+                    `═══════════════════════════` +
                     (prescription ? `\n📎 *Prescription Attached:* ${prescription.name}` : '');
 
                 let responseResult = {};
 
                 if (prescription && prescription.base64) {
-                    // হোৱাটছএপত প্ৰেচক্ৰিপশ্বন ফাইল আৰু কেপশ্বন প্ৰেৰণ
+                    // Send prescription file along with formatted caption
                     const filePath = `/waInstance${ID_INSTANCE}/sendFileByUpload/${API_TOKEN}`;
                     const filePayload = {
                         chatId: TARGET_CHAT_ID,
@@ -932,7 +955,7 @@ const server = http.createServer((req, res) => {
                     };
                     responseResult = await sendGreenApiRequest(filePath, filePayload);
                 } else {
-                    // কেৱল মেছেজ প্ৰেৰণ
+                    // Send text-only notification
                     const msgPath = `/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`;
                     const msgPayload = {
                         chatId: TARGET_CHAT_ID,
