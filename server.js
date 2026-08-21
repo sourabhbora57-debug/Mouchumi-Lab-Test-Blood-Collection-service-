@@ -302,6 +302,15 @@ const HTML_PAGE = `<!DOCTYPE html>
                         </div>
                     </div>
 
+                    <!-- Customizable Collection Charge -->
+                    <div class="form-group">
+                        <label>Home Collection Charge (₹)</label>
+                        <div class="input-wrap">
+                            <span class="field-icon">🚗</span>
+                            <input type="number" id="custCollectionCharge" value="100" min="0" placeholder="100" oninput="updateBookingSummary()">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>Doctor Referral (Optional)</label>
                         <div class="input-wrap">
@@ -393,12 +402,12 @@ const HTML_PAGE = `<!DOCTYPE html>
                         <span class="review-val" id="revTests" style="color: var(--accent-cyan);">--</span>
                     </div>
                     <div class="review-row">
-                        <span class="review-label">Tests Price</span>
+                        <span class="review-label">Tests Cost</span>
                         <span class="review-val" id="revTestCost">₹0</span>
                     </div>
                     <div class="review-row">
-                        <span class="review-label">Home Collection Charge</span>
-                        <span class="review-val" style="color: #10b981;">₹100</span>
+                        <span class="review-label">Collection Charge</span>
+                        <span class="review-val" id="revCollectionCharge" style="color: #10b981;">₹100</span>
                     </div>
                     <div class="review-row" style="margin-top: 6px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1);">
                         <span class="review-label" style="font-size: 15px; font-weight: 800; color: #fff;">Grand Total</span>
@@ -466,8 +475,6 @@ const HTML_PAGE = `<!DOCTYPE html>
     </div>
 
     <script>
-        const COLLECTION_CHARGE = 100; // Home collection fee
-
         const ALL_TESTS = [
             { id: 1, name: "ABO, Rh GROUPING", price: 100, vial: "VIOLET" },
             { id: 2, name: "ABSOLUTE EOSINOPHIL COUNT", price: 150, vial: "VIOLET" },
@@ -481,7 +488,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             { id: 10, name: "ΑΜΜΟΝΙΑ", price: 1000, vial: "VIOLET" },
             { id: 11, name: "ANTENATAL CHECK UP (ANC)", price: 2900, vial: "GREY, VIOLET & RED" },
             { id: 12, name: "ANTI CCP", price: 1600, vial: "RED" },
-            { id: 13, name: "ΑΝΤΙ ΤΡΟ", price: 2000, vial: "RED" },
+            { id: 13, name: "ΑΝΤΙ ТРО", price: 2000, vial: "RED" },
             { id: 14, name: "ANTINUCLEAR ANTI BODY (ΑΝΑ)", price: 1000, vial: "RED" },
             { id: 15, name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: 4000, vial: "RED" },
             { id: 16, name: "APTT", price: 500, vial: "BLUE" },
@@ -633,6 +640,13 @@ const HTML_PAGE = `<!DOCTYPE html>
         let pendingPayload = null;
         let prescriptionFile = null;
 
+        function getCollectionCharge() {
+            const val = document.getElementById('custCollectionCharge');
+            if (!val || val.value === '') return 100;
+            const parsed = parseFloat(val.value);
+            return isNaN(parsed) ? 0 : parsed;
+        }
+
         function getVialClass(vial) {
             vial = vial.toUpperCase();
             if (vial.includes('VIOLET') && vial.includes('RED')) return 'vial-violet';
@@ -659,18 +673,18 @@ const HTML_PAGE = `<!DOCTYPE html>
                 const vialCls = getVialClass(test.vial);
                 const card = document.createElement('div');
                 card.className = 'test-item-card' + (isSelected ? ' selected' : '');
-                card.innerHTML = `
-                    <div class="test-left-content">
-                        <div class="test-title">\${test.name}</div>
-                        <span class="vial-pill \${vialCls}">● \${test.vial}</span>
-                    </div>
-                    <div class="test-right-content">
-                        <div class="test-cost">₹\${test.price}</div>
-                        <button class="add-action-btn \${isSelected ? 'active-btn' : ''}" onclick="toggleTest(\${test.id})">
-                            \${isSelected ? 'Added ✓' : '+ Add'}
-                        </button>
-                    </div>
-                `;
+                
+                card.innerHTML = 
+                    '<div class="test-left-content">' +
+                        '<div class="test-title">' + test.name + '</div>' +
+                        '<span class="vial-pill ' + vialCls + '">● ' + test.vial + '</span>' +
+                    '</div>' +
+                    '<div class="test-right-content">' +
+                        '<div class="test-cost">₹' + test.price + '</div>' +
+                        '<button class="add-action-btn ' + (isSelected ? 'active-btn' : '') + '" onclick="toggleTest(' + test.id + ')">' +
+                            (isSelected ? 'Added ✓' : '+ Add') +
+                        '</button>' +
+                    '</div>';
                 container.appendChild(card);
             });
         }
@@ -690,15 +704,24 @@ const HTML_PAGE = `<!DOCTYPE html>
         function updateCart() {
             const cartBar = document.getElementById('cartBar');
             const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
-            const grandTotal = selectedTests.length > 0 ? (testCost + COLLECTION_CHARGE) : 0;
+            const charge = getCollectionCharge();
+            const grandTotal = selectedTests.length > 0 ? (testCost + charge) : 0;
             
             if (selectedTests.length > 0) {
                 cartBar.style.display = 'flex';
                 document.getElementById('cartTotalText').innerText = '₹' + grandTotal;
-                document.getElementById('cartItemsText').innerText = selectedTests.length + ' test' + (selectedTests.length > 1 ? 's' : '') + ' (+₹100 Coll.)';
+                document.getElementById('cartItemsText').innerText = selectedTests.length + ' test' + (selectedTests.length > 1 ? 's' : '') + ' (+₹' + charge + ' Coll.)';
             } else {
                 cartBar.style.display = 'none';
             }
+        }
+
+        function updateBookingSummary() {
+            const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
+            const charge = getCollectionCharge();
+            const grandTotal = testCost + charge;
+            document.getElementById('bookingTotalSummary').innerText = '₹' + grandTotal;
+            updateCart();
         }
 
         function applyFilter() {
@@ -725,10 +748,8 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById('bookingView').style.display = 'block';
             document.getElementById('cartBar').style.display = 'none';
 
-            const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
-            const grandTotal = testCost + COLLECTION_CHARGE;
             document.getElementById('bookingSelectedSummary').innerText = selectedTests.map(t => t.name).join(', ');
-            document.getElementById('bookingTotalSummary').innerText = '₹' + grandTotal;
+            updateBookingSummary();
             window.scrollTo(0,0);
         }
 
@@ -782,10 +803,11 @@ const HTML_PAGE = `<!DOCTYPE html>
             }
         }
 
-        document.getElementById('scheduleForm').addEventListener('submit', (e) => {
+        document.getElementById('scheduleForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
-            const total = testCost + COLLECTION_CHARGE;
+            const charge = getCollectionCharge();
+            const total = testCost + charge;
             
             pendingPayload = {
                 patientName: document.getElementById('custName').value,
@@ -797,9 +819,9 @@ const HTML_PAGE = `<!DOCTYPE html>
                 date: selectedDate,
                 timeSlot: selectedSlot,
                 testCount: selectedTests.length,
-                testsList: selectedTests.map((t, idx) => `${idx + 1}. ${t.name} (₹${t.price})`).join('\n'),
+                testsList: selectedTests.map((t, idx) => (idx + 1) + '. ' + t.name + ' (₹' + t.price + ')').join('\\n'),
                 testCost: testCost,
-                collectionCharge: COLLECTION_CHARGE,
+                collectionCharge: charge,
                 grandTotal: total,
                 prescription: prescriptionFile
             };
@@ -813,6 +835,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById('revSchedule').innerText = pendingPayload.date + ' (' + pendingPayload.timeSlot + ')';
             document.getElementById('revTests').innerText = selectedTests.map(t => t.name).join(', ');
             document.getElementById('revTestCost').innerText = '₹' + testCost;
+            document.getElementById('revCollectionCharge').innerText = '₹' + charge;
             document.getElementById('revTotal').innerText = '₹' + total;
 
             document.getElementById('reviewModal').style.display = 'flex';
@@ -857,6 +880,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             prescriptionFile = null;
             document.getElementById('filePreview').style.display = 'none';
             document.getElementById('scheduleForm').reset();
+            document.getElementById('custCollectionCharge').value = '100';
             showHomeView();
             applyFilter();
         }
@@ -885,7 +909,7 @@ function sendGreenApiRequest(path, payload) {
             apiRes.on('end', () => {
                 try {
                     resolve(JSON.parse(apiResponse));
-                } catch {
+                } catch (e) {
                     resolve({ raw: apiResponse });
                 }
             });
@@ -937,7 +961,7 @@ const server = http.createServer((req, res) => {
                     `*Selected Tests:*\n${testsList || 'N/A'}\n` +
                     `───────────────────────────\n` +
                     `💵 *Tests Cost:* ₹${testCost || 0}\n` +
-                    `🚗 *Collection Charge:* ₹${collectionCharge || 100}\n` +
+                    `🚗 *Collection Charge:* ₹${collectionCharge || 0}\n` +
                     `💰 *Grand Total: ₹${grandTotal || 0}*\n` +
                     `═══════════════════════════` +
                     (prescription ? `\n📎 *Prescription Attached:* ${prescription.name}` : '');
@@ -945,7 +969,6 @@ const server = http.createServer((req, res) => {
                 let responseResult = {};
 
                 if (prescription && prescription.base64) {
-                    // Send prescription file along with formatted caption
                     const filePath = `/waInstance${ID_INSTANCE}/sendFileByUpload/${API_TOKEN}`;
                     const filePayload = {
                         chatId: TARGET_CHAT_ID,
@@ -955,7 +978,6 @@ const server = http.createServer((req, res) => {
                     };
                     responseResult = await sendGreenApiRequest(filePath, filePayload);
                 } else {
-                    // Send text-only notification
                     const msgPath = `/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`;
                     const msgPayload = {
                         chatId: TARGET_CHAT_ID,
