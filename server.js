@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+const http = require('http');
+
+const PORT = process.env.PORT || 3000;
+
+const htmlContent = `<!DOCTYPE html>
 <html lang="as">
 <head>
   <meta charset="UTF-8">
@@ -50,7 +54,6 @@
       margin: 0 auto;
     }
 
-    /* Header */
     .header-card {
       background: var(--card-bg);
       backdrop-filter: blur(10px);
@@ -107,7 +110,6 @@
       margin-top: 10px;
     }
 
-    /* Premium Form Cards */
     .premium-card {
       background: var(--surface);
       border-radius: var(--radius-md);
@@ -170,16 +172,15 @@
       gap: 10px;
     }
 
-    /* Prescription Upload Box */
     .upload-zone {
-      border: 2px dashed #cbd5e1;
+      border: 2px dashed #94a3b8;
       border-radius: var(--radius-sm);
-      padding: 18px;
+      padding: 20px 14px;
       text-align: center;
       background: #f8fafc;
       cursor: pointer;
       transition: all 0.2s ease;
-      position: relative;
+      display: block;
     }
 
     .upload-zone:hover {
@@ -188,14 +189,21 @@
     }
 
     .upload-zone input[type="file"] {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
     }
 
     .upload-prompt {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       color: var(--text-sub);
       font-size: 12.5px;
     }
@@ -228,6 +236,7 @@
       object-fit: cover;
       border-radius: 6px;
       border: 1px solid #e2e8f0;
+      background: #f1f5f9;
     }
 
     .preview-meta {
@@ -241,7 +250,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 200px;
+      max-width: 180px;
     }
 
     .preview-size {
@@ -253,14 +262,13 @@
       background: #fee2e2;
       color: #dc2626;
       border: none;
-      padding: 6px 10px;
+      padding: 6px 12px;
       border-radius: 6px;
       font-size: 11px;
       font-weight: 700;
       cursor: pointer;
     }
 
-    /* Search Box */
     .search-box-wrapper {
       position: relative;
       margin-bottom: 12px;
@@ -291,7 +299,6 @@
       color: var(--text-muted);
     }
 
-    /* Test List */
     .test-list-container {
       max-height: 280px;
       overflow-y: auto;
@@ -341,7 +348,6 @@
       white-space: nowrap;
     }
 
-    /* Vial Badges */
     .vial-tag {
       font-size: 9.5px;
       padding: 2px 7px;
@@ -361,7 +367,6 @@
     .vial-MULTI { background: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; }
     .vial-NA { background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; }
 
-    /* Sticky Bottom Footer */
     .summary-footer {
       position: fixed;
       bottom: 16px;
@@ -397,7 +402,6 @@
       transform: scale(0.97);
     }
 
-    /* Modal / Receipt Styles */
     #receiptModal {
       display: none;
       position: fixed;
@@ -513,10 +517,6 @@
       box-shadow: 0 4px 12px rgba(37, 211, 102, 0.28);
     }
 
-    .btn-whatsapp:active {
-      opacity: 0.92;
-    }
-
     .modal-btn-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -538,7 +538,6 @@
 <body>
 
 <div class="container">
-  <!-- Brand Header -->
   <div class="header-card">
     <div class="brand-title">
       <span class="brand-medi">Medi</span><span class="brand-tree">Tree</span>
@@ -552,7 +551,6 @@
     </div>
   </div>
 
-  <!-- Patient Details Card -->
   <div class="premium-card">
     <div class="section-title">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -594,7 +592,7 @@
 
       <div class="form-group full-width">
         <label>Contact Phone Number *</label>
-        <input type="tel" id="pPhone" placeholder="১০ টা সংখ্যাৰ মোবাইল নম্বৰ">
+        <input type="tel" id="pPhone" placeholder="১০ টা সংখ্যাৰ মোবাইল নম্বৰ" maxlength="10">
       </div>
 
       <div class="form-group full-width">
@@ -602,7 +600,6 @@
         <textarea id="pAddress" rows="2" placeholder="নমুনা সংগ্ৰহ কৰিবলগীয়া সম্পূৰ্ণ ঠিকনা ও Landmark"></textarea>
       </div>
 
-      <!-- Collection Charge Selector & Custom Input -->
       <div class="form-group full-width">
         <label>Home Collection Charge (সংগ্ৰহ মাচুল) *</label>
         <div class="collection-row">
@@ -620,23 +617,21 @@
     </div>
   </div>
 
-  <!-- Prescription Upload Section -->
   <div class="premium-card">
     <div class="section-title">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
       Doctor Prescription (প্ৰেছক্ৰিপশ্বন আপলোড কৰক)
     </div>
 
-    <div class="upload-zone" onclick="document.getElementById('prescriptionFile').click()">
-      <input type="file" id="prescriptionFile" accept="image/*,application/pdf" capture="environment" onchange="handlePrescriptionUpload(event)">
+    <label class="upload-zone" for="prescriptionFile">
+      <input type="file" id="prescriptionFile" accept="image/jpeg,image/png,image/jpg,image/webp,application/pdf" onchange="handlePrescriptionUpload(event)">
       <div class="upload-prompt">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-        <div style="font-weight: 700; color: var(--text-main);">প্ৰেছক্ৰিপশ্বনৰ ফটো তোলক বা ফাইল আপলোড কৰক</div>
-        <div style="font-size: 11px; color: var(--text-muted);">Supports: Camera Photo, JPG, PNG, PDF (Max 10MB)</div>
+        <div style="font-weight: 700; color: var(--text-main);">প্ৰেছক্ৰিপশ্বনৰ ফটো তোলক বা ফাইল বাছক</div>
+        <div style="font-size: 11px; color: var(--text-muted);">Supports: Camera, Gallery (JPG, PNG, PDF)</div>
       </div>
-    </div>
+    </label>
 
-    <!-- Uploaded File Preview Badge -->
     <div class="upload-preview-container" id="previewContainer">
       <div class="preview-info">
         <img id="previewImg" class="preview-thumbnail" src="" alt="Prescription Preview">
@@ -649,7 +644,6 @@
     </div>
   </div>
 
-  <!-- Test Selection Card -->
   <div class="premium-card">
     <div class="section-title">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5h0c-1.4 0-2.5-1.1-2.5-2.5V2"></path><path d="M8.5 2h7"></path><path d="M14.5 16h-5"></path></svg>
@@ -664,7 +658,6 @@
     <div class="test-list-container" id="testList"></div>
   </div>
 
-  <!-- Floating Footer Summary -->
   <div class="summary-footer">
     <div>
       <div style="font-size: 11px; color: #94a3b8; font-weight: 500;">
@@ -677,7 +670,6 @@
   </div>
 </div>
 
-<!-- Receipt Modal -->
 <div id="receiptModal">
   <div class="receipt-card" id="receiptContent">
     <div class="receipt-header">
@@ -689,7 +681,6 @@
       <p style="font-size: 10px; color: #64748b; margin-top: 2px;">Near SKK Civil Hospital, Golaghat</p>
     </div>
 
-    <!-- Structured Info Grid -->
     <div class="receipt-info-grid">
       <div><strong>Date:</strong> <span id="rDate"></span></div>
       <div><strong>Ref Doctor:</strong> <span id="rDoctor" style="color: #0077b6; font-weight: 600;"></span></div>
@@ -698,13 +689,11 @@
       <div style="grid-column: span 2;"><strong>Location:</strong> <span id="rAddress"></span></div>
     </div>
 
-    <!-- Prescription Attachment Badge in Receipt -->
     <div id="rPrescriptionNotice" class="prescription-status-box" style="display: none;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
       <span><strong>Prescription:</strong> <span id="rPrescriptionName">Attached</span></span>
     </div>
 
-    <!-- Test Breakdown Table -->
     <table class="receipt-table">
       <thead>
         <tr>
@@ -716,7 +705,6 @@
       <tbody id="rTestTableBody"></tbody>
     </table>
 
-    <!-- Amount Summary Breakdown -->
     <div style="margin-top: 6px; border-top: 1px dashed var(--border); padding-top: 8px;">
       <div class="receipt-total-row">
         <span>Tests Subtotal:</span>
@@ -733,7 +721,6 @@
       <span style="color: #0077b6;">₹<span id="rTotal">0</span></span>
     </div>
 
-    <!-- Action Buttons -->
     <div class="receipt-actions">
       <button class="btn-whatsapp" onclick="shareOnWhatsApp()">
         <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
@@ -917,7 +904,7 @@
   function getVialClass(vial) {
     if (vial.includes('&') || vial.includes(',')) return 'vial-MULTI';
     if (vial === 'PF') return 'vial-PF';
-    return `vial-${vial}`;
+    return 'vial-' + vial;
   }
 
   function handlePrescriptionUpload(event) {
@@ -926,18 +913,20 @@
 
     uploadedPrescriptionFile = file;
     document.getElementById('previewFileName').innerText = file.name;
-    document.getElementById('previewFileSize').innerText = `${(file.size / 1024).toFixed(1)} KB`;
+    document.getElementById('previewFileSize').innerText = (file.size / 1024).toFixed(1) + ' KB';
 
     if (file.type.startsWith('image/')) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        document.getElementById('previewImg').src = e.target.result;
-        document.getElementById('previewImg').style.display = 'block';
+      reader.onload = function(e) {
+        const previewImg = document.getElementById('previewImg');
+        previewImg.src = e.target.result;
+        previewImg.style.display = 'block';
       };
       reader.readAsDataURL(file);
     } else {
-      document.getElementById('previewImg').src = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
-      document.getElementById('previewImg').style.display = 'block';
+      const previewImg = document.getElementById('previewImg');
+      previewImg.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="%23023e8a" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>';
+      previewImg.style.display = 'block';
     }
 
     document.getElementById('previewContainer').style.display = 'flex';
@@ -952,39 +941,37 @@
   function renderTests(list) {
     const container = document.getElementById('testList');
     container.innerHTML = '';
-    list.forEach((t) => {
-      const isChecked = selectedTests.some(item => item.name === t.name);
+    list.forEach(function(t) {
+      const isChecked = selectedTests.some(function(item) { return item.name === t.name; });
       const div = document.createElement('div');
       div.className = 'test-item';
-      div.innerHTML = `
-        <label style="display:flex; align-items:center; cursor:pointer; flex: 1; min-width: 0;">
-          <input type="checkbox" onchange="toggleTest('${t.name.replace(/'/g, "\\'")}', ${t.price}, '${t.vial}')" ${isChecked ? 'checked' : ''}>
-          <div class="test-title-group">
-            <span style="font-weight: 500;">${t.name}</span>
-            <span class="vial-tag ${getVialClass(t.vial)}">${t.vial}</span>
-          </div>
-        </label>
-        <span class="test-price">₹${t.price}</span>
-      `;
+      div.innerHTML = '<label style="display:flex; align-items:center; cursor:pointer; flex: 1; min-width: 0;">' +
+        '<input type="checkbox" onchange="toggleTest(\\'' + t.name.replace(/'/g, "\\\\'") + '\\', ' + t.price + ', \\'' + t.vial + '\\')" ' + (isChecked ? 'checked' : '') + '>' +
+        '<div class="test-title-group">' +
+          '<span style="font-weight: 500;">' + t.name + '</span>' +
+          '<span class="vial-tag ' + getVialClass(t.vial) + '">' + t.vial + '</span>' +
+        '</div>' +
+      '</label>' +
+      '<span class="test-price">₹' + t.price + '</span>';
       container.appendChild(div);
     });
   }
 
   function filterTests() {
-    const queryWords = document.getElementById('searchTest').value.toLowerCase().trim().split(/\s+/);
-    const filtered = testsData.filter(t => {
+    const queryWords = document.getElementById('searchTest').value.toLowerCase().trim().split(/\\s+/);
+    const filtered = testsData.filter(function(t) {
       const testName = t.name.toLowerCase();
-      return queryWords.every(word => testName.includes(word));
+      return queryWords.every(function(word) { return testName.includes(word); });
     });
     renderTests(filtered);
   }
 
   function toggleTest(name, price, vial) {
-    const idx = selectedTests.findIndex(t => t.name === name);
+    const idx = selectedTests.findIndex(function(t) { return t.name === name; });
     if (idx > -1) {
       selectedTests.splice(idx, 1);
     } else {
-      selectedTests.push({ name, price, vial });
+      selectedTests.push({ name: name, price: price, vial: vial });
     }
     updateTotal();
   }
@@ -1011,13 +998,13 @@
   }
 
   function updateTotal() {
-    const testsSubtotal = selectedTests.reduce((acc, curr) => acc + curr.price, 0);
+    const testsSubtotal = selectedTests.reduce(function(acc, curr) { return acc + curr.price; }, 0);
     const collectionCharge = getActiveCollectionCharge();
     const grandTotal = testsSubtotal + collectionCharge;
 
     document.getElementById('totalDisplay').innerText = grandTotal;
     document.getElementById('selectedCount').innerText = selectedTests.length;
-    document.getElementById('footerChargeBadge').innerText = `(+ ₹${collectionCharge} Col.)`;
+    document.getElementById('footerChargeBadge').innerText = '(+ ₹' + collectionCharge + ' Col.)';
   }
 
   function generateReceipt() {
@@ -1044,7 +1031,7 @@
 
     document.getElementById('rDate').innerText = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
     document.getElementById('rName').innerText = name;
-    document.getElementById('rAgeSex').innerText = `${age ? age + ' Y' : ''} / ${sex}`;
+    document.getElementById('rAgeSex').innerText = (age ? age + ' Y' : '') + ' / ' + sex;
     document.getElementById('rDoctor').innerText = doctor;
     document.getElementById('rPhone').innerText = phone;
     document.getElementById('rAddress').innerText = address || 'N/A';
@@ -1061,26 +1048,14 @@
     tbody.innerHTML = '';
     
     if (selectedTests.length === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="3" style="text-align: center; color: #64748b; font-style: italic; padding: 12px;">
-            (টেষ্টসমূহ আপলোড কৰা প্ৰেছক্ৰিপশ্বন অনুসৰি নিৰ্ধাৰণ কৰা হ'ব)
-          </td>
-        </tr>
-      `;
+      tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #64748b; font-style: italic; padding: 12px;">(টেষ্টসমূহ আপলোড কৰা প্ৰেছক্ৰিপশ্বন অনুসৰি নিৰ্ধাৰণ কৰা হ\\'ব)</td></tr>';
     } else {
-      selectedTests.forEach(t => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${t.name}</td>
-            <td><span class="vial-tag ${getVialClass(t.vial)}">${t.vial}</span></td>
-            <td style="text-align: right; font-weight: 700; color: #0077b6;">₹${t.price}</td>
-          </tr>
-        `;
+      selectedTests.forEach(function(t) {
+        tbody.innerHTML += '<tr><td>' + t.name + '</td><td><span class="vial-tag ' + getVialClass(t.vial) + '">' + t.vial + '</span></td><td style="text-align: right; font-weight: 700; color: #0077b6;">₹' + t.price + '</td></tr>';
       });
     }
 
-    const testsSubtotal = selectedTests.reduce((acc, curr) => acc + curr.price, 0);
+    const testsSubtotal = selectedTests.reduce(function(acc, curr) { return acc + curr.price; }, 0);
     const grandTotal = testsSubtotal + collectionCharge;
 
     document.getElementById('rSubTotal').innerText = testsSubtotal;
@@ -1101,41 +1076,38 @@
     const grandTotal = document.getElementById('rTotal').innerText;
 
     let testListText = selectedTests.length > 0 
-      ? selectedTests.map((t, index) => `${index + 1}. ${t.name} [${t.vial}] - ₹${t.price}`).join('\n')
+      ? selectedTests.map(function(t, index) { return (index + 1) + '. ' + t.name + ' [' + t.vial + '] - ₹' + t.price; }).join('\\n')
       : "• (Prescription-based tests to be verified by laboratory)";
 
     let prescriptionText = uploadedPrescriptionFile 
-      ? `📄 *Prescription:* Attached (${uploadedPrescriptionFile.name})`
-      : `📄 *Prescription:* None / Direct selection`;
+      ? '📄 *Prescription:* Attached (' + uploadedPrescriptionFile.name + ')'
+      : '📄 *Prescription:* None / Direct selection';
 
-    const formattedMessage = `🏥 *MEDITREE CLINIC & DIAGNOSTIC CENTRE LLP*
-_Home Sample Collection Booking_
-═════════════════════════
-📅 *Date:* ${date}
-👨‍⚕️ *Ref By Doctor:* ${doctor}
-👤 *Patient:* ${name} (${ageSex})
-📞 *Phone:* ${phone}
-📍 *Address:* ${address}
-${prescriptionText}
-
-🧪 *Selected Tests (${selectedTests.length}):*
-${testListText}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━
-💵 *Tests Subtotal:* ₹${subTotal}
-🛵 *Collection Charge:* ₹${collectionCharge}
-💰 *Grand Total:* ₹${grandTotal}
-═════════════════════════
-_Your Health, Our Responsibility._
-_Near SKK Civil Hospital, Golaghat_`;
+    const formattedMessage = '🏥 *MEDITREE CLINIC & DIAGNOSTIC CENTRE LLP*\\n' +
+'_Home Sample Collection Booking_\\n' +
+'═════════════════════════\\n' +
+'📅 *Date:* ' + date + '\\n' +
+'👨‍⚕️ *Ref By Doctor:* ' + doctor + '\\n' +
+'👤 *Patient:* ' + name + ' (' + ageSex + ')\\n' +
+'📞 *Phone:* ' + phone + '\\n' +
+'📍 *Address:* ' + address + '\\n' +
+prescriptionText + '\\n\\n' +
+'🧪 *Selected Tests (' + selectedTests.length + '):*\\n' +
+testListText + '\\n\\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━\\n' +
+'💵 *Tests Subtotal:* ₹' + subTotal + '\\n' +
+'🛵 *Collection Charge:* ₹' + collectionCharge + '\\n' +
+'💰 *Grand Total:* ₹' + grandTotal + '\\n' +
+'═════════════════════════\\n' +
+'_Your Health, Our Responsibility._\\n' +
+'_Near SKK Civil Hospital, Golaghat_';
 
     const encodedText = encodeURIComponent(formattedMessage);
-    
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     if (isMobile) {
-      window.location.href = `whatsapp://send?text=${encodedText}`;
+      window.location.href = 'whatsapp://send?text=' + encodedText;
     } else {
-      window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+      window.open('https://api.whatsapp.com/send?text=' + encodedText, '_blank');
     }
   }
 
@@ -1168,4 +1140,13 @@ _Near SKK Civil Hospital, Golaghat_`;
 </script>
 
 </body>
-</html>
+</html>`;
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.end(htmlContent);
+});
+
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
