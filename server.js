@@ -19,7 +19,6 @@ const HTML_PAGE = `<!DOCTYPE html>
         :root {
             --bg-dark: #071521;
             --card-dark: #0f2438;
-            --card-subtle: #132e47;
             --input-bg: #091a2a;
             --accent-blue: #0284c7;
             --accent-cyan: #38bdf8;
@@ -94,11 +93,6 @@ const HTML_PAGE = `<!DOCTYPE html>
         .upload-text { font-size: 13px; font-weight: 600; color: var(--accent-cyan); }
         .upload-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
         .file-name-preview { font-size: 12px; color: #10b981; font-weight: 700; margin-top: 8px; word-break: break-all; display: none; }
-        .pills-group { display: flex; gap: 8px; margin-bottom: 12px; }
-        .pill-btn { flex: 1; padding: 12px 8px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-muted); font-size: 13px; font-weight: 600; text-align: center; cursor: pointer; }
-        .pill-btn.active { background: #38bdf8; color: #04121e; border-color: #38bdf8; font-weight: 700; }
-        .slot-card { display: flex; align-items: center; justify-content: space-between; padding: 14px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 8px; cursor: pointer; color: var(--text-muted); font-size: 14px; }
-        .slot-card.active { background: var(--green-active); border-color: var(--green-border); color: #fff; font-weight: 600; }
         .main-submit-btn { width: 100%; padding: 16px; background: #0284c7; border: none; border-radius: 14px; color: #fff; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(2,132,199,0.3); }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: none; align-items: flex-end; justify-content: center; z-index: 1000; }
         .modal-content { background: #0e2235; border: 1px solid var(--border-color); border-radius: 24px 24px 0 0; width: 100%; max-width: 480px; padding: 24px 20px; max-height: 85vh; overflow-y: auto; }
@@ -107,7 +101,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         .modal-header h3 { font-size: 18px; font-weight: 800; color: #fff; }
         .modal-header p { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
         .review-box { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; margin-bottom: 18px; }
-        .review-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 8px; }
+        .review-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 6px; }
         .review-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .review-label { color: var(--text-muted); }
         .review-val { font-weight: 700; color: #fff; text-align: right; max-width: 60%; }
@@ -229,6 +223,24 @@ const HTML_PAGE = `<!DOCTYPE html>
                             <textarea id="custAddress" rows="2" required placeholder="Flat, house no, street, locality"></textarea>
                         </div>
                     </div>
+                    
+                    <div style="display: flex; gap: 10px;" class="form-group">
+                        <div style="flex:1;">
+                            <label>Collection Date *</label>
+                            <div class="input-wrap">
+                                <span class="field-icon">📅</span>
+                                <input type="date" id="custCustomDate" required style="padding-left: 36px; color-scheme: dark;">
+                            </div>
+                        </div>
+                        <div style="flex:1;">
+                            <label>Preferred Time *</label>
+                            <div class="input-wrap">
+                                <span class="field-icon">🕒</span>
+                                <input type="time" id="custCustomTime" required value="07:30" style="padding-left: 36px; color-scheme: dark;">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>Report Delivery Preference</label>
                         <div class="input-wrap">
@@ -275,29 +287,6 @@ const HTML_PAGE = `<!DOCTYPE html>
                             <div id="filePreview" class="file-name-preview"></div>
                         </div>
                     </div>
-                    <div style="margin-top: 15px; margin-bottom: 8px;">
-                        <label style="font-weight: 700; color: #fff; font-size: 14px;">Choose a date</label>
-                        <div class="pills-group" style="margin-top: 8px;">
-                            <div class="pill-btn active" onclick="selectDate(this, 'Today')">Today</div>
-                            <div class="pill-btn" onclick="selectDate(this, 'Tomorrow')">Tomorrow</div>
-                            <div class="pill-btn" onclick="selectDate(this, 'Upcoming')">Upcoming</div>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-weight: 700; color: #fff; font-size: 14px; margin-bottom: 8px; display:block;">Choose a time</label>
-                        <div class="slot-card active" onclick="selectTime(this, '7:00 – 9:00 AM')">
-                            <span>🕒 7:00 – 9:00 AM (Fasting Preferred)</span>
-                            <span>✔</span>
-                        </div>
-                        <div class="slot-card" onclick="selectTime(this, '9:00 – 11:00 AM')">
-                            <span>🕒 9:00 – 11:00 AM</span>
-                            <span></span>
-                        </div>
-                        <div class="slot-card" onclick="selectTime(this, '4:00 – 6:00 PM')">
-                            <span>🕒 4:00 – 6:00 PM</span>
-                            <span></span>
-                        </div>
-                    </div>
                     <button type="submit" class="main-submit-btn">Review Booking Details ➔</button>
                 </form>
             </div>
@@ -314,11 +303,11 @@ const HTML_PAGE = `<!DOCTYPE html>
                     <div class="review-row"><span class="review-label">Age / Gender</span><span class="review-val" id="revAgeSex">--</span></div>
                     <div class="review-row"><span class="review-label">Phone</span><span class="review-val" id="revPhone">--</span></div>
                     <div class="review-row"><span class="review-label">Address</span><span class="review-val" id="revAddress">--</span></div>
+                    <div class="review-row"><span class="review-label">Appointment</span><span class="review-val" id="revSchedule" style="color: var(--accent-cyan);">--</span></div>
                     <div class="review-row"><span class="review-label">Ref By Doctor</span><span class="review-val" id="revDoctor">--</span></div>
                     <div class="review-row"><span class="review-label">Report Delivery</span><span class="review-val" id="revReportType" style="color: #38bdf8;">--</span></div>
                     <div class="review-row"><span class="review-label">Payment Status</span><span class="review-val" id="revPayment" style="color: #38bdf8;">--</span></div>
-                    <div class="review-row"><span class="review-label">Prescription</span><span class="review-val" id="revPrescription" style="color: #38bdf8;">None / Direct selection</span></div>
-                    <div class="review-row"><span class="review-label">Date & Time</span><span class="review-val" id="revSchedule">--</span></div>
+                    <div class="review-row"><span class="review-label">Prescription</span><span class="review-val" id="revPrescription" style="color: #38bdf8;">None</span></div>
                     <div class="review-row"><span class="review-label">Selected Tests</span><span class="review-val" id="revTests" style="color: var(--accent-cyan);">--</span></div>
                     <div class="review-row"><span class="review-label">Tests Subtotal</span><span class="review-val" id="revTestCost">₹0</span></div>
                     <div class="review-row"><span class="review-label">Collection Charge</span><span class="review-val" id="revCollectionCharge" style="color: #10b981;">₹100</span></div>
@@ -363,6 +352,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         <a href="https://wa.me/916000219209" target="_blank" class="wa-float"><span>💬</span> Chat</a>
     </div>
     <script>
+        // All test names are cleaned to exclude bracketed vial names
         const ALL_TESTS = [
             { id: 0, name: "FULL BODY CHECKUP PACKAGE", price: 4000, vial: "RED, VIOLET, GREY, BLACK, URINE" },
             { id: 1, name: "ABO, Rh GROUPING", price: 100, vial: "VIOLET" },
@@ -394,7 +384,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             { id: 27, name: "CPK MB", price: 1350, vial: "RED" },
             { id: 28, name: "CRP (TITRE) immunoturbidity", price: 450, vial: "RED" },
             { id: 29, name: "CA 125", price: 1600, vial: "RED" },
-            { id: 30, name: "CBC [VIOLET]", price: 400, vial: "VIOLET" },
+            { id: 30, name: "CBC", price: 400, vial: "VIOLET" },
             { id: 31, name: "CHOLESTEROL TOTAL", price: 200, vial: "RED" },
             { id: 32, name: "COAGULATION PROFILE", price: 1200, vial: "BLUE" },
             { id: 33, name: "CSF ANALYSIS", price: 550, vial: "NA" },
@@ -524,23 +514,17 @@ const HTML_PAGE = `<!DOCTYPE html>
         ];
 
         let selectedTests = [];
-        let selectedDateType = "Today";
-        let selectedSlot = "7:00 – 9:00 AM";
         let pendingPayload = null;
         let prescriptionFile = null;
 
-        function formatDateString(type) {
-            const now = new Date();
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            if (type === "Today") {
-                return "Today (" + now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear() + ")";
-            } else if (type === "Tomorrow") {
-                const tmrw = new Date(now);
-                tmrw.setDate(tmrw.getDate() + 1);
-                return "Tomorrow (" + tmrw.getDate() + " " + months[tmrw.getMonth()] + " " + tmrw.getFullYear() + ")";
-            } else {
-                return "Upcoming Date";
-            }
+        function formatDisplayTime(timeStr) {
+            if (!timeStr) return "";
+            const [hours, minutes] = timeStr.split(":");
+            let h = parseInt(hours, 10);
+            const m = minutes || "00";
+            const ampm = h >= 12 ? "PM" : "AM";
+            h = h % 12 || 12;
+            return h + ":" + m + " " + ampm;
         }
 
         function getCollectionCharge() {
@@ -674,22 +658,6 @@ const HTML_PAGE = `<!DOCTYPE html>
             updateCart();
         }
 
-        function selectDate(elem, val) {
-            document.querySelectorAll(".pill-btn").forEach(p => p.classList.remove("active"));
-            elem.classList.add("active");
-            selectedDateType = val;
-        }
-
-        function selectTime(elem, slot) {
-            document.querySelectorAll(".slot-card").forEach(s => {
-                s.classList.remove("active");
-                s.querySelector("span:last-child").innerText = "";
-            });
-            elem.classList.add("active");
-            elem.querySelector("span:last-child").innerText = "✔";
-            selectedSlot = slot;
-        }
-
         function handleFileChange(input) {
             const file = input.files[0];
             const preview = document.getElementById("filePreview");
@@ -752,12 +720,22 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById("filePreview").style.display = "none";
             document.getElementById("scheduleForm").reset();
             document.getElementById("custCollectionCharge").value = "100";
+            
+            const todayStr = new Date().toISOString().split('T')[0];
+            document.getElementById("custCustomDate").value = todayStr;
+            
             showHomeView();
             applyFilter();
         }
 
-        // Initialize Everything when DOM is completely ready
         document.addEventListener("DOMContentLoaded", function() {
+            const todayStr = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById("custCustomDate");
+            if (dateInput) {
+                dateInput.value = todayStr;
+                dateInput.min = todayStr;
+            }
+
             const searchInput = document.getElementById("searchInput");
             if (searchInput) {
                 searchInput.addEventListener("input", applyFilter);
@@ -770,10 +748,18 @@ const HTML_PAGE = `<!DOCTYPE html>
                     const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
                     const charge = getCollectionCharge();
                     const total = testCost + charge;
-                    const formattedTests = selectedTests.map((t, idx) => "  " + (idx + 1) + ". " + t.name + " (" + t.vial + ") - ₹" + t.price);
-                    const fullDateString = formatDateString(selectedDateType);
+                    
+                    // Includes Test Name and Vial Color in the WhatsApp text
+                    const formattedTests = selectedTests.map((t, idx) => "  " + (idx + 1) + ". " + t.name + " [" + t.vial + "] - ₹" + t.price);
+                    
+                    const customDateVal = document.getElementById("custCustomDate").value;
+                    const customTimeVal = document.getElementById("custCustomTime").value;
+                    const displayTimeFormatted = formatDisplayTime(customTimeVal);
+                    const scheduledSlotText = customDateVal + " (" + displayTimeFormatted + ")";
+
                     const paymentMode = document.getElementById("custPaymentMode").value;
                     const reportType = document.getElementById("custReportType").value;
+
                     pendingPayload = {
                         patientName: document.getElementById("custName").value,
                         age: document.getElementById("custAge").value,
@@ -783,24 +769,25 @@ const HTML_PAGE = `<!DOCTYPE html>
                         referredBy: document.getElementById("custDoctor").value || "Self",
                         paymentMode: paymentMode,
                         reportType: reportType,
-                        date: fullDateString,
-                        timeSlot: selectedSlot,
+                        customDate: customDateVal,
+                        customTime: displayTimeFormatted,
                         testCount: selectedTests.length,
-                        testsList: formattedTests.join("\\n"),
+                        testsList: formattedTests.join("\n"),
                         testCost: testCost,
                         collectionCharge: charge,
                         grandTotal: total,
                         prescription: prescriptionFile
                     };
+
                     document.getElementById("revName").innerText = pendingPayload.patientName;
                     document.getElementById("revAgeSex").innerText = pendingPayload.age + " Y / " + pendingPayload.sex;
                     document.getElementById("revPhone").innerText = pendingPayload.phone;
                     document.getElementById("revAddress").innerText = pendingPayload.address;
+                    document.getElementById("revSchedule").innerText = scheduledSlotText;
                     document.getElementById("revDoctor").innerText = pendingPayload.referredBy;
                     document.getElementById("revReportType").innerText = pendingPayload.reportType;
                     document.getElementById("revPayment").innerText = pendingPayload.paymentMode;
-                    document.getElementById("revPrescription").innerText = prescriptionFile ? prescriptionFile.name : "None / Direct selection";
-                    document.getElementById("revSchedule").innerText = pendingPayload.date + ", " + pendingPayload.timeSlot;
+                    document.getElementById("revPrescription").innerText = prescriptionFile ? prescriptionFile.name : "None";
                     document.getElementById("revTests").innerText = selectedTests.map(t => t.name).join(", ");
                     document.getElementById("revTestCost").innerText = "₹" + testCost;
                     document.getElementById("revCollectionCharge").innerText = "₹" + charge;
@@ -950,31 +937,42 @@ const server = http.createServer((req, res) => {
                 const { 
                     patientName, age, sex, phone, address, referredBy, 
                     paymentMode, reportType, testCount, testsList, testCost, 
-                    collectionCharge, grandTotal, date, timeSlot, prescription 
+                    collectionCharge, grandTotal, customDate, customTime, prescription 
                 } = data;
+
+                const now = new Date();
+                const bookingTimestamp = now.toLocaleString("en-IN", {
+                    timeZone: "Asia/Kolkata",
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                });
 
                 const message = 
                     '🏥 *MOUCHUMI LAB TEST BLOOD COLLECTION SERVICE*\n' +
                     '🧪 *NEW LAB BOOKING RECEIVED*\n' +
-                    '━━━━━━━━━━━━━━━━━━━━━\n' +
+                    '─────────────\n' +
+                    '⏰ *Booked At:* ' + bookingTimestamp + '\n' +
                     '👤 *Patient:* ' + (patientName || 'N/A') + ' (' + (age || '') + ' Y, ' + (sex || '') + ')\n' +
                     '📞 *Phone:* ' + (phone || 'N/A') + '\n' +
                     '📍 *Address:* ' + (address || 'N/A') + '\n' +
-                    '📅 *Schedule:* ' + (date || 'N/A') + ' | ' + (timeSlot || '') + '\n' +
+                    '📅 *Preferred Slot:* ' + (customDate || 'N/A') + ' at ' + (customTime || 'N/A') + '\n' +
                     '👨‍⚕️ *Ref By:* ' + (referredBy || 'Self') + '\n' +
                     '🚚 *Report:* ' + (reportType || 'Both') + '\n' +
                     '💳 *Payment:* ' + (paymentMode || 'Not Paid') + '\n' +
                     '📎 *Prescription:* ' + (prescription ? prescription.name : 'None') + '\n' +
-                    '━━━━━━━━━━━━━━━━━━━━━\n' +
-                    '📋 *Selected Tests (' + (testCount || 0) + '):*\n' +
+                    '─────────────\n' +
+                    '📋 *Tests (' + (testCount || 0) + '):*\n' +
                     (testsList || '  1. General Test') + '\n' +
-                    '─────────────────────\n' +
-                    '▫️ Tests Subtotal: ₹' + (testCost || 0) + '\n' +
+                    '─────────────\n' +
+                    '▫️ Tests Total: ₹' + (testCost || 0) + '\n' +
                     '▫️ Home Collection: ₹' + (collectionCharge || 0) + '\n' +
                     '💰 *Grand Total: ₹' + (grandTotal || 0) + '*\n' +
-                    '━━━━━━━━━━━━━━━━━━━━━\n' +
-                    '📍 *Mouchumi Lab Test Blood Collection service, Golaghat*\n' +
-                    '📞 Helpline: 6000219209 / 6900862973';
+                    '─────────────\n' +
+                    '📍 *Golaghat Helpline:* 6000219209 / 6900862973';
 
                 const msgPath = '/waInstance' + ID_INSTANCE + '/sendMessage/' + API_TOKEN;
                 const msgPayload = {
