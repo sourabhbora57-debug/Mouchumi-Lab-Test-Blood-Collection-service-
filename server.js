@@ -155,7 +155,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                 </div>
                 <div class="tests-main-container" id="testBoxContainer">
                     <div class="tests-header-area">
-                        <h3>All 157 Tests & Packages</h3>
+                        <h3>All Tests & Packages</h3>
                         <p>Find blood, urine, or organ health tests below</p>
                     </div>
                     <div class="test-search-wrapper">
@@ -351,9 +351,9 @@ const HTML_PAGE = `<!DOCTYPE html>
         </div>
         <a href="https://wa.me/916000219209" target="_blank" class="wa-float"><span>💬</span> Chat</a>
     </div>
+
     <script>
-        // All test names are cleaned to exclude bracketed vial names
-        const ALL_TESTS = [
+        var ALL_TESTS = [
             { id: 0, name: "FULL BODY CHECKUP PACKAGE", price: 4000, vial: "RED, VIOLET, GREY, BLACK, URINE" },
             { id: 1, name: "ABO, Rh GROUPING", price: 100, vial: "VIOLET" },
             { id: 2, name: "ABSOLUTE EOSINOPHIL COUNT", price: 150, vial: "VIOLET" },
@@ -513,52 +513,52 @@ const HTML_PAGE = `<!DOCTYPE html>
             { id: 156, name: "WIDAL TEST", price: 250, vial: "RED" }
         ];
 
-        let selectedTests = [];
-        let pendingPayload = null;
-        let prescriptionFile = null;
+        var selectedTests = [];
+        var pendingPayload = null;
+        var prescriptionFile = null;
 
         function formatDisplayTime(timeStr) {
             if (!timeStr) return "";
-            const [hours, minutes] = timeStr.split(":");
-            let h = parseInt(hours, 10);
-            const m = minutes || "00";
-            const ampm = h >= 12 ? "PM" : "AM";
+            var parts = timeStr.split(":");
+            var h = parseInt(parts[0], 10);
+            var m = parts[1] || "00";
+            var ampm = h >= 12 ? "PM" : "AM";
             h = h % 12 || 12;
             return h + ":" + m + " " + ampm;
         }
 
         function getCollectionCharge() {
-            const val = document.getElementById("custCollectionCharge");
+            var val = document.getElementById("custCollectionCharge");
             if (!val || val.value === "") return 100;
-            const parsed = parseFloat(val.value);
+            var parsed = parseFloat(val.value);
             return isNaN(parsed) ? 0 : parsed;
         }
 
         function getVialClass(vial) {
             if (!vial) return "vial-na";
-            vial = vial.toUpperCase();
-            if (vial.includes("URINE") || (vial.includes("RED") && vial.includes("VIOLET") && vial.includes("GREY"))) return "vial-pkg";
-            if (vial.includes("VIOLET")) return "vial-violet";
-            if (vial.includes("RED")) return "vial-red";
-            if (vial.includes("BLUE")) return "vial-blue";
-            if (vial.includes("GREY")) return "vial-grey";
-            if (vial.includes("BLACK")) return "vial-black";
-            if (vial.includes("GREEN")) return "vial-green";
+            var v = vial.toUpperCase();
+            if (v.indexOf("URINE") !== -1 || (v.indexOf("RED") !== -1 && v.indexOf("VIOLET") !== -1 && v.indexOf("GREY") !== -1)) return "vial-pkg";
+            if (v.indexOf("VIOLET") !== -1) return "vial-violet";
+            if (v.indexOf("RED") !== -1) return "vial-red";
+            if (v.indexOf("BLUE") !== -1) return "vial-blue";
+            if (v.indexOf("GREY") !== -1) return "vial-grey";
+            if (v.indexOf("BLACK") !== -1) return "vial-black";
+            if (v.indexOf("GREEN") !== -1) return "vial-green";
             return "vial-na";
         }
 
         function renderTests(tests) {
-            const container = document.getElementById("testsContainer");
+            var container = document.getElementById("testsContainer");
             if (!container) return;
             container.innerHTML = "";
             if (!tests || tests.length === 0) {
                 container.innerHTML = '<div style="text-align:center; padding:30px 10px; color:#94a3b8; font-size:14px;">No test found matching your search.</div>';
                 return;
             }
-            tests.forEach(test => {
-                const isSelected = selectedTests.some(t => t.id === test.id);
-                const vialCls = getVialClass(test.vial);
-                const card = document.createElement("div");
+            tests.forEach(function(test) {
+                var isSelected = selectedTests.some(function(t) { return t.id === test.id; });
+                var vialCls = getVialClass(test.vial);
+                var card = document.createElement("div");
                 card.id = "test-card-" + test.id;
                 card.className = "test-item-card" + (isSelected ? " selected" : "");
                 card.setAttribute("onmousedown", "event.preventDefault()");
@@ -572,10 +572,10 @@ const HTML_PAGE = `<!DOCTYPE html>
         }
 
         function toggleTest(id) {
-            const test = ALL_TESTS.find(t => t.id === id);
+            var test = ALL_TESTS.find(function(t) { return t.id === id; });
             if (!test) return;
-            const index = selectedTests.findIndex(t => t.id === id);
-            let isNowSelected = false;
+            var index = selectedTests.findIndex(function(t) { return t.id === id; });
+            var isNowSelected = false;
             if (index > -1) {
                 selectedTests.splice(index, 1);
                 isNowSelected = false;
@@ -583,8 +583,8 @@ const HTML_PAGE = `<!DOCTYPE html>
                 selectedTests.push(test);
                 isNowSelected = true;
             }
-            const card = document.getElementById("test-card-" + id);
-            const btn = document.getElementById("btn-test-" + id);
+            var card = document.getElementById("test-card-" + id);
+            var btn = document.getElementById("btn-test-" + id);
             if (card && btn) {
                 if (isNowSelected) {
                     card.classList.add("selected");
@@ -597,17 +597,17 @@ const HTML_PAGE = `<!DOCTYPE html>
                 }
             }
             updateCart();
-            const searchInput = document.getElementById("searchInput");
+            var searchInput = document.getElementById("searchInput");
             if (searchInput && (document.activeElement === searchInput || searchInput.value.length > 0)) {
                 searchInput.focus();
             }
         }
 
         function updateCart() {
-            const cartBar = document.getElementById("cartBar");
-            const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
-            const charge = getCollectionCharge();
-            const grandTotal = selectedTests.length > 0 ? (testCost + charge) : 0;
+            var cartBar = document.getElementById("cartBar");
+            var testCost = selectedTests.reduce(function(sum, t) { return sum + t.price; }, 0);
+            var charge = getCollectionCharge();
+            var grandTotal = selectedTests.length > 0 ? (testCost + charge) : 0;
             if (selectedTests.length > 0) {
                 cartBar.style.display = "flex";
                 document.getElementById("cartTotalText").innerText = "₹" + grandTotal;
@@ -618,27 +618,29 @@ const HTML_PAGE = `<!DOCTYPE html>
         }
 
         function updateBookingSummary() {
-            const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
-            const charge = getCollectionCharge();
-            const grandTotal = testCost + charge;
+            var testCost = selectedTests.reduce(function(sum, t) { return sum + t.price; }, 0);
+            var charge = getCollectionCharge();
+            var grandTotal = testCost + charge;
             document.getElementById("bookingTotalSummary").innerText = "₹" + grandTotal;
             updateCart();
         }
 
         function applyFilter() {
-            const searchInput = document.getElementById("searchInput");
+            var searchInput = document.getElementById("searchInput");
             if (!searchInput) return;
-            const val = searchInput.value.trim().toLowerCase();
-            let filtered = ALL_TESTS;
+            var val = searchInput.value.trim().toLowerCase();
+            var filtered = ALL_TESTS;
             if (val) {
-                filtered = ALL_TESTS.filter(t => t.name.toLowerCase().includes(val) || (t.vial && t.vial.toLowerCase().includes(val)));
+                filtered = ALL_TESTS.filter(function(t) {
+                    return t.name.toLowerCase().indexOf(val) !== -1 || (t.vial && t.vial.toLowerCase().indexOf(val) !== -1);
+                });
             }
             renderTests(filtered);
         }
 
         function focusSearch() {
             document.getElementById("testBoxContainer").scrollIntoView({ behavior: "smooth" });
-            const searchInput = document.getElementById("searchInput");
+            var searchInput = document.getElementById("searchInput");
             if (searchInput) searchInput.focus();
         }
 
@@ -647,7 +649,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById("homeView").style.display = "none";
             document.getElementById("bookingView").style.display = "block";
             document.getElementById("cartBar").style.display = "none";
-            document.getElementById("bookingSelectedSummary").innerText = selectedTests.map(t => t.name).join(", ");
+            document.getElementById("bookingSelectedSummary").innerText = selectedTests.map(function(t) { return t.name; }).join(", ");
             updateBookingSummary();
             window.scrollTo(0,0);
         }
@@ -659,8 +661,8 @@ const HTML_PAGE = `<!DOCTYPE html>
         }
 
         function handleFileChange(input) {
-            const file = input.files[0];
-            const preview = document.getElementById("filePreview");
+            var file = input.files[0];
+            var preview = document.getElementById("filePreview");
             if (file) {
                 if (file.size > 5 * 1024 * 1024) {
                     alert("File size exceeds 5MB limit. Please choose a smaller file.");
@@ -669,7 +671,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                     preview.style.display = "none";
                     return;
                 }
-                const reader = new FileReader();
+                var reader = new FileReader();
                 reader.onload = function(e) {
                     prescriptionFile = { name: file.name, type: file.type, base64: e.target.result.split(",")[1] };
                     preview.innerText = "📎 " + file.name;
@@ -688,16 +690,16 @@ const HTML_PAGE = `<!DOCTYPE html>
 
         async function submitFinalBooking() {
             if (!pendingPayload) return;
-            const btn = document.getElementById("confirmFinalBtn");
+            var btn = document.getElementById("confirmFinalBtn");
             btn.disabled = true;
             btn.innerText = "Sending Booking...";
             try {
-                const response = await fetch("/send-booking", {
+                var response = await fetch("/send-booking", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(pendingPayload)
                 });
-                const resData = await response.json();
+                var resData = await response.json();
                 if (resData.success) {
                     closeReviewModal();
                     document.getElementById("successPatientName").innerText = pendingPayload.patientName;
@@ -721,44 +723,45 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById("scheduleForm").reset();
             document.getElementById("custCollectionCharge").value = "100";
             
-            const todayStr = new Date().toISOString().split('T')[0];
+            var todayStr = new Date().toISOString().split('T')[0];
             document.getElementById("custCustomDate").value = todayStr;
             
             showHomeView();
             applyFilter();
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const todayStr = new Date().toISOString().split('T')[0];
-            const dateInput = document.getElementById("custCustomDate");
+        function initializeApp() {
+            var todayStr = new Date().toISOString().split('T')[0];
+            var dateInput = document.getElementById("custCustomDate");
             if (dateInput) {
                 dateInput.value = todayStr;
                 dateInput.min = todayStr;
             }
 
-            const searchInput = document.getElementById("searchInput");
+            var searchInput = document.getElementById("searchInput");
             if (searchInput) {
                 searchInput.addEventListener("input", applyFilter);
             }
 
-            const scheduleForm = document.getElementById("scheduleForm");
+            var scheduleForm = document.getElementById("scheduleForm");
             if (scheduleForm) {
                 scheduleForm.addEventListener("submit", function(e) {
                     e.preventDefault();
-                    const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
-                    const charge = getCollectionCharge();
-                    const total = testCost + charge;
+                    var testCost = selectedTests.reduce(function(sum, t) { return sum + t.price; }, 0);
+                    var charge = getCollectionCharge();
+                    var total = testCost + charge;
                     
-                    // Includes Test Name and Vial Color in the WhatsApp text
-                    const formattedTests = selectedTests.map((t, idx) => "  " + (idx + 1) + ". " + t.name + " [" + t.vial + "] - ₹" + t.price);
+                    var formattedTests = selectedTests.map(function(t, idx) {
+                        return "  " + (idx + 1) + ". " + t.name + " [" + t.vial + "] - ₹" + t.price;
+                    });
                     
-                    const customDateVal = document.getElementById("custCustomDate").value;
-                    const customTimeVal = document.getElementById("custCustomTime").value;
-                    const displayTimeFormatted = formatDisplayTime(customTimeVal);
-                    const scheduledSlotText = customDateVal + " (" + displayTimeFormatted + ")";
+                    var customDateVal = document.getElementById("custCustomDate").value;
+                    var customTimeVal = document.getElementById("custCustomTime").value;
+                    var displayTimeFormatted = formatDisplayTime(customTimeVal);
+                    var scheduledSlotText = customDateVal + " (" + displayTimeFormatted + ")";
 
-                    const paymentMode = document.getElementById("custPaymentMode").value;
-                    const reportType = document.getElementById("custReportType").value;
+                    var paymentMode = document.getElementById("custPaymentMode").value;
+                    var reportType = document.getElementById("custReportType").value;
 
                     pendingPayload = {
                         patientName: document.getElementById("custName").value,
@@ -772,7 +775,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                         customDate: customDateVal,
                         customTime: displayTimeFormatted,
                         testCount: selectedTests.length,
-                        testsList: formattedTests.join("\n"),
+                        testsList: formattedTests.join("\\n"),
                         testCost: testCost,
                         collectionCharge: charge,
                         grandTotal: total,
@@ -788,7 +791,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                     document.getElementById("revReportType").innerText = pendingPayload.reportType;
                     document.getElementById("revPayment").innerText = pendingPayload.paymentMode;
                     document.getElementById("revPrescription").innerText = prescriptionFile ? prescriptionFile.name : "None";
-                    document.getElementById("revTests").innerText = selectedTests.map(t => t.name).join(", ");
+                    document.getElementById("revTests").innerText = selectedTests.map(function(t) { return t.name; }).join(", ");
                     document.getElementById("revTestCost").innerText = "₹" + testCost;
                     document.getElementById("revCollectionCharge").innerText = "₹" + charge;
                     document.getElementById("revTotal").innerText = "₹" + total;
@@ -797,7 +800,13 @@ const HTML_PAGE = `<!DOCTYPE html>
             }
 
             renderTests(ALL_TESTS);
-        });
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initializeApp);
+        } else {
+            initializeApp();
+        }
     </script>
 </body>
 </html>`;
