@@ -230,10 +230,14 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                        </div>\n' +
 '                    </div>\n' +
 '                    <div class="form-group">\n' +
-'                        <label>Home Collection Charge (₹)</label>\n' +
+'                        <label>Report Delivery Preference</label>\n' +
 '                        <div class="input-wrap">\n' +
-'                            <span class="field-icon">🚗</span>\n' +
-'                            <input type="number" id="custCollectionCharge" value="100" min="0" placeholder="100" oninput="updateBookingSummary()">\n' +
+'                            <span class="field-icon">🚚</span>\n' +
+'                            <select id="custReportType" style="padding-left: 36px;">\n' +
+'                                <option value="PDF Send WhatsApp">PDF Send WhatsApp</option>\n' +
+'                                <option value="Hardcopy Send">Hardcopy Send</option>\n' +
+'                                <option value="PDF & Hardcopy Both Send" selected>PDF & Hardcopy Both Send</option>\n' +
+'                            </select>\n' +
 '                        </div>\n' +
 '                    </div>\n' +
 '                    <div class="form-group">\n' +
@@ -241,10 +245,17 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                        <div class="input-wrap">\n' +
 '                            <span class="field-icon">💳</span>\n' +
 '                            <select id="custPaymentMode" required style="padding-left: 36px;">\n' +
-'                                <option value="Unpaid / Not Paid">Unpaid / Not Paid</option>\n' +
-'                                <option value="Cash">Cash</option>\n' +
+'                                <option value="Not Paid">Not Paid</option>\n' +
 '                                <option value="UPI">UPI</option>\n' +
+'                                <option value="Cash">Cash</option>\n' +
 '                            </select>\n' +
+'                        </div>\n' +
+'                    </div>\n' +
+'                    <div class="form-group">\n' +
+'                        <label>Collection Charge (₹)</label>\n' +
+'                        <div class="input-wrap">\n' +
+'                            <span class="field-icon">🛵</span>\n' +
+'                            <input type="number" id="custCollectionCharge" value="100" min="0" placeholder="100" oninput="updateBookingSummary()">\n' +
 '                        </div>\n' +
 '                    </div>\n' +
 '                    <div class="form-group">\n' +
@@ -294,7 +305,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '        <div id="reviewModal" class="modal-overlay">\n' +
 '            <div class="modal-content">\n' +
 '                <div class="modal-header">\n' +
-'                    <div class="modal-brand">MOUCHUMI LAB TEST BLOOD COLLECTION SERVICE</div>\n' +
+'                    <div class="modal-brand">MEDITREE CLINIC & DIAGNOSTIC CENTRE LLP</div>\n' +
 '                    <h3>📋 Review Booking Details</h3>\n' +
 '                    <p>Please check your details before final submission</p>\n' +
 '                </div>\n' +
@@ -303,12 +314,13 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                    <div class="review-row"><span class="review-label">Age / Gender</span><span class="review-val" id="revAgeSex">--</span></div>\n' +
 '                    <div class="review-row"><span class="review-label">Phone</span><span class="review-val" id="revPhone">--</span></div>\n' +
 '                    <div class="review-row"><span class="review-label">Address</span><span class="review-val" id="revAddress">--</span></div>\n' +
-'                    <div class="review-row"><span class="review-label">Doctor</span><span class="review-val" id="revDoctor">--</span></div>\n' +
-'                    <div class="review-row"><span class="review-label">Payment Mode</span><span class="review-val" id="revPayment" style="color: #38bdf8;">--</span></div>\n' +
-'                    <div class="review-row"><span class="review-label">Prescription</span><span class="review-val" id="revPrescription" style="color: #38bdf8;">None</span></div>\n' +
-'                    <div class="review-row"><span class="review-label">Schedule</span><span class="review-val" id="revSchedule">--</span></div>\n' +
+'                    <div class="review-row"><span class="review-label">Ref By Doctor</span><span class="review-val" id="revDoctor">--</span></div>\n' +
+'                    <div class="review-row"><span class="review-label">Report Delivery</span><span class="review-val" id="revReportType" style="color: #38bdf8;">--</span></div>\n' +
+'                    <div class="review-row"><span class="review-label">Payment Status</span><span class="review-val" id="revPayment" style="color: #38bdf8;">--</span></div>\n' +
+'                    <div class="review-row"><span class="review-label">Prescription</span><span class="review-val" id="revPrescription" style="color: #38bdf8;">None / Direct selection</span></div>\n' +
+'                    <div class="review-row"><span class="review-label">Date & Time</span><span class="review-val" id="revSchedule">--</span></div>\n' +
 '                    <div class="review-row"><span class="review-label">Selected Tests</span><span class="review-val" id="revTests" style="color: var(--accent-cyan);">--</span></div>\n' +
-'                    <div class="review-row"><span class="review-label">Tests Cost</span><span class="review-val" id="revTestCost">₹0</span></div>\n' +
+'                    <div class="review-row"><span class="review-label">Tests Subtotal</span><span class="review-val" id="revTestCost">₹0</span></div>\n' +
 '                    <div class="review-row"><span class="review-label">Collection Charge</span><span class="review-val" id="revCollectionCharge" style="color: #10b981;">₹100</span></div>\n' +
 '                    <div class="review-row" style="margin-top: 6px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1);"><span class="review-label" style="font-size: 15px; font-weight: 800; color: #fff;">Grand Total</span><span class="review-val" id="revTotal" style="font-size: 16px; font-weight: 800; color: #38bdf8;">₹0</span></div>\n' +
 '                </div>\n' +
@@ -323,26 +335,26 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                <div class="success-icon">✓</div>\n' +
 '                <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 8px;">Booking Confirmed!</h3>\n' +
 '                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">\n' +
-'                    Thank you, <b id="successPatientName" style="color: #fff;"></b>! Your appointment request has been scheduled successfully. Our technician will visit you on time.\n' +
+'                    Thank you, <b id="successPatientName" style="color: #fff;"></b>! Your appointment request has been scheduled successfully.\n' +
 '                </p>\n' +
 '                <button onclick="dismissSuccess()" class="main-submit-btn" style="background: #10b981;">Back to Home</button>\n' +
 '            </div>\n' +
 '        </div>\n' +
 '        <footer class="app-footer">\n' +
-'            <div class="footer-brand">Mouchumi Lab Test Blood Collection service</div>\n' +
+'            <div class="footer-brand">MEDITREE CLINIC & DIAGNOSTIC CENTRE LLP</div>\n' +
 '            <div class="footer-tagline">Quality Diagnostic Care At Your Doorstep • Golaghat</div>\n' +
 '            <div class="footer-contact-box">\n' +
 '                <div class="contact-label">📞 Call / Helpline Numbers</div>\n' +
 '                <div class="contact-links">\n' +
-'                    <a href="tel:6000219209" class="phone-badge">📞 6000219209</a>\n' +
-'                    <a href="tel:6900862973" class="phone-badge">📞 6900862973</a>\n' +
+'                    <a href="tel:6000476108" class="phone-badge">📞 6000476108</a>\n' +
+'                    <a href="tel:9101464141" class="phone-badge">📞 9101464141</a>\n' +
 '                </div>\n' +
 '            </div>\n' +
 '            <div class="footer-social-links">\n' +
 '                <a href="https://www.google.com/search?kgmid=%2Fg%2F11z3b65pfx" target="_blank" class="social-btn social-google">🌐 Google Listing</a>\n' +
 '                <a href="https://www.facebook.com/share/1Bv1KmUsSt/" target="_blank" class="social-btn social-fb">📘 Facebook Page</a>\n' +
 '            </div>\n' +
-'            <div class="copyright-text">© 2026 Mouchumi Lab Test Blood Collection service. All rights reserved.</div>\n' +
+'            <div class="copyright-text">© 2026 Meditree Clinic & Diagnostic Centre LLP. All rights reserved.</div>\n' +
 '        </footer>\n' +
 '        <div id="cartBar" class="floating-cart" style="display: none;">\n' +
 '            <div class="cart-info"><h4 id="cartTotalText">₹0</h4><p id="cartItemsText">0 tests selected</p></div>\n' +
@@ -365,7 +377,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            { id: 10, name: "ΑΜΜΟΝΙΑ", price: 1000, vial: "VIOLET" },\n' +
 '            { id: 11, name: "ANTENATAL CHECK UP (ANC)", price: 2900, vial: "GREY, VIOLET & RED" },\n' +
 '            { id: 12, name: "ANTI CCP", price: 1600, vial: "RED" },\n' +
-'            { id: 13, name: "ΑΝΤΙ ТРО", price: 2000, vial: "RED" },\n' +
+'            { id: 13, name: "ANTI TPO", price: 2000, vial: "RED" },\n' +
 '            { id: 14, name: "ANTINUCLEAR ANTI BODY (ΑΝΑ)", price: 1000, vial: "RED" },\n' +
 '            { id: 15, name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: 4000, vial: "RED" },\n' +
 '            { id: 16, name: "APTT", price: 500, vial: "BLUE" },\n' +
@@ -382,7 +394,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            { id: 27, name: "CPK MB", price: 1350, vial: "RED" },\n' +
 '            { id: 28, name: "CRP (TITRE) immunoturbidity", price: 450, vial: "RED" },\n' +
 '            { id: 29, name: "CA 125", price: 1600, vial: "RED" },\n' +
-'            { id: 30, name: "CBC (Complete Blood Count)", price: 400, vial: "VIOLET" },\n' +
+'            { id: 30, name: "CBC [VIOLET]", price: 400, vial: "VIOLET" },\n' +
 '            { id: 31, name: "CHOLESTEROL TOTAL", price: 200, vial: "RED" },\n' +
 '            { id: 32, name: "COAGULATION PROFILE", price: 1200, vial: "BLUE" },\n' +
 '            { id: 33, name: "CSF ANALYSIS", price: 550, vial: "NA" },\n' +
@@ -438,7 +450,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            { id: 83, name: "NT PRO BNP", price: 1750, vial: "RED" },\n' +
 '            { id: 84, name: "PBS FOR CELL MORPHOLOGY", price: 250, vial: "VIOLET" },\n' +
 '            { id: 85, name: "PLATELET COUNT", price: 100, vial: "VIOLET" },\n' +
-'            { id: 86, name: "PLEURAL FLUID ANALYSIS: PHYSICAL, CHEMICAL", price: 850, vial: "PF" },\n' +
+'            { id: 86, name: "PLEURAL FLUID ANALYSIS: PHYSICAL, CHEMICAL AND MICROSCOPIC", price: 850, vial: "PF" },\n' +
 '            { id: 87, name: "PLEURAL FLUID ANALYSIS: CYTOLOGICAL", price: 500, vial: "PF" },\n' +
 '            { id: 88, name: "PLEURAL FLUID ANALYSIS: ADA", price: 650, vial: "PF" },\n' +
 '            { id: 89, name: "PLEURAL FLUID ANALYSIS: LH", price: 400, vial: "PF" },\n' +
@@ -519,11 +531,11 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            const now = new Date();\n' +
 '            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];\n' +
 '            if (type === "Today") {\n' +
-'                return "Today (" + now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear() + ")";\n' +
+'                return now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear();\n' +
 '            } else if (type === "Tomorrow") {\n' +
 '                const tmrw = new Date(now);\n' +
 '                tmrw.setDate(tmrw.getDate() + 1);\n' +
-'                return "Tomorrow (" + tmrw.getDate() + " " + months[tmrw.getMonth()] + " " + tmrw.getFullYear() + ")";\n' +
+'                return tmrw.getDate() + " " + months[tmrw.getMonth()] + " " + tmrw.getFullYear();\n' +
 '            } else {\n' +
 '                return "Upcoming Date";\n' +
 '            }\n' +
@@ -686,8 +698,10 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);\n' +
 '            const charge = getCollectionCharge();\n' +
 '            const total = testCost + charge;\n' +
+'            const formattedTests = selectedTests.map((t, idx) => (idx + 1) + ". " + t.name + " [" + t.vial + "] - ₹" + t.price);\n' +
 '            const fullDateString = formatDateString(selectedDateType);\n' +
 '            const paymentMode = document.getElementById("custPaymentMode").value;\n' +
+'            const reportType = document.getElementById("custReportType").value;\n' +
 '            pendingPayload = {\n' +
 '                patientName: document.getElementById("custName").value,\n' +
 '                age: document.getElementById("custAge").value,\n' +
@@ -696,23 +710,25 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '                address: document.getElementById("custAddress").value,\n' +
 '                referredBy: document.getElementById("custDoctor").value || "Self",\n' +
 '                paymentMode: paymentMode,\n' +
+'                reportType: reportType,\n' +
 '                date: fullDateString,\n' +
 '                timeSlot: selectedSlot,\n' +
 '                testCount: selectedTests.length,\n' +
-'                testsList: selectedTests.map((t, idx) => "  ▫️ " + (idx + 1) + ". " + t.name + " (₹" + t.price + ")").join("\\n"),\n' +
+'                testsList: formattedTests.join("\\n"),\n' +
 '                testCost: testCost,\n' +
 '                collectionCharge: charge,\n' +
 '                grandTotal: total,\n' +
 '                prescription: prescriptionFile\n' +
 '            };\n' +
 '            document.getElementById("revName").innerText = pendingPayload.patientName;\n' +
-'            document.getElementById("revAgeSex").innerText = pendingPayload.age + " Yrs / " + pendingPayload.sex;\n' +
+'            document.getElementById("revAgeSex").innerText = pendingPayload.age + " Y / " + pendingPayload.sex;\n' +
 '            document.getElementById("revPhone").innerText = pendingPayload.phone;\n' +
 '            document.getElementById("revAddress").innerText = pendingPayload.address;\n' +
 '            document.getElementById("revDoctor").innerText = pendingPayload.referredBy;\n' +
+'            document.getElementById("revReportType").innerText = pendingPayload.reportType;\n' +
 '            document.getElementById("revPayment").innerText = pendingPayload.paymentMode;\n' +
-'            document.getElementById("revPrescription").innerText = prescriptionFile ? prescriptionFile.name : "None";\n' +
-'            document.getElementById("revSchedule").innerText = pendingPayload.date + " [" + pendingPayload.timeSlot + "]";\n' +
+'            document.getElementById("revPrescription").innerText = prescriptionFile ? prescriptionFile.name : "None / Direct selection";\n' +
+'            document.getElementById("revSchedule").innerText = pendingPayload.date + ", " + pendingPayload.timeSlot;\n' +
 '            document.getElementById("revTests").innerText = selectedTests.map(t => t.name).join(", ");\n' +
 '            document.getElementById("revTestCost").innerText = "₹" + testCost;\n' +
 '            document.getElementById("revCollectionCharge").innerText = "₹" + charge;\n' +
@@ -878,57 +894,32 @@ const server = http.createServer((req, res) => {
                 const data = JSON.parse(rawBody);
                 const { 
                     patientName, age, sex, phone, address, referredBy, 
-                    paymentMode, testCount, testsList, testCost, 
+                    paymentMode, reportType, testCount, testsList, testCost, 
                     collectionCharge, grandTotal, date, timeSlot, prescription 
                 } = data;
 
-                const now = new Date();
-                const bookingDateTime = now.toLocaleString('en-IN', {
-                    timeZone: 'Asia/Kolkata',
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: true
-                });
-                const bookingId = 'MLB-' + Date.now().toString().slice(-6);
-
                 const message = 
-                    '*MOUCHUMI LAB TEST BLOOD COLLECTION*\n' +
-                    '_At-Home Certified Diagnostic Care (Golaghat)_\n\n' +
-                    '🧾 *OFFICIAL BOOKING RECEIPT*\n' +
-                    '─────────────────────────\n' +
-                    '🔖 *Booking ID:* ' + bookingId + '\n' +
-                    '⏱ *Booked On:* ' + bookingDateTime + '\n' +
-                    '📊 *Status:* Confirmed (Active)\n\n' +
-                    '👤 *PATIENT DETAILS*\n' +
-                    '─────────────────────────\n' +
-                    '• *Name:* ' + (patientName || 'N/A') + '\n' +
-                    '• *Age / Sex:* ' + (age || '') + ' Yrs / ' + (sex || '') + '\n' +
-                    '• *Phone:* +91 ' + (phone || 'N/A') + '\n' +
-                    '• *Address:* ' + (address || 'N/A') + '\n' +
-                    '• *Ref. Doctor:* ' + (referredBy || 'Self') + '\n\n' +
-                    '📅 *VISIT SCHEDULE*\n' +
-                    '─────────────────────────\n' +
-                    '• *Date:* ' + (date || 'N/A') + '\n' +
-                    '• *Time Slot:* ' + (timeSlot || 'N/A') + '\n\n' +
-                    '🧪 *SELECTED TESTS (' + (testCount || 0) + ')*\n' +
-                    '─────────────────────────\n' +
-                    (testsList || '  ▫️ General Test') + '\n\n' +
-                    '💵 *PAYMENT SUMMARY*\n' +
-                    '─────────────────────────\n' +
-                    '• Tests Subtotal: ₹' + (testCost || 0) + '\n' +
-                    '• Home Collection: ₹' + (collectionCharge || 0) + '\n' +
-                    '• *Grand Total: ₹' + (grandTotal || 0) + '*\n' +
-                    '• *Payment Mode:* ' + (paymentMode || 'Unpaid / Not Paid') + '\n' +
-                    '─────────────────────────\n' +
-                    (prescription ? ('📎 *Prescription:* ' + prescription.name + '\n\n') : '') +
-                    '📌 *Instructions:*\n' +
-                    '- Maintain 8-10 hrs fasting if fasting tests are selected.\n' +
-                    '- Certified technician will visit with sealed vacuum tubes.\n\n' +
-                    '📞 *Support:* 6000219209 / 6900862973\n' +
-                    '_Thank you for choosing Mouchumi Lab Test Service!_';
+                    '🏥 *MEDITREE CLINIC & DIAGNOSTIC CENTRE LLP*\n' +
+                    '_Home Sample Collection Booking_\n' +
+                    '═══════════════════════════════════\n\n' +
+                    '📅 *Date:* ' + (date || 'N/A') + ', ' + (timeSlot || '') + '\n\n' +
+                    '👨‍⚕️ *Ref By Doctor:* ' + (referredBy || 'Self') + '\n\n' +
+                    '👤 *Patient:* ' + (patientName || 'N/A') + ' (' + (age || '') + ' Y / ' + (sex || '') + ')\n\n' +
+                    '📞 *Phone:* ' + (phone || 'N/A') + '\n\n' +
+                    '📍 *Address:* ' + (address || 'N/A') + '\n\n' +
+                    '🚚 *Report Delivery:* ' + (reportType || 'PDF & Hardcopy Both Send') + '\n\n' +
+                    '💳 *Payment Status:* ' + (paymentMode || 'Not Paid') + '\n\n' +
+                    '📄 *Prescription:* ' + (prescription ? prescription.name : 'None / Direct selection') + '\n\n' +
+                    '🧪 *Selected Tests (' + (testCount || 0) + '):*\n' +
+                    (testsList || '1. General Test') + '\n\n' +
+                    '───────────────────────────────────\n\n' +
+                    '💵 *Tests Subtotal:* ₹' + (testCost || 0) + '\n\n' +
+                    '🛵 *Collection Charge:* ₹' + (collectionCharge || 0) + '\n\n' +
+                    '💰 *Grand Total: ₹' + (grandTotal || 0) + '*\n\n' +
+                    '═══════════════════════════════════\n' +
+                    '_Your Health, Our Responsibility._\n' +
+                    '📍 _Near SKK Civil Hospital, Golaghat_\n' +
+                    '📞 *Helpdesk:* 6000476108 / 9101464141';
 
                 const msgPath = '/waInstance' + ID_INSTANCE + '/sendMessage/' + API_TOKEN;
                 const msgPayload = {
