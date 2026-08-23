@@ -857,6 +857,7 @@ function sendGreenApiFile(chatId, fileName, base64Data) {
 }
 
 const server = http.createServer((req, res) => {
+    // CORS Headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -867,13 +868,32 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    if (req.method === 'GET' && req.url === '/') {
+    // Favicon ignore to avoid 404 logs
+    if (req.url === '/favicon.ico') {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+
+    // Clean URL path handling (handles parameters like /?ref=app)
+    const urlPath = req.url.split('?')[0];
+
+    // Health check endpoint for Render
+    if (urlPath === '/healthz') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('OK');
+        return;
+    }
+
+    // Home Page Route
+    if (req.method === 'GET' && (urlPath === '/' || urlPath === '/index.html')) {
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
         res.end(HTML_PAGE);
         return;
     }
 
-    if (req.method === 'POST' && req.url === '/send-booking') {
+    // API Booking Route
+    if (req.method === 'POST' && urlPath === '/send-booking') {
         const chunks = [];
         let totalSize = 0;
         const MAX_SIZE = 10 * 1024 * 1024;
