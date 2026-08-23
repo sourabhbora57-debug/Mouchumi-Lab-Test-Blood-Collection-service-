@@ -698,7 +698,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);\n' +
 '            const charge = getCollectionCharge();\n' +
 '            const total = testCost + charge;\n' +
-'            const formattedTests = selectedTests.map((t, idx) => (idx + 1) + ". " + t.name + " [" + t.vial + "] - ₹" + t.price);\n' +
+'            const formattedTests = selectedTests.map((t, idx) => "  " + (idx + 1) + ". " + t.name + " (" + t.vial + ") - ₹" + t.price);\n' +
 '            const fullDateString = formatDateString(selectedDateType);\n' +
 '            const paymentMode = document.getElementById("custPaymentMode").value;\n' +
 '            const reportType = document.getElementById("custReportType").value;\n' +
@@ -814,11 +814,12 @@ function sendGreenApiFile(chatId, fileName, base64Data) {
     return new Promise((resolve, reject) => {
         const fileBuffer = Buffer.from(base64Data, 'base64');
         const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
+        const safeFileName = (fileName || 'prescription.jpg').replace(/[^a-zA-Z0-9._-]/g, '_');
         
         let header = '--' + boundary + '\r\n';
         header += 'Content-Disposition: form-data; name="chatId"\r\n\r\n' + chatId + '\r\n';
         header += '--' + boundary + '\r\n';
-        header += 'Content-Disposition: form-data; name="file"; filename="' + fileName + '"\r\n';
+        header += 'Content-Disposition: form-data; name="file"; filename="' + safeFileName + '"\r\n';
         header += 'Content-Type: application/octet-stream\r\n\r\n';
         
         const footer = '\r\n--' + boundary + '--\r\n';
@@ -898,26 +899,28 @@ const server = http.createServer((req, res) => {
                     collectionCharge, grandTotal, date, timeSlot, prescription 
                 } = data;
 
+                // সুন্দৰ, কম্পেক্ট আৰু কম স্পেচ থকা WhatsApp বাৰ্তা ফৰ্মেট
                 const message = 
-                    '🏥 *MOUCHUMI LAB TEST BLOOD COLLECTION SERVICE*\n' +
-                    '_Home Sample Collection Booking_\n' +
-                    '═══════════════════════════════════\n\n' +
-                    '📅 *Date:* ' + (date || 'N/A') + ', ' + (timeSlot || '') + '\n\n' +
-                    '👨‍⚕️ *Ref By Doctor:* ' + (referredBy || 'Self') + '\n\n' +
-                    '👤 *Patient:* ' + (patientName || 'N/A') + ' (' + (age || '') + ' Y / ' + (sex || '') + ')\n\n' +
-                    '📞 *Phone:* ' + (phone || 'N/A') + '\n\n' +
-                    '📍 *Address:* ' + (address || 'N/A') + '\n\n' +
-                    '🚚 *Report Delivery:* ' + (reportType || 'PDF & Hardcopy Both Send') + '\n\n' +
-                    '💳 *Payment Status:* ' + (paymentMode || 'Not Paid') + '\n\n' +
-                    '📄 *Prescription:* ' + (prescription ? prescription.name : 'None / Direct selection') + '\n\n' +
-                    '🧪 *Selected Tests (' + (testCount || 0) + '):*\n' +
-                    (testsList || '1. General Test') + '\n\n' +
-                    '───────────────────────────────────\n\n' +
-                    '💵 *Tests Subtotal:* ₹' + (testCost || 0) + '\n\n' +
-                    '🛵 *Collection Charge:* ₹' + (collectionCharge || 0) + '\n\n' +
-                    '💰 *Grand Total: ₹' + (grandTotal || 0) + '*\n\n' +
-                    '═══════════════════════════════════\n' +
-                    '📞 *Helpdesk:* 6000219209 / 6900862973';
+                    '🧪 *NEW LAB BOOKING RECEIVED*\n' +
+                    '━━━━━━━━━━━━━━━━━━━━━\n' +
+                    '👤 *Patient:* ' + (patientName || 'N/A') + ' (' + (age || '') + ' Y, ' + (sex || '') + ')\n' +
+                    '📞 *Phone:* ' + (phone || 'N/A') + '\n' +
+                    '📍 *Address:* ' + (address || 'N/A') + '\n' +
+                    '📅 *Schedule:* ' + (date || 'N/A') + ' | ' + (timeSlot || '') + '\n' +
+                    '👨‍⚕️ *Ref By:* ' + (referredBy || 'Self') + '\n' +
+                    '🚚 *Report:* ' + (reportType || 'Both') + '\n' +
+                    '💳 *Payment:* ' + (paymentMode || 'Not Paid') + '\n' +
+                    '📎 *Prescription:* ' + (prescription ? prescription.name : 'None') + '\n' +
+                    '━━━━━━━━━━━━━━━━━━━━━\n' +
+                    '📋 *Selected Tests (' + (testCount || 0) + '):*\n' +
+                    (testsList || '  1. General Test') + '\n' +
+                    '─────────────────────\n' +
+                    '▫️ Tests Subtotal: ₹' + (testCost || 0) + '\n' +
+                    '▫️ Home Collection: ₹' + (collectionCharge || 0) + '\n' +
+                    '💰 *Grand Total: ₹' + (grandTotal || 0) + '*\n' +
+                    '━━━━━━━━━━━━━━━━━━━━━\n' +
+                    '📍 *Mouchumi Lab Test Service, Golaghat*\n' +
+                    '📞 Helpline: 6000219209 / 6900862973';
 
                 const msgPath = '/waInstance' + ID_INSTANCE + '/sendMessage/' + API_TOKEN;
                 const msgPayload = {
