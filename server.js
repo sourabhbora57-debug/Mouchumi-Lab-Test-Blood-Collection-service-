@@ -37,7 +37,8 @@ const HTML_PAGE = `<!DOCTYPE html>
         .logo-icon { width: 42px; height: 42px; background: linear-gradient(135deg, #0284c7, #0d9488); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 12px rgba(2,132,199,0.3); }
         .logo-text h3 { font-size: 14px; font-weight: 800; color: #fff; line-height: 1.2; }
         .logo-text p { font-size: 11px; color: var(--accent-cyan); }
-        .view-section { padding: 16px 20px 90px; flex: 1; }
+        .notif-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--card-dark); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
+        .view-section { padding: 16px 20px 10px; flex: 1; }
         .badge-tag { color: var(--accent-cyan); font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
         .hero-title { font-size: 28px; font-weight: 800; line-height: 1.15; margin-bottom: 8px; letter-spacing: -0.5px; }
         .hero-title span { color: var(--accent-cyan); }
@@ -53,10 +54,10 @@ const HTML_PAGE = `<!DOCTYPE html>
         .tests-header-area h3 { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 2px; }
         .tests-header-area p { font-size: 12px; color: var(--text-muted); }
         .test-search-wrapper { position: relative; margin-bottom: 14px; }
-        .test-search-wrapper input { width: 100%; padding: 13px 14px 13px 42px; background: var(--input-bg); border: 1.5px solid var(--accent-cyan); border-radius: 12px; color: #fff; font-size: 16px; outline: none; }
-        .test-search-wrapper input::placeholder { color: #64748b; font-size: 14px; }
-        .test-search-icon { position: absolute; left: 14px; top: 15px; color: var(--accent-cyan); font-size: 14px; }
-        .tests-scroll-view { max-height: 460px; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-right: 4px; display: flex; flex-direction: column; gap: 10px; }
+        .test-search-wrapper input { width: 100%; padding: 13px 14px 13px 42px; background: var(--input-bg); border: 1.5px solid var(--accent-cyan); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
+        .test-search-wrapper input::placeholder { color: #64748b; }
+        .test-search-icon { position: absolute; left: 14px; top: 14px; color: var(--accent-cyan); }
+        .tests-scroll-view { max-height: 440px; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-right: 4px; display: flex; flex-direction: column; gap: 10px; }
         .tests-scroll-view::-webkit-scrollbar { width: 4px; }
         .tests-scroll-view::-webkit-scrollbar-thumb { background: #1e3d5f; border-radius: 10px; }
         .test-item-card { background: linear-gradient(145deg, #10263c 0%, #0d1f30 100%); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; cursor: pointer; user-select: none; }
@@ -76,7 +77,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         .test-cost { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 6px; pointer-events: none; }
         .add-action-btn { background: #081726; border: 1px solid #1e3d5f; color: var(--accent-cyan); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; width: 100%; transition: 0.2s; pointer-events: none; }
         .add-action-btn.active-btn { background: var(--accent-cyan); color: #04121e; border-color: var(--accent-cyan); }
-        .booking-view { display: none; padding: 0 20px 90px; }
+        .booking-view { display: none; padding: 0 20px 30px; }
         .nav-back-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; margin-bottom: 12px; }
         .back-btn { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; }
         .step-pill { background: #164e63; color: var(--accent-cyan); font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 20px; }
@@ -84,8 +85,8 @@ const HTML_PAGE = `<!DOCTYPE html>
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
         .input-wrap { position: relative; }
-        .input-wrap input, .input-wrap textarea, .input-wrap select { width: 100%; padding: 14px 14px 14px 42px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: #fff; font-size: 16px; outline: none; }
-        .input-wrap .field-icon { position: absolute; left: 14px; top: 15px; color: var(--text-muted); font-size: 15px; }
+        .input-wrap input, .input-wrap textarea, .input-wrap select { width: 100%; padding: 14px 14px 14px 42px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
+        .input-wrap .field-icon { position: absolute; left: 14px; top: 15px; color: var(--text-muted); }
         .file-upload-box { border: 2px dashed var(--border-color); background: var(--input-bg); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: 0.2s; position: relative; }
         .file-upload-box:hover { border-color: var(--accent-cyan); }
         .file-upload-box input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
@@ -116,12 +117,11 @@ const HTML_PAGE = `<!DOCTYPE html>
         .success-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1001; padding: 20px; }
         .success-card { background: #0c1f31; border: 1px solid #10b981; border-radius: 20px; padding: 30px 20px; text-align: center; max-width: 400px; width: 100%; box-shadow: 0 10px 30px rgba(16,185,129,0.2); }
         .success-icon { width: 65px; height: 65px; background: rgba(16,185,129,0.15); border: 2px solid #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; color: #10b981; }
-        .floating-cart { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 440px; background: #0369a1; border-radius: 16px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 90; transition: transform 0.3s ease; }
+        .floating-cart { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 440px; background: #0369a1; border-radius: 16px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; }
         .cart-info h4 { font-size: 15px; font-weight: 800; color: #fff; }
         .cart-info p { font-size: 12px; color: #bae6fd; }
         .cart-next-btn { background: #fff; color: #0369a1; border: none; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; }
-        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #22c55e; color: #fff; padding: 10px 16px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 16px rgba(34,197,94,0.4); z-index: 95; transition: bottom 0.3s ease; }
-        .wa-float.cart-active { bottom: 85px; }
+        .wa-float { position: fixed; bottom: 85px; right: 20px; background: #22c55e; color: #fff; padding: 10px 16px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 16px rgba(34,197,94,0.4); z-index: 99; }
         .app-footer { background: #040d17; border-top: 2px solid var(--border-color); padding: 24px 20px 30px; text-align: center; margin-top: auto; }
         .footer-brand { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 4px; }
         .footer-tagline { font-size: 12px; color: var(--accent-cyan); margin-bottom: 16px; }
@@ -147,6 +147,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                         <p>Golaghat • At-home certified sample collection</p>
                     </div>
                 </div>
+                <div class="notif-btn">🔔</div>
             </div>
             <div id="homeView" class="view-section">
                 <div class="badge-tag">YOUR HEALTH, HANDLED</div>
@@ -181,7 +182,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                         <div style="font-size: 20px;">💧</div>
                         <div>
                             <div style="font-size: 11px; color: var(--accent-cyan); font-weight: 700;">SELECTED TESTS</div>
-                            <div id="bookingSelectedSummary" style="font-size: 13px; font-weight: 700; max-width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">Direct Prescription Upload</div>
+                            <div id="bookingSelectedSummary" style="font-size: 13px; font-weight: 700; max-width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">--</div>
                         </div>
                     </div>
                     <div id="bookingTotalSummary" style="font-size: 16px; font-weight: 800; color: #38bdf8;">₹0</div>
@@ -199,7 +200,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                             <label>Age *</label>
                             <div class="input-wrap">
                                 <span class="field-icon">🎂</span>
-                                <input type="number" id="custAge" required placeholder="Age" min="1" max="120">
+                                <input type="number" id="custAge" required placeholder="Age">
                             </div>
                         </div>
                         <div style="flex:1;">
@@ -218,7 +219,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                         <label>Phone number *</label>
                         <div class="input-wrap">
                             <span class="field-icon">📞</span>
-                            <input type="tel" id="custPhone" required placeholder="10-digit WhatsApp / Phone number">
+                            <input type="tel" id="custPhone" required placeholder="WhatsApp / Phone number">
                         </div>
                     </div>
                     <div class="form-group">
@@ -277,15 +278,9 @@ const HTML_PAGE = `<!DOCTYPE html>
                     <div style="margin-top: 15px; margin-bottom: 8px;">
                         <label style="font-weight: 700; color: #fff; font-size: 14px;">Choose a date</label>
                         <div class="pills-group" style="margin-top: 8px;">
-                            <div class="pill-btn active" id="btnDateToday" onclick="selectDate(this, 'Today')">Today</div>
-                            <div class="pill-btn" id="btnDateTomorrow" onclick="selectDate(this, 'Tomorrow')">Tomorrow</div>
-                            <div class="pill-btn" id="btnDateUpcoming" onclick="selectDate(this, 'Upcoming')">Upcoming</div>
-                        </div>
-                        <div id="upcomingDateWrapper" style="display: none; margin-bottom: 14px;">
-                            <div class="input-wrap">
-                                <span class="field-icon">📅</span>
-                                <input type="date" id="custCustomDate" style="padding-left: 42px; color-scheme: dark;">
-                            </div>
+                            <div class="pill-btn active" onclick="selectDate(this, 'Today')">Today</div>
+                            <div class="pill-btn" onclick="selectDate(this, 'Tomorrow')">Tomorrow</div>
+                            <div class="pill-btn" onclick="selectDate(this, 'Upcoming')">Upcoming</div>
                         </div>
                     </div>
                     <div style="margin-bottom: 20px;">
@@ -365,7 +360,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             <div class="cart-info"><h4 id="cartTotalText">₹0</h4><p id="cartItemsText">0 tests selected</p></div>
             <button class="cart-next-btn" onclick="goToBooking()">Schedule Visit ➔</button>
         </div>
-        <a href="https://wa.me/916000219209" target="_blank" class="wa-float" id="waFloatBtn"><span>💬</span> Chat</a>
+        <a href="https://wa.me/916000219209" target="_blank" class="wa-float"><span>💬</span> Chat</a>
     </div>
     <script>
         const ALL_TESTS = [
@@ -378,12 +373,12 @@ const HTML_PAGE = `<!DOCTYPE html>
             { id: 6, name: "ADA - TBM", price: 750, vial: "RED" },
             { id: 7, name: "Albumin", price: 100, vial: "RED" },
             { id: 8, name: "Allergy Profile", price: 1200, vial: "VIOLET & RED" },
-            { id: 9, name: "AMH", price: 2300, vial: "RED" },
-            { id: 10, name: "AMMONIA", price: 1000, vial: "VIOLET" },
+            { id: 9, name: "ΑΜΗ", price: 2300, vial: "RED" },
+            { id: 10, name: "ΑΜМОNIA", price: 1000, vial: "VIOLET" },
             { id: 11, name: "ANTENATAL CHECK UP (ANC)", price: 2900, vial: "GREY, VIOLET & RED" },
             { id: 12, name: "ANTI CCP", price: 1600, vial: "RED" },
             { id: 13, name: "ANTI TPO", price: 2000, vial: "RED" },
-            { id: 14, name: "ANTINUCLEAR ANTI BODY (ANA)", price: 1000, vial: "RED" },
+            { id: 14, name: "ANTINUCLEAR ANTI BODY (ΑΝΑ)", price: 1000, vial: "RED" },
             { id: 15, name: "ANTINUCLEAR ANTI BODY Reflex (ANA Profile)", price: 4000, vial: "RED" },
             { id: 16, name: "APTT", price: 500, vial: "BLUE" },
             { id: 17, name: "ASO titre (By Immunoturbidity)", price: 500, vial: "RED" },
@@ -399,7 +394,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             { id: 27, name: "CPK MB", price: 1350, vial: "RED" },
             { id: 28, name: "CRP (TITRE) immunoturbidity", price: 450, vial: "RED" },
             { id: 29, name: "CA 125", price: 1600, vial: "RED" },
-            { id: 30, name: "CBC", price: 400, vial: "VIOLET" },
+            { id: 30, name: "CBC [VIOLET]", price: 400, vial: "VIOLET" },
             { id: 31, name: "CHOLESTEROL TOTAL", price: 200, vial: "RED" },
             { id: 32, name: "COAGULATION PROFILE", price: 1200, vial: "BLUE" },
             { id: 33, name: "CSF ANALYSIS", price: 550, vial: "NA" },
@@ -497,7 +492,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             { id: 125, name: "STOOL RE", price: 150, vial: "NA" },
             { id: 126, name: "T3", price: 400, vial: "RED" },
             { id: 127, name: "T4", price: 400, vial: "RED" },
-            { id: 128, name: "TESTOSTERONE - FREE", price: 2600, vial: "RED" },
+            { id: 128, name: "TESTOSTEORNE-FREE", price: 2600, vial: "RED" },
             { id: 129, name: "TESTOSTERONE - TOTAL", price: 900, vial: "RED" },
             { id: 130, name: "THYROID PROFILE, TOTAL", price: 700, vial: "RED" },
             { id: 131, name: "TORCH PANEL (10 PROFILE)", price: 3000, vial: "RED" },
@@ -544,12 +539,6 @@ const HTML_PAGE = `<!DOCTYPE html>
                 tmrw.setDate(tmrw.getDate() + 1);
                 return "Tomorrow (" + tmrw.getDate() + " " + months[tmrw.getMonth()] + " " + tmrw.getFullYear() + ")";
             } else {
-                const customDate = document.getElementById("custCustomDate").value;
-                if (customDate) {
-                    const parts = customDate.split("-");
-                    const d = new Date(parts[0], parts[1] - 1, parts[2]);
-                    return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
-                }
                 return "Upcoming Date";
             }
         }
@@ -558,7 +547,7 @@ const HTML_PAGE = `<!DOCTYPE html>
             const val = document.getElementById("custCollectionCharge");
             if (!val || val.value === "") return 100;
             const parsed = parseFloat(val.value);
-            return isNaN(parsed) ? 100 : parsed;
+            return isNaN(parsed) ? 0 : parsed;
         }
 
         function getVialClass(vial) {
@@ -588,7 +577,9 @@ const HTML_PAGE = `<!DOCTYPE html>
                 const card = document.createElement("div");
                 card.id = "test-card-" + test.id;
                 card.className = "test-item-card" + (isSelected ? " selected" : "");
-                card.onclick = function() {
+                card.setAttribute("onmousedown", "event.preventDefault()");
+                card.onclick = function(e) {
+                    e.preventDefault();
                     toggleTest(test.id);
                 };
                 card.innerHTML = '<div class="test-left-content"><div class="test-title">' + test.name + '</div><span class="vial-pill ' + vialCls + '">● ' + test.vial + '</span></div><div class="test-right-content"><div class="test-cost">₹' + test.price + '</div><button type="button" class="add-action-btn ' + (isSelected ? "active-btn" : "") + '" id="btn-test-' + test.id + '">' + (isSelected ? "Added ✓" : "+ Add") + '</button></div>';
@@ -622,23 +613,23 @@ const HTML_PAGE = `<!DOCTYPE html>
                 }
             }
             updateCart();
+            const searchInput = document.getElementById("searchInput");
+            if (searchInput && (document.activeElement === searchInput || searchInput.value.length > 0)) {
+                searchInput.focus();
+            }
         }
 
         function updateCart() {
             const cartBar = document.getElementById("cartBar");
-            const waFloat = document.getElementById("waFloatBtn");
-            if (!cartBar) return;
             const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
             const charge = getCollectionCharge();
-            const grandTotal = (selectedTests.length > 0 || prescriptionFile) ? (testCost + charge) : 0;
-            if (selectedTests.length > 0 || prescriptionFile) {
+            const grandTotal = selectedTests.length > 0 ? (testCost + charge) : 0;
+            if (selectedTests.length > 0) {
                 cartBar.style.display = "flex";
-                if (waFloat) waFloat.classList.add("cart-active");
                 document.getElementById("cartTotalText").innerText = "₹" + grandTotal;
-                document.getElementById("cartItemsText").innerText = selectedTests.length > 0 ? (selectedTests.length + " test" + (selectedTests.length > 1 ? "s" : "") + " (+₹" + charge + " Coll.)") : "Prescription Visit (+₹" + charge + " Coll.)";
+                document.getElementById("cartItemsText").innerText = selectedTests.length + " test" + (selectedTests.length > 1 ? "s" : "") + " (+₹" + charge + " Coll.)";
             } else {
                 cartBar.style.display = "none";
-                if (waFloat) waFloat.classList.remove("cart-active");
             }
         }
 
@@ -646,34 +637,33 @@ const HTML_PAGE = `<!DOCTYPE html>
             const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
             const charge = getCollectionCharge();
             const grandTotal = testCost + charge;
-            const summaryElem = document.getElementById("bookingTotalSummary");
-            if (summaryElem) summaryElem.innerText = "₹" + grandTotal;
+            document.getElementById("bookingTotalSummary").innerText = "₹" + grandTotal;
             updateCart();
         }
 
         function applyFilter() {
-            const searchElem = document.getElementById("searchInput");
-            if (!searchElem) return;
-            const val = searchElem.value.trim().toLowerCase();
+            const searchInput = document.getElementById("searchInput");
+            if (!searchInput) return;
+            const val = searchInput.value.trim().toLowerCase();
             let filtered = ALL_TESTS;
             if (val) {
-                filtered = ALL_TESTS.filter(t => t.name.toLowerCase().includes(val) || t.vial.toLowerCase().includes(val));
+                filtered = ALL_TESTS.filter(t => t.name.toLowerCase().includes(val) || (t.vial && t.vial.toLowerCase().includes(val)));
             }
             renderTests(filtered);
         }
 
         function focusSearch() {
-            const container = document.getElementById("testBoxContainer");
-            const search = document.getElementById("searchInput");
-            if (container) container.scrollIntoView({ behavior: "smooth" });
-            if (search) search.focus();
+            document.getElementById("testBoxContainer").scrollIntoView({ behavior: "smooth" });
+            const searchInput = document.getElementById("searchInput");
+            if (searchInput) searchInput.focus();
         }
 
         function goToBooking() {
+            if (selectedTests.length === 0) return;
             document.getElementById("homeView").style.display = "none";
             document.getElementById("bookingView").style.display = "block";
             document.getElementById("cartBar").style.display = "none";
-            document.getElementById("bookingSelectedSummary").innerText = selectedTests.length > 0 ? selectedTests.map(t => t.name).join(", ") : "Direct Prescription Attached";
+            document.getElementById("bookingSelectedSummary").innerText = selectedTests.map(t => t.name).join(", ");
             updateBookingSummary();
             window.scrollTo(0,0);
         }
@@ -688,18 +678,6 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.querySelectorAll(".pill-btn").forEach(p => p.classList.remove("active"));
             elem.classList.add("active");
             selectedDateType = val;
-            const customDateWrapper = document.getElementById("upcomingDateWrapper");
-            if (val === 'Upcoming') {
-                customDateWrapper.style.display = 'block';
-                const now = new Date();
-                const yyyy = now.getFullYear();
-                const mm = String(now.getMonth() + 1).padStart(2, '0');
-                const dd = String(now.getDate()).padStart(2, '0');
-                document.getElementById("custCustomDate").min = `${yyyy}-${mm}-${dd}`;
-            } else {
-                customDateWrapper.style.display = 'none';
-                document.getElementById("custCustomDate").value = "";
-            }
         }
 
         function selectTime(elem, slot) {
@@ -721,7 +699,6 @@ const HTML_PAGE = `<!DOCTYPE html>
                     input.value = "";
                     prescriptionFile = null;
                     preview.style.display = "none";
-                    updateCart();
                     return;
                 }
                 const reader = new FileReader();
@@ -729,104 +706,13 @@ const HTML_PAGE = `<!DOCTYPE html>
                     prescriptionFile = { name: file.name, type: file.type, base64: e.target.result.split(",")[1] };
                     preview.innerText = "📎 " + file.name;
                     preview.style.display = "block";
-                    updateCart();
                 };
                 reader.readAsDataURL(file);
             } else {
                 prescriptionFile = null;
                 preview.style.display = "none";
-                updateCart();
             }
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            renderTests(ALL_TESTS);
-
-            const searchInput = document.getElementById("searchInput");
-            if (searchInput) {
-                searchInput.addEventListener("input", applyFilter);
-                searchInput.addEventListener("focus", function() {
-                    const cart = document.getElementById("cartBar");
-                    if (cart) cart.style.transform = "translate(-50%, 150%)";
-                });
-                searchInput.addEventListener("blur", function() {
-                    const cart = document.getElementById("cartBar");
-                    if (cart) cart.style.transform = "translate(-50%, 0)";
-                });
-            }
-
-            const scheduleForm = document.getElementById("scheduleForm");
-            if (scheduleForm) {
-                scheduleForm.addEventListener("submit", function(e) {
-                    e.preventDefault();
-
-                    if (selectedTests.length === 0 && !prescriptionFile) {
-                        alert("Please select at least one test or upload a doctor prescription.");
-                        return;
-                    }
-
-                    let rawPhone = document.getElementById("custPhone").value.trim().replace(/[^0-9]/g, '');
-                    if (rawPhone.length > 10) {
-                        if (rawPhone.startsWith('91')) rawPhone = rawPhone.slice(2);
-                        else if (rawPhone.startsWith('0')) rawPhone = rawPhone.slice(1);
-                    }
-
-                    if (rawPhone.length !== 10) {
-                        alert("Please enter a valid 10-digit mobile number.");
-                        return;
-                    }
-
-                    if (selectedDateType === 'Upcoming' && !document.getElementById("custCustomDate").value) {
-                        alert("Please choose a valid upcoming appointment date.");
-                        return;
-                    }
-
-                    const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
-                    const charge = getCollectionCharge();
-                    const total = testCost + charge;
-                    const formattedTests = selectedTests.length > 0 
-                        ? selectedTests.map((t, idx) => "  " + (idx + 1) + ". " + t.name + " (" + t.vial + ") - ₹" + t.price)
-                        : ["  1. Prescription Attached (Verify tests from prescription file)"];
-                    const fullDateString = formatDateString(selectedDateType);
-                    const paymentMode = document.getElementById("custPaymentMode").value;
-                    const reportType = document.getElementById("custReportType").value;
-
-                    pendingPayload = {
-                        patientName: document.getElementById("custName").value.trim(),
-                        age: document.getElementById("custAge").value,
-                        sex: document.getElementById("custSex").value,
-                        phone: rawPhone,
-                        address: document.getElementById("custAddress").value.trim(),
-                        referredBy: document.getElementById("custDoctor").value.trim() || "Self",
-                        paymentMode: paymentMode,
-                        reportType: reportType,
-                        date: fullDateString,
-                        timeSlot: selectedSlot,
-                        testCount: selectedTests.length > 0 ? selectedTests.length : 0,
-                        testsList: formattedTests.join("\n"),
-                        testCost: testCost,
-                        collectionCharge: charge,
-                        grandTotal: total,
-                        prescription: prescriptionFile
-                    };
-
-                    document.getElementById("revName").innerText = pendingPayload.patientName;
-                    document.getElementById("revAgeSex").innerText = pendingPayload.age + " Y / " + pendingPayload.sex;
-                    document.getElementById("revPhone").innerText = pendingPayload.phone;
-                    document.getElementById("revAddress").innerText = pendingPayload.address;
-                    document.getElementById("revDoctor").innerText = pendingPayload.referredBy;
-                    document.getElementById("revReportType").innerText = pendingPayload.reportType;
-                    document.getElementById("revPayment").innerText = pendingPayload.paymentMode;
-                    document.getElementById("revPrescription").innerText = prescriptionFile ? prescriptionFile.name : "None / Direct selection";
-                    document.getElementById("revSchedule").innerText = pendingPayload.date + ", " + pendingPayload.timeSlot;
-                    document.getElementById("revTests").innerText = selectedTests.length > 0 ? selectedTests.map(t => t.name).join(", ") : "Prescription Upload (To be verified)";
-                    document.getElementById("revTestCost").innerText = "₹" + testCost;
-                    document.getElementById("revCollectionCharge").innerText = "₹" + charge;
-                    document.getElementById("revTotal").innerText = "₹" + total;
-                    document.getElementById("reviewModal").style.display = "flex";
-                });
-            }
-        });
 
         function closeReviewModal() {
             document.getElementById("reviewModal").style.display = "none";
@@ -863,17 +749,68 @@ const HTML_PAGE = `<!DOCTYPE html>
             document.getElementById("successScreen").style.display = "none";
             selectedTests = [];
             prescriptionFile = null;
-            pendingPayload = null;
-            document.getElementById("custPrescription").value = "";
             document.getElementById("filePreview").style.display = "none";
             document.getElementById("scheduleForm").reset();
             document.getElementById("custCollectionCharge").value = "100";
-            document.getElementById("upcomingDateWrapper").style.display = "none";
-            selectDate(document.getElementById("btnDateToday"), "Today");
             showHomeView();
             applyFilter();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Initialize Everything when DOM is completely ready
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("searchInput");
+            if (searchInput) {
+                searchInput.addEventListener("input", applyFilter);
+            }
+
+            const scheduleForm = document.getElementById("scheduleForm");
+            if (scheduleForm) {
+                scheduleForm.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    const testCost = selectedTests.reduce((sum, t) => sum + t.price, 0);
+                    const charge = getCollectionCharge();
+                    const total = testCost + charge;
+                    const formattedTests = selectedTests.map((t, idx) => "  " + (idx + 1) + ". " + t.name + " (" + t.vial + ") - ₹" + t.price);
+                    const fullDateString = formatDateString(selectedDateType);
+                    const paymentMode = document.getElementById("custPaymentMode").value;
+                    const reportType = document.getElementById("custReportType").value;
+                    pendingPayload = {
+                        patientName: document.getElementById("custName").value,
+                        age: document.getElementById("custAge").value,
+                        sex: document.getElementById("custSex").value,
+                        phone: document.getElementById("custPhone").value,
+                        address: document.getElementById("custAddress").value,
+                        referredBy: document.getElementById("custDoctor").value || "Self",
+                        paymentMode: paymentMode,
+                        reportType: reportType,
+                        date: fullDateString,
+                        timeSlot: selectedSlot,
+                        testCount: selectedTests.length,
+                        testsList: formattedTests.join("\\n"),
+                        testCost: testCost,
+                        collectionCharge: charge,
+                        grandTotal: total,
+                        prescription: prescriptionFile
+                    };
+                    document.getElementById("revName").innerText = pendingPayload.patientName;
+                    document.getElementById("revAgeSex").innerText = pendingPayload.age + " Y / " + pendingPayload.sex;
+                    document.getElementById("revPhone").innerText = pendingPayload.phone;
+                    document.getElementById("revAddress").innerText = pendingPayload.address;
+                    document.getElementById("revDoctor").innerText = pendingPayload.referredBy;
+                    document.getElementById("revReportType").innerText = pendingPayload.reportType;
+                    document.getElementById("revPayment").innerText = pendingPayload.paymentMode;
+                    document.getElementById("revPrescription").innerText = prescriptionFile ? prescriptionFile.name : "None / Direct selection";
+                    document.getElementById("revSchedule").innerText = pendingPayload.date + ", " + pendingPayload.timeSlot;
+                    document.getElementById("revTests").innerText = selectedTests.map(t => t.name).join(", ");
+                    document.getElementById("revTestCost").innerText = "₹" + testCost;
+                    document.getElementById("revCollectionCharge").innerText = "₹" + charge;
+                    document.getElementById("revTotal").innerText = "₹" + total;
+                    document.getElementById("reviewModal").style.display = "flex";
+                });
+            }
+
+            renderTests(ALL_TESTS);
+        });
     </script>
 </body>
 </html>`;
@@ -885,7 +822,6 @@ function sendGreenApiRequest(path, payload) {
             hostname: 'api.green-api.com',
             path: path,
             method: 'POST',
-            timeout: 15000,
             headers: {
                 'Content-Type': 'application/json',
                 'Content-Length': Buffer.byteLength(postData)
@@ -904,11 +840,6 @@ function sendGreenApiRequest(path, payload) {
             });
         });
 
-        apiReq.on('timeout', () => {
-            apiReq.destroy();
-            reject(new Error('Green API request timeout'));
-        });
-
         apiReq.on('error', (e) => reject(e));
         apiReq.write(postData);
         apiReq.end();
@@ -917,59 +848,47 @@ function sendGreenApiRequest(path, payload) {
 
 function sendGreenApiFile(chatId, fileName, base64Data) {
     return new Promise((resolve, reject) => {
-        try {
-            const fileBuffer = Buffer.from(base64Data, 'base64');
-            const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
-            
-            const ext = (fileName && fileName.includes('.')) ? '.' + fileName.split('.').pop() : '.jpg';
-            const safeFileName = 'prescription_' + Date.now() + ext;
-            
-            let header = '--' + boundary + '\r\n';
-            header += 'Content-Disposition: form-data; name="chatId"\r\n\r\n' + chatId + '\r\n';
-            header += '--' + boundary + '\r\n';
-            header += 'Content-Disposition: form-data; name="file"; filename="' + safeFileName + '"\r\n';
-            header += 'Content-Type: application/octet-stream\r\n\r\n';
-            
-            const footer = '\r\n--' + boundary + '--\r\n';
-            
-            const headerBuf = Buffer.from(header, 'utf8');
-            const footerBuf = Buffer.from(footer, 'utf8');
-            const totalPayload = Buffer.concat([headerBuf, fileBuffer, footerBuf]);
+        const fileBuffer = Buffer.from(base64Data, 'base64');
+        const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
+        const safeFileName = (fileName || 'prescription.jpg').replace(/[^a-zA-Z0-9._-]/g, '_');
+        
+        let header = '--' + boundary + '\r\n';
+        header += 'Content-Disposition: form-data; name="chatId"\r\n\r\n' + chatId + '\r\n';
+        header += '--' + boundary + '\r\n';
+        header += 'Content-Disposition: form-data; name="file"; filename="' + safeFileName + '"\r\n';
+        header += 'Content-Type: application/octet-stream\r\n\r\n';
+        
+        const footer = '\r\n--' + boundary + '--\r\n';
+        
+        const headerBuf = Buffer.from(header, 'utf8');
+        const footerBuf = Buffer.from(footer, 'utf8');
+        const totalPayload = Buffer.concat([headerBuf, fileBuffer, footerBuf]);
 
-            const options = {
-                hostname: 'api.green-api.com',
-                path: '/waInstance' + ID_INSTANCE + '/sendFileByUpload/' + API_TOKEN,
-                method: 'POST',
-                timeout: 25000,
-                headers: {
-                    'Content-Type': 'multipart/form-data; boundary=' + boundary,
-                    'Content-Length': totalPayload.length
+        const options = {
+            hostname: 'api.green-api.com',
+            path: '/waInstance' + ID_INSTANCE + '/sendFileByUpload/' + API_TOKEN,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data; boundary=' + boundary,
+                'Content-Length': totalPayload.length
+            }
+        };
+
+        const apiReq = https.request(options, (apiRes) => {
+            let apiResponse = '';
+            apiRes.on('data', chunk => { apiResponse += chunk; });
+            apiRes.on('end', () => {
+                try {
+                    resolve(JSON.parse(apiResponse));
+                } catch (e) {
+                    resolve({ raw: apiResponse });
                 }
-            };
-
-            const apiReq = https.request(options, (apiRes) => {
-                let apiResponse = '';
-                apiRes.on('data', chunk => { apiResponse += chunk; });
-                apiRes.on('end', () => {
-                    try {
-                        resolve(JSON.parse(apiResponse));
-                    } catch (e) {
-                        resolve({ raw: apiResponse });
-                    }
-                });
             });
+        });
 
-            apiReq.on('timeout', () => {
-                apiReq.destroy();
-                reject(new Error('File upload timeout'));
-            });
-
-            apiReq.on('error', (e) => reject(e));
-            apiReq.write(totalPayload);
-            apiReq.end();
-        } catch (err) {
-            reject(err);
-        }
+        apiReq.on('error', (e) => reject(e));
+        apiReq.write(totalPayload);
+        apiReq.end();
     });
 }
 
@@ -1027,34 +946,22 @@ const server = http.createServer((req, res) => {
             if (isDestroyed) return;
             try {
                 const rawBody = Buffer.concat(chunks).toString('utf8');
-                let data;
-                try {
-                    data = JSON.parse(rawBody);
-                } catch (pErr) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: 'Invalid JSON body' }));
-                    return;
-                }
-
+                const data = JSON.parse(rawBody);
                 const { 
                     patientName, age, sex, phone, address, referredBy, 
                     paymentMode, reportType, testCount, testsList, testCost, 
                     collectionCharge, grandTotal, date, timeSlot, prescription 
                 } = data;
 
-                const cleanName = (patientName || 'N/A').replace(/[*_~`]/g, '');
-                const cleanAddress = (address || 'N/A').replace(/[*_~`]/g, '');
-                const cleanDoctor = (referredBy && referredBy.trim() !== '') ? referredBy.replace(/[*_~`]/g, '') : 'Self';
-
                 const message = 
                     '🏥 *MOUCHUMI LAB TEST BLOOD COLLECTION SERVICE*\n' +
                     '🧪 *NEW LAB BOOKING RECEIVED*\n' +
                     '━━━━━━━━━━━━━━━━━━━━━\n' +
-                    '👤 *Patient:* ' + cleanName + ' (' + (age || '') + ' Y, ' + (sex || '') + ')\n' +
+                    '👤 *Patient:* ' + (patientName || 'N/A') + ' (' + (age || '') + ' Y, ' + (sex || '') + ')\n' +
                     '📞 *Phone:* ' + (phone || 'N/A') + '\n' +
-                    '📍 *Address:* ' + cleanAddress + '\n' +
+                    '📍 *Address:* ' + (address || 'N/A') + '\n' +
                     '📅 *Schedule:* ' + (date || 'N/A') + ' | ' + (timeSlot || '') + '\n' +
-                    '👨‍⚕️ *Ref By:* ' + cleanDoctor + '\n' +
+                    '👨‍⚕️ *Ref By:* ' + (referredBy || 'Self') + '\n' +
                     '🚚 *Report:* ' + (reportType || 'Both') + '\n' +
                     '💳 *Payment:* ' + (paymentMode || 'Not Paid') + '\n' +
                     '📎 *Prescription:* ' + (prescription ? prescription.name : 'None') + '\n' +
