@@ -305,7 +305,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '        <div id="reviewModal" class="modal-overlay">\n' +
 '            <div class="modal-content">\n' +
 '                <div class="modal-header">\n' +
-'                    <div class="modal-brand">MEDITREE CLINIC & DIAGNOSTIC CENTRE LLP</div>\n' +
+'                    <div class="modal-brand">MOUCHUMI LAB TEST BLOOD COLLECTION SERVICE</div>\n' +
 '                    <h3>📋 Review Booking Details</h3>\n' +
 '                    <p>Please check your details before final submission</p>\n' +
 '                </div>\n' +
@@ -341,20 +341,20 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            </div>\n' +
 '        </div>\n' +
 '        <footer class="app-footer">\n' +
-'            <div class="footer-brand">MEDITREE CLINIC & DIAGNOSTIC CENTRE LLP</div>\n' +
+'            <div class="footer-brand">Mouchumi Lab Test Blood Collection service</div>\n' +
 '            <div class="footer-tagline">Quality Diagnostic Care At Your Doorstep • Golaghat</div>\n' +
 '            <div class="footer-contact-box">\n' +
 '                <div class="contact-label">📞 Call / Helpline Numbers</div>\n' +
 '                <div class="contact-links">\n' +
-'                    <a href="tel:6000476108" class="phone-badge">📞 6000476108</a>\n' +
-'                    <a href="tel:9101464141" class="phone-badge">📞 9101464141</a>\n' +
+'                    <a href="tel:6000219209" class="phone-badge">📞 6000219209</a>\n' +
+'                    <a href="tel:6900862973" class="phone-badge">📞 6900862973</a>\n' +
 '                </div>\n' +
 '            </div>\n' +
 '            <div class="footer-social-links">\n' +
 '                <a href="https://www.google.com/search?kgmid=%2Fg%2F11z3b65pfx" target="_blank" class="social-btn social-google">🌐 Google Listing</a>\n' +
 '                <a href="https://www.facebook.com/share/1Bv1KmUsSt/" target="_blank" class="social-btn social-fb">📘 Facebook Page</a>\n' +
 '            </div>\n' +
-'            <div class="copyright-text">© 2026 Meditree Clinic & Diagnostic Centre LLP. All rights reserved.</div>\n' +
+'            <div class="copyright-text">© 2026 Mouchumi Lab Test Blood Collection service. All rights reserved.</div>\n' +
 '        </footer>\n' +
 '        <div id="cartBar" class="floating-cart" style="display: none;">\n' +
 '            <div class="cart-info"><h4 id="cartTotalText">₹0</h4><p id="cartItemsText">0 tests selected</p></div>\n' +
@@ -374,7 +374,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            { id: 7, name: "Albumin", price: 100, vial: "RED" },\n' +
 '            { id: 8, name: "Allergy Profile", price: 1200, vial: "VIOLET & RED" },\n' +
 '            { id: 9, name: "ΑΜΗ", price: 2300, vial: "RED" },\n' +
-'            { id: 10, name: "ΑΜΜΟΝΙΑ", price: 1000, vial: "VIOLET" },\n' +
+'            { id: 10, name: "ΑΜМОNIA", price: 1000, vial: "VIOLET" },\n' +
 '            { id: 11, name: "ANTENATAL CHECK UP (ANC)", price: 2900, vial: "GREY, VIOLET & RED" },\n' +
 '            { id: 12, name: "ANTI CCP", price: 1600, vial: "RED" },\n' +
 '            { id: 13, name: "ANTI TPO", price: 2000, vial: "RED" },\n' +
@@ -531,11 +531,11 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            const now = new Date();\n' +
 '            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];\n' +
 '            if (type === "Today") {\n' +
-'                return now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear();\n' +
+'                return "Today (" + now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear() + ")";\n' +
 '            } else if (type === "Tomorrow") {\n' +
 '                const tmrw = new Date(now);\n' +
 '                tmrw.setDate(tmrw.getDate() + 1);\n' +
-'                return tmrw.getDate() + " " + months[tmrw.getMonth()] + " " + tmrw.getFullYear();\n' +
+'                return "Tomorrow (" + tmrw.getDate() + " " + months[tmrw.getMonth()] + " " + tmrw.getFullYear() + ")";\n' +
 '            } else {\n' +
 '                return "Upcoming Date";\n' +
 '            }\n' +
@@ -899,7 +899,7 @@ const server = http.createServer((req, res) => {
                 } = data;
 
                 const message = 
-                    '🏥 *MEDITREE CLINIC & DIAGNOSTIC CENTRE LLP*\n' +
+                    '🏥 *MOUCHUMI LAB TEST BLOOD COLLECTION SERVICE*\n' +
                     '_Home Sample Collection Booking_\n' +
                     '═══════════════════════════════════\n\n' +
                     '📅 *Date:* ' + (date || 'N/A') + ', ' + (timeSlot || '') + '\n\n' +
@@ -917,9 +917,7 @@ const server = http.createServer((req, res) => {
                     '🛵 *Collection Charge:* ₹' + (collectionCharge || 0) + '\n\n' +
                     '💰 *Grand Total: ₹' + (grandTotal || 0) + '*\n\n' +
                     '═══════════════════════════════════\n' +
-                    '_Your Health, Our Responsibility._\n' +
-                    '📍 _Near SKK Civil Hospital, Golaghat_\n' +
-                    '📞 *Helpdesk:* 6000476108 / 9101464141';
+                    '📞 *Helpdesk:* 6000219209 / 6900862973';
 
                 const msgPath = '/waInstance' + ID_INSTANCE + '/sendMessage/' + API_TOKEN;
                 const msgPayload = {
