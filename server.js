@@ -1,7 +1,5 @@
 const http = require('http');
 const https = require('https');
-const fs = require('fs');
-const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 
@@ -33,11 +31,11 @@ const HTML_PAGE = `<!DOCTYPE html>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Plus Jakarta Sans", sans-serif; -webkit-tap-highlight-color: transparent; }
         html, body { background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; overflow-x: hidden; }
         .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg-dark); position: relative; display: flex; flex-direction: column; }
-        .top-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .top-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo-box { display: flex; align-items: center; gap: 12px; }
-        .logo-img { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 12px rgba(2,132,199,0.3); border: 1px solid rgba(255,255,255,0.15); background: #fff; }
-        .logo-text h3 { font-size: 13.5px; font-weight: 800; color: #fff; line-height: 1.25; }
-        .logo-text p { font-size: 11px; color: var(--accent-cyan); margin-top: 2px; }
+        .logo-icon { width: 42px; height: 42px; background: linear-gradient(135deg, #0284c7, #0d9488); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 12px rgba(2,132,199,0.3); }
+        .logo-text h3 { font-size: 14px; font-weight: 800; color: #fff; line-height: 1.2; }
+        .logo-text p { font-size: 11px; color: var(--accent-cyan); }
         .notif-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--card-dark); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
         .view-section { padding: 16px 20px 10px; flex: 1; }
         .badge-tag { color: var(--accent-cyan); font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
@@ -45,7 +43,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         .hero-title span { color: var(--accent-cyan); }
         .hero-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 18px; }
         .banner-card { background: linear-gradient(135deg, #0369a1 0%, #0f766e 100%); border-radius: 18px; padding: 18px; margin-bottom: 20px; position: relative; overflow: hidden; }
-        .banner-card::after { content: "🩸"; position: absolute; right: -10px; bottom: -15px; font-size: 90px; opacity: 0.12; pointer-events: none; }
+        .banner-card::after { content: "💧"; position: absolute; right: -10px; bottom: -15px; font-size: 90px; opacity: 0.15; pointer-events: none; }
         .banner-tag { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: #bae6fd; margin-bottom: 6px; }
         .banner-card h3 { font-size: 17px; font-weight: 800; line-height: 1.3; margin-bottom: 4px; max-width: 85%; }
         .banner-card p { font-size: 12px; color: #e0f2fe; margin-bottom: 12px; max-width: 80%; }
@@ -137,7 +135,7 @@ const HTML_PAGE = `<!DOCTYPE html>
         <div>
             <div class="top-nav">
                 <div class="logo-box">
-                    <img src="/logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none';">
+                    <div class="logo-icon">💧</div>
                     <div class="logo-text">
                         <h3>Mouchumi Lab Test Blood Collection service</h3>
                         <p>Golaghat • At-home certified sample collection</p>
@@ -175,7 +173,7 @@ const HTML_PAGE = `<!DOCTYPE html>
                 </div>
                 <div class="selected-summary-card">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="/logo.png" alt="Logo" style="width: 34px; height: 34px; border-radius: 8px; object-fit: cover; background: #fff;" onerror="this.style.display='none';">
+                        <div style="font-size: 20px;">💧</div>
                         <div>
                             <div style="font-size: 11px; color: var(--accent-cyan); font-weight: 700;">SELECTED TESTS</div>
                             <div id="bookingSelectedSummary" style="font-size: 13px; font-weight: 700; max-width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">--</div>
@@ -813,6 +811,83 @@ const HTML_PAGE = `<!DOCTYPE html>
 </body>
 </html>`;
 
+function sendGreenApiRequest(path, payload) {
+    return new Promise((resolve, reject) => {
+        const postData = JSON.stringify(payload);
+        const options = {
+            hostname: 'api.green-api.com',
+            path: path,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(postData)
+            }
+        };
+
+        const apiReq = https.request(options, (apiRes) => {
+            let apiResponse = '';
+            apiRes.on('data', chunk => { apiResponse += chunk; });
+            apiRes.on('end', () => {
+                try {
+                    resolve(JSON.parse(apiResponse));
+                } catch (e) {
+                    resolve({ raw: apiResponse });
+                }
+            });
+        });
+
+        apiReq.on('error', (e) => reject(e));
+        apiReq.write(postData);
+        apiReq.end();
+    });
+}
+
+function sendGreenApiFile(chatId, fileName, base64Data) {
+    return new Promise((resolve, reject) => {
+        const fileBuffer = Buffer.from(base64Data, 'base64');
+        const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
+        const safeFileName = (fileName || 'prescription.jpg').replace(/[^a-zA-Z0-9._-]/g, '_');
+        
+        let header = '--' + boundary + '\r\n';
+        header += 'Content-Disposition: form-data; name="chatId"\r\n\r\n' + chatId + '\r\n';
+        header += '--' + boundary + '\r\n';
+        header += 'Content-Disposition: form-data; name="file"; filename="' + safeFileName + '"\r\n';
+        header += 'Content-Type: application/octet-stream\r\n\r\n';
+        
+        const footer = '\r\n--' + boundary + '--\r\n';
+        
+        const headerBuf = Buffer.from(header, 'utf8');
+        const footerBuf = Buffer.from(footer, 'utf8');
+        const totalPayload = Buffer.concat([headerBuf, fileBuffer, footerBuf]);
+
+        const options = {
+            hostname: 'api.green-api.com',
+            path: '/waInstance' + ID_INSTANCE + '/sendFileByUpload/' + API_TOKEN,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data; boundary=' + boundary,
+                'Content-Length': totalPayload.length
+            }
+        };
+
+        const apiReq = https.request(options, (apiRes) => {
+            let apiResponse = '';
+            apiRes.on('data', chunk => { apiResponse += chunk; });
+            apiRes.on('end', () => {
+                try {
+                    resolve(JSON.parse(apiResponse));
+                } catch (e) {
+                    resolve({ raw: apiResponse });
+                }
+            });
+        });
+
+        apiReq.on('error', (e) => reject(e));
+        apiReq.write(totalPayload);
+        apiReq.end();
+    });
+}
+
 const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -831,16 +906,6 @@ const server = http.createServer((req, res) => {
     }
 
     const urlPath = req.url.split('?')[0];
-
-    // Local image route for serving logo.png
-    if (urlPath === '/logo.png') {
-        const filePath = path.join(__dirname, 'logo.png');
-        if (fs.existsSync(filePath)) {
-            res.writeHead(200, { 'Content-Type': 'image/png' });
-            fs.createReadStream(filePath).pipe(res);
-            return;
-        }
-    }
 
     if (urlPath === '/healthz') {
         res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -947,83 +1012,6 @@ const server = http.createServer((req, res) => {
         res.end('Not Found');
     }
 });
-
-function sendGreenApiRequest(path, payload) {
-    return new Promise((resolve, reject) => {
-        const postData = JSON.stringify(payload);
-        const options = {
-            hostname: 'api.green-api.com',
-            path: path,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(postData)
-            }
-        };
-
-        const apiReq = https.request(options, (apiRes) => {
-            let apiResponse = '';
-            apiRes.on('data', chunk => { apiResponse += chunk; });
-            apiRes.on('end', () => {
-                try {
-                    resolve(JSON.parse(apiResponse));
-                } catch (e) {
-                    resolve({ raw: apiResponse });
-                }
-            });
-        });
-
-        apiReq.on('error', (e) => reject(e));
-        apiReq.write(postData);
-        apiReq.end();
-    });
-}
-
-function sendGreenApiFile(chatId, fileName, base64Data) {
-    return new Promise((resolve, reject) => {
-        const fileBuffer = Buffer.from(base64Data, 'base64');
-        const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
-        const safeFileName = (fileName || 'prescription.jpg').replace(/[^a-zA-Z0-9._-]/g, '_');
-        
-        let header = '--' + boundary + '\r\n';
-        header += 'Content-Disposition: form-data; name="chatId"\r\n\r\n' + chatId + '\r\n';
-        header += '--' + boundary + '\r\n';
-        header += 'Content-Disposition: form-data; name="file"; filename="' + safeFileName + '"\r\n';
-        header += 'Content-Type: application/octet-stream\r\n\r\n';
-        
-        const footer = '\r\n--' + boundary + '--\r\n';
-        
-        const headerBuf = Buffer.from(header, 'utf8');
-        const footerBuf = Buffer.from(footer, 'utf8');
-        const totalPayload = Buffer.concat([headerBuf, fileBuffer, footerBuf]);
-
-        const options = {
-            hostname: 'api.green-api.com',
-            path: '/waInstance' + ID_INSTANCE + '/sendFileByUpload/' + API_TOKEN,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data; boundary=' + boundary,
-                'Content-Length': totalPayload.length
-            }
-        };
-
-        const apiReq = https.request(options, (apiRes) => {
-            let apiResponse = '';
-            apiRes.on('data', chunk => { apiResponse += chunk; });
-            apiRes.on('end', () => {
-                try {
-                    resolve(JSON.parse(apiResponse));
-                } catch (e) {
-                    resolve({ raw: apiResponse });
-                }
-            });
-        });
-
-        apiReq.on('error', (e) => reject(e));
-        apiReq.write(totalPayload);
-        apiReq.end();
-    });
-}
 
 server.listen(PORT, () => {
     console.log('Server running on port ' + PORT);
