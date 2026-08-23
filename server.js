@@ -505,7 +505,7 @@ const HTML_PAGE = '<!DOCTYPE html>\n' +
 '            { id: 138, name: "TROPONIN T TEST", price: 1300, vial: "RED" },\n' +
 '            { id: 139, name: "TSH", price: 400, vial: "RED" },\n' +
 '            { id: 140, name: "TYPHIDOT", price: 350, vial: "RED" },\n' +
-'            { id: 141, name: "URIC ACID", price: 150, vial: "RED" },\n' +
+'            { id: 141, name: "URIC ACID", price: 200, vial: "RED" },\n' +
 '            { id: 142, name: "Urine Albumin", price: 100, vial: "NA" },\n' +
 '            { id: 143, name: "URINE CULTURE", price: 350, vial: "NA" },\n' +
 '            { id: 144, name: "URINE FOR ACR", price: 600, vial: "NA" },\n' +
@@ -899,7 +899,6 @@ const server = http.createServer((req, res) => {
                     collectionCharge, grandTotal, date, timeSlot, prescription 
                 } = data;
 
-                // সুন্দৰ, কম্পেক্ট আৰু কম স্পেচ থকা WhatsApp বাৰ্তা ফৰ্মেট
                 const message = 
                     '🧪 *NEW LAB BOOKING RECEIVED*\n' +
                     '━━━━━━━━━━━━━━━━━━━━━\n' +
@@ -931,7 +930,11 @@ const server = http.createServer((req, res) => {
                 const responseResult = await sendGreenApiRequest(msgPath, msgPayload);
 
                 if (prescription && prescription.base64) {
-                    await sendGreenApiFile(TARGET_CHAT_ID, prescription.name, prescription.base64);
+                    try {
+                        await sendGreenApiFile(TARGET_CHAT_ID, prescription.name, prescription.base64);
+                    } catch (uploadErr) {
+                        console.error('Prescription send error:', uploadErr);
+                    }
                 }
 
                 res.writeHead(200, { 'Content-Type': 'application/json' });
